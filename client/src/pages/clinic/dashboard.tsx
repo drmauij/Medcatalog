@@ -18,6 +18,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { ProfileSettings } from "@/components/profile-settings";
 import { Skeleton } from "@/components/ui/skeleton";
 import { 
   Stethoscope, 
@@ -171,6 +172,7 @@ export default function ClinicDashboard({ clinic }: ClinicDashboardProps) {
               <h1 className="font-semibold text-lg">{getPageTitle()}</h1>
             </div>
             <div className="flex items-center gap-2">
+              <ProfileSettings />
               <RoleSwitcher
                 currentRole="clinic"
                 currentEntityId={clinic.id}
