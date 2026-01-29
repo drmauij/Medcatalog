@@ -98,7 +98,7 @@ export default function RoleSelection({ onComplete }: RoleSelectionProps) {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <ul className="text-sm text-muted-foreground space-y-1">
+                <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
                   <li>Produktkategorien erstellen und verwalten</li>
                   <li>Produkte hinzufügen und bearbeiten</li>
                   <li>Standard- und individuelle Preise festlegen</li>
@@ -126,7 +126,7 @@ export default function RoleSelection({ onComplete }: RoleSelectionProps) {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <ul className="text-sm text-muted-foreground space-y-1">
+                <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
                   <li>Lieferantenkataloge durchsuchen</li>
                   <li>Preisofferten anfordern</li>
                   <li>Bestellungen aufgeben</li>
