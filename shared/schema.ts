@@ -126,3 +126,19 @@ export const userRoles = pgTable("user_roles", {
 export const insertUserRoleSchema = createInsertSchema(userRoles).omit({ id: true });
 export type InsertUserRole = z.infer<typeof insertUserRoleSchema>;
 export type UserRole = typeof userRoles.$inferSelect;
+
+// Supplier invitations (invite coworkers to join supplier workspace)
+export const supplierInvitations = pgTable("supplier_invitations", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  supplierId: varchar("supplier_id").notNull(),
+  email: text("email").notNull(),
+  token: varchar("token").notNull(),
+  invitedBy: varchar("invited_by").notNull(), // user ID of inviter
+  status: text("status").notNull().default("pending"), // pending, accepted, expired
+  createdAt: timestamp("created_at").defaultNow(),
+  expiresAt: timestamp("expires_at").notNull(),
+});
+
+export const insertSupplierInvitationSchema = createInsertSchema(supplierInvitations).omit({ id: true, createdAt: true });
+export type InsertSupplierInvitation = z.infer<typeof insertSupplierInvitationSchema>;
+export type SupplierInvitation = typeof supplierInvitations.$inferSelect;

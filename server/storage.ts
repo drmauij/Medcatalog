@@ -10,6 +10,7 @@ import {
   orders,
   orderItems,
   userRoles,
+  supplierInvitations,
   type Supplier,
   type InsertSupplier,
   type Clinic,
@@ -28,6 +29,8 @@ import {
   type InsertOrderItem,
   type UserRole,
   type InsertUserRole,
+  type SupplierInvitation,
+  type InsertSupplierInvitation,
 } from "@shared/schema";
 
 export interface IStorage {
@@ -84,6 +87,13 @@ export interface IStorage {
   // User Roles
   getUserRole(userId: string): Promise<UserRole | undefined>;
   createUserRole(data: InsertUserRole): Promise<UserRole>;
+
+  // Supplier Invitations
+  getInvitation(id: string): Promise<SupplierInvitation | undefined>;
+  getInvitationByToken(token: string): Promise<SupplierInvitation | undefined>;
+  getInvitationsBySupplierId(supplierId: string): Promise<SupplierInvitation[]>;
+  createInvitation(data: InsertSupplierInvitation): Promise<SupplierInvitation>;
+  updateInvitationStatus(id: string, status: string): Promise<SupplierInvitation | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -275,6 +285,36 @@ export class DatabaseStorage implements IStorage {
   async createUserRole(data: InsertUserRole): Promise<UserRole> {
     const [role] = await db.insert(userRoles).values(data).returning();
     return role;
+  }
+
+  // Supplier Invitations
+  async getInvitation(id: string): Promise<SupplierInvitation | undefined> {
+    const [invitation] = await db.select().from(supplierInvitations).where(eq(supplierInvitations.id, id));
+    return invitation;
+  }
+
+  async getInvitationByToken(token: string): Promise<SupplierInvitation | undefined> {
+    const [invitation] = await db.select().from(supplierInvitations).where(eq(supplierInvitations.token, token));
+    return invitation;
+  }
+
+  async getInvitationsBySupplierId(supplierId: string): Promise<SupplierInvitation[]> {
+    return db.select().from(supplierInvitations)
+      .where(eq(supplierInvitations.supplierId, supplierId))
+      .orderBy(desc(supplierInvitations.createdAt));
+  }
+
+  async createInvitation(data: InsertSupplierInvitation): Promise<SupplierInvitation> {
+    const [invitation] = await db.insert(supplierInvitations).values(data).returning();
+    return invitation;
+  }
+
+  async updateInvitationStatus(id: string, status: string): Promise<SupplierInvitation | undefined> {
+    const [invitation] = await db.update(supplierInvitations)
+      .set({ status })
+      .where(eq(supplierInvitations.id, id))
+      .returning();
+    return invitation;
   }
 }
 
