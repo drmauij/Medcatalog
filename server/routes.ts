@@ -33,6 +33,53 @@ export async function registerRoutes(
   };
 
   // ============================================
+  // User Profile Routes
+  // ============================================
+
+  // Update user profile
+  app.patch("/api/user/profile", isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const userId = getUserId(req);
+      if (!userId) return res.status(401).json({ error: "Unauthorized" });
+
+      const { firstName, lastName, phone } = req.body;
+      
+      const user = await storage.updateUserProfile(userId, { firstName, lastName, phone });
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      
+      res.json(user);
+    } catch (error) {
+      console.error("Error updating user profile:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Get user by ID (for displaying contact info)
+  app.get("/api/users/:id", isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const user = await storage.getUser(id);
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      // Return only public profile info
+      res.json({
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        phone: user.phone,
+        profileImageUrl: user.profileImageUrl,
+      });
+    } catch (error) {
+      console.error("Error getting user:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // ============================================
   // User Role Routes
   // ============================================
 
@@ -580,7 +627,31 @@ export async function registerRoutes(
       
       const quotationsData = await storage.getQuotationsBySupplierId(supplierId);
       
-      // Enrich with clinic info and items
+      // Get all linked orders for this supplier
+      const ordersData = await storage.getOrdersBySupplierId(supplierId);
+      
+      // Collect all user IDs for batch lookup
+      const userIds = new Set<string>();
+      quotationsData.forEach(q => {
+        if (q.createdByUserId) userIds.add(q.createdByUserId);
+        if (q.respondedByUserId) userIds.add(q.respondedByUserId);
+      });
+      ordersData.forEach(o => {
+        if (o.createdByUserId) userIds.add(o.createdByUserId);
+        if (o.confirmedByUserId) userIds.add(o.confirmedByUserId);
+      });
+      
+      // Fetch all users at once
+      const usersData = await storage.getUsers(Array.from(userIds));
+      const usersMap = new Map(usersData.map(u => [u.id, {
+        id: u.id,
+        firstName: u.firstName,
+        lastName: u.lastName,
+        email: u.email,
+        phone: u.phone,
+      }]));
+      
+      // Enrich with clinic info, items, user info, and linked order
       const enrichedQuotations = await Promise.all(
         quotationsData.map(async (q) => {
           const clinic = await storage.getClinic(q.clinicId);
@@ -591,7 +662,25 @@ export async function registerRoutes(
               return { ...item, product };
             })
           );
-          return { ...q, clinic, items: productsData };
+          
+          // Find linked order
+          const linkedOrder = ordersData.find(o => o.quotationId === q.id);
+          
+          return { 
+            ...q, 
+            clinic, 
+            items: productsData,
+            createdByUser: q.createdByUserId ? usersMap.get(q.createdByUserId) : null,
+            respondedByUser: q.respondedByUserId ? usersMap.get(q.respondedByUserId) : null,
+            linkedOrder: linkedOrder ? {
+              id: linkedOrder.id,
+              status: linkedOrder.status,
+              createdAt: linkedOrder.createdAt,
+              totalAmount: linkedOrder.totalAmount,
+              createdByUser: linkedOrder.createdByUserId ? usersMap.get(linkedOrder.createdByUserId) : null,
+              confirmedByUser: linkedOrder.confirmedByUserId ? usersMap.get(linkedOrder.confirmedByUserId) : null,
+            } : null,
+          };
         })
       );
 
@@ -613,7 +702,31 @@ export async function registerRoutes(
       
       const quotationsData = await storage.getQuotationsByClinicId(clinicId);
       
-      // Enrich with supplier info and items
+      // Get all linked orders for this clinic
+      const ordersData = await storage.getOrdersByClinicId(clinicId);
+      
+      // Collect all user IDs for batch lookup
+      const userIds = new Set<string>();
+      quotationsData.forEach(q => {
+        if (q.createdByUserId) userIds.add(q.createdByUserId);
+        if (q.respondedByUserId) userIds.add(q.respondedByUserId);
+      });
+      ordersData.forEach(o => {
+        if (o.createdByUserId) userIds.add(o.createdByUserId);
+        if (o.confirmedByUserId) userIds.add(o.confirmedByUserId);
+      });
+      
+      // Fetch all users at once
+      const usersData = await storage.getUsers(Array.from(userIds));
+      const usersMap = new Map(usersData.map(u => [u.id, {
+        id: u.id,
+        firstName: u.firstName,
+        lastName: u.lastName,
+        email: u.email,
+        phone: u.phone,
+      }]));
+      
+      // Enrich with supplier info, items, user info, and linked order
       const enrichedQuotations = await Promise.all(
         quotationsData.map(async (q) => {
           const supplier = await storage.getSupplier(q.supplierId);
@@ -624,7 +737,25 @@ export async function registerRoutes(
               return { ...item, product };
             })
           );
-          return { ...q, supplier, items: productsData };
+          
+          // Find linked order
+          const linkedOrder = ordersData.find(o => o.quotationId === q.id);
+          
+          return { 
+            ...q, 
+            supplier, 
+            items: productsData,
+            createdByUser: q.createdByUserId ? usersMap.get(q.createdByUserId) : null,
+            respondedByUser: q.respondedByUserId ? usersMap.get(q.respondedByUserId) : null,
+            linkedOrder: linkedOrder ? {
+              id: linkedOrder.id,
+              status: linkedOrder.status,
+              createdAt: linkedOrder.createdAt,
+              totalAmount: linkedOrder.totalAmount,
+              createdByUser: linkedOrder.createdByUserId ? usersMap.get(linkedOrder.createdByUserId) : null,
+              confirmedByUser: linkedOrder.confirmedByUserId ? usersMap.get(linkedOrder.confirmedByUserId) : null,
+            } : null,
+          };
         })
       );
 
@@ -647,11 +778,13 @@ export async function registerRoutes(
         return res.status(403).json({ error: "Forbidden" });
       }
 
+      const userId = getUserId(req);
       const quotation = await storage.createQuotationRequest({
         clinicId,
         supplierId,
         status: "pending",
         notes: notes || null,
+        createdByUserId: userId || null,
       });
 
       // Create quotation items
@@ -698,8 +831,9 @@ export async function registerRoutes(
         )
       );
 
-      // Update quotation status
-      const updatedQuotation = await storage.updateQuotationStatus(id, "quoted");
+      // Update quotation status with respondedByUserId
+      const userId = getUserId(req);
+      const updatedQuotation = await storage.updateQuotationStatus(id, "quoted", userId);
       res.json(updatedQuotation);
     } catch (error) {
       console.error("Error responding to quotation:", error);
@@ -733,13 +867,15 @@ export async function registerRoutes(
         })
       );
 
-      // Create order
+      // Create order with createdByUserId
+      const userId = getUserId(req);
       const order = await storage.createOrder({
         clinicId: quotation.clinicId,
         supplierId: quotation.supplierId,
         quotationId: quotation.id,
         status: "pending",
         totalAmount: total.toFixed(2),
+        createdByUserId: userId || null,
       });
 
       // Create order items
@@ -873,7 +1009,9 @@ export async function registerRoutes(
         return res.status(403).json({ error: "Forbidden" });
       }
       
-      const order = await storage.updateOrderStatus(id, status);
+      // Pass confirmedByUserId when status changes to confirmed
+      const userId = status === "confirmed" ? getUserId(req) : undefined;
+      const order = await storage.updateOrderStatus(id, status, userId);
       res.json(order);
     } catch (error) {
       console.error("Error updating order status:", error);

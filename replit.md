@@ -40,10 +40,22 @@ Key database tables:
 - `suppliers` and `clinics` - Organization entities
 - `user_roles` - Maps users to their organization role
 - `categories` and `products` - Product catalog
-- `quotation_requests` and `quotation_items` - Quote management
-- `orders` and `order_items` - Order management
+- `quotation_requests` and `quotation_items` - Quote management (with user tracking: createdByUserId, respondedByUserId)
+- `orders` and `order_items` - Order management (with user tracking: createdByUserId, confirmedByUserId)
 - `supplier_invitations` - Team member invitations for suppliers
 - `clinic_invitations` - Team member invitations for clinics
+
+### Action History & Contact Visibility
+The application tracks all user actions on quotations and orders:
+- **createdByUserId**: Who created the quotation request
+- **respondedByUserId**: Who responded with pricing (supplier)
+- **createdByUserId** (orders): Who placed the order (clinic)
+- **confirmedByUserId**: Who confirmed the order (supplier)
+
+All quotation and order displays show:
+- Inline summary of the latest action at the bottom
+- Expandable full history showing all actions with contact details (name, email, phone)
+- Linked order information for quotations that resulted in orders
 
 ### Authentication Flow
 1. User authenticates via Replit Auth (OpenID Connect)

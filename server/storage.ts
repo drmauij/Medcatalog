@@ -35,6 +35,7 @@ import {
   type ClinicInvitation,
   type InsertClinicInvitation,
 } from "@shared/schema";
+import { users, type User } from "@shared/models/auth";
 
 export interface IStorage {
   // Suppliers
@@ -70,7 +71,7 @@ export interface IStorage {
   getQuotationsBySupplierId(supplierId: string): Promise<QuotationRequest[]>;
   getQuotationsByClinicId(clinicId: string): Promise<QuotationRequest[]>;
   createQuotationRequest(data: InsertQuotationRequest): Promise<QuotationRequest>;
-  updateQuotationStatus(id: string, status: string): Promise<QuotationRequest | undefined>;
+  updateQuotationStatus(id: string, status: string, respondedByUserId?: string | null): Promise<QuotationRequest | undefined>;
 
   // Quotation Items
   getQuotationItems(quotationId: string): Promise<QuotationItem[]>;
@@ -82,7 +83,7 @@ export interface IStorage {
   getOrdersBySupplierId(supplierId: string): Promise<Order[]>;
   getOrdersByClinicId(clinicId: string): Promise<Order[]>;
   createOrder(data: InsertOrder): Promise<Order>;
-  updateOrderStatus(id: string, status: string): Promise<Order | undefined>;
+  updateOrderStatus(id: string, status: string, confirmedByUserId?: string | null): Promise<Order | undefined>;
 
   // Order Items
   getOrderItems(orderId: string): Promise<OrderItem[]>;
@@ -107,6 +108,11 @@ export interface IStorage {
   getInvitationsByClinicId(clinicId: string): Promise<ClinicInvitation[]>;
   createClinicInvitation(data: InsertClinicInvitation): Promise<ClinicInvitation>;
   updateClinicInvitationStatus(id: string, status: string): Promise<ClinicInvitation | undefined>;
+
+  // Users
+  getUser(id: string): Promise<User | undefined>;
+  getUsers(ids: string[]): Promise<User[]>;
+  updateUserProfile(id: string, data: { firstName?: string; lastName?: string; phone?: string }): Promise<User | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -230,9 +236,16 @@ export class DatabaseStorage implements IStorage {
     return quotation;
   }
 
-  async updateQuotationStatus(id: string, status: string): Promise<QuotationRequest | undefined> {
+  async updateQuotationStatus(id: string, status: string, respondedByUserId?: string | null): Promise<QuotationRequest | undefined> {
+    const updateData: { status: string; updatedAt: Date; respondedByUserId?: string | null } = { 
+      status, 
+      updatedAt: new Date() 
+    };
+    if (respondedByUserId !== undefined) {
+      updateData.respondedByUserId = respondedByUserId;
+    }
     const [quotation] = await db.update(quotationRequests)
-      .set({ status, updatedAt: new Date() })
+      .set(updateData)
       .where(eq(quotationRequests.id, id))
       .returning();
     return quotation;
@@ -279,8 +292,12 @@ export class DatabaseStorage implements IStorage {
     return order;
   }
 
-  async updateOrderStatus(id: string, status: string): Promise<Order | undefined> {
-    const [order] = await db.update(orders).set({ status }).where(eq(orders.id, id)).returning();
+  async updateOrderStatus(id: string, status: string, confirmedByUserId?: string | null): Promise<Order | undefined> {
+    const updateData: { status: string; confirmedByUserId?: string | null } = { status };
+    if (confirmedByUserId !== undefined) {
+      updateData.confirmedByUserId = confirmedByUserId;
+    }
+    const [order] = await db.update(orders).set(updateData).where(eq(orders.id, id)).returning();
     return order;
   }
 
@@ -377,6 +394,25 @@ export class DatabaseStorage implements IStorage {
       .where(eq(clinicInvitations.id, id))
       .returning();
     return invitation;
+  }
+
+  // Users
+  async getUser(id: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
+  }
+
+  async getUsers(ids: string[]): Promise<User[]> {
+    if (ids.length === 0) return [];
+    return db.select().from(users).where(inArray(users.id, ids));
+  }
+
+  async updateUserProfile(id: string, data: { firstName?: string; lastName?: string; phone?: string }): Promise<User | undefined> {
+    const [user] = await db.update(users)
+      .set({ ...data, updatedAt: new Date() })
+      .where(eq(users.id, id))
+      .returning();
+    return user;
   }
 }
 

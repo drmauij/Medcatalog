@@ -73,6 +73,8 @@ export const quotationRequests = pgTable("quotation_requests", {
   supplierId: varchar("supplier_id").notNull(),
   status: text("status").notNull().default("pending"), // pending, quoted, accepted, rejected
   notes: text("notes"),
+  createdByUserId: varchar("created_by_user_id"), // User who created the request
+  respondedByUserId: varchar("responded_by_user_id"), // User who responded with prices
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -104,6 +106,8 @@ export const orders = pgTable("orders", {
   status: text("status").notNull().default("pending"), // pending, confirmed, shipped, delivered, cancelled
   totalAmount: decimal("total_amount", { precision: 10, scale: 2 }),
   notes: text("notes"),
+  createdByUserId: varchar("created_by_user_id"), // User who created the order
+  confirmedByUserId: varchar("confirmed_by_user_id"), // Supplier user who confirmed the order
   createdAt: timestamp("created_at").defaultNow(),
 });
 

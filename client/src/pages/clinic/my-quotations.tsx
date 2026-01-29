@@ -20,15 +20,36 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { FileText, Clock, CheckCircle, XCircle, ShoppingCart, Building2 } from "lucide-react";
+import { ActionHistoryFull } from "@/components/action-history";
 import type { QuotationRequest, QuotationItem, Product, Supplier } from "@shared/schema";
 
 interface MyQuotationsProps {
   clinicId: string;
 }
 
+interface UserInfo {
+  id: string;
+  firstName?: string | null;
+  lastName?: string | null;
+  email?: string | null;
+  phone?: string | null;
+}
+
+interface LinkedOrder {
+  id: string;
+  status: string;
+  createdAt?: string | null;
+  totalAmount?: string | null;
+  createdByUser?: UserInfo | null;
+  confirmedByUser?: UserInfo | null;
+}
+
 interface QuotationWithDetails extends QuotationRequest {
   supplier?: Supplier;
   items?: (QuotationItem & { product?: Product })[];
+  createdByUser?: UserInfo | null;
+  respondedByUser?: UserInfo | null;
+  linkedOrder?: LinkedOrder | null;
 }
 
 export default function MyQuotations({ clinicId }: MyQuotationsProps) {
@@ -163,6 +184,14 @@ export default function MyQuotations({ clinicId }: MyQuotationsProps) {
                         ))}
                       </TableBody>
                     </Table>
+                    <ActionHistoryFull
+                      createdAt={quotation.createdAt}
+                      updatedAt={quotation.updatedAt}
+                      createdByUser={quotation.createdByUser}
+                      respondedByUser={quotation.respondedByUser}
+                      linkedOrder={quotation.linkedOrder}
+                      status={quotation.status}
+                    />
                   </AccordionContent>
                 </AccordionItem>
               ))}
@@ -259,6 +288,14 @@ export default function MyQuotations({ clinicId }: MyQuotationsProps) {
                         Bestellen
                       </Button>
                     </div>
+                    <ActionHistoryFull
+                      createdAt={quotation.createdAt}
+                      updatedAt={quotation.updatedAt}
+                      createdByUser={quotation.createdByUser}
+                      respondedByUser={quotation.respondedByUser}
+                      linkedOrder={quotation.linkedOrder}
+                      status={quotation.status}
+                    />
                   </div>
                 );
               })}
@@ -322,6 +359,14 @@ export default function MyQuotations({ clinicId }: MyQuotationsProps) {
                         ))}
                       </TableBody>
                     </Table>
+                    <ActionHistoryFull
+                      createdAt={quotation.createdAt}
+                      updatedAt={quotation.updatedAt}
+                      createdByUser={quotation.createdByUser}
+                      respondedByUser={quotation.respondedByUser}
+                      linkedOrder={quotation.linkedOrder}
+                      status={quotation.status}
+                    />
                   </AccordionContent>
                 </AccordionItem>
               ))}

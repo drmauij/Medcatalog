@@ -32,15 +32,36 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { FileText, Clock, CheckCircle, XCircle, Building2, Save } from "lucide-react";
+import { ActionHistoryFull } from "@/components/action-history";
 import type { QuotationRequest, QuotationItem, Product, Clinic } from "@shared/schema";
 
 interface QuotationsPageProps {
   supplierId: string;
 }
 
+interface UserInfo {
+  id: string;
+  firstName?: string | null;
+  lastName?: string | null;
+  email?: string | null;
+  phone?: string | null;
+}
+
+interface LinkedOrder {
+  id: string;
+  status: string;
+  createdAt?: string | null;
+  totalAmount?: string | null;
+  createdByUser?: UserInfo | null;
+  confirmedByUser?: UserInfo | null;
+}
+
 interface QuotationWithDetails extends QuotationRequest {
   clinic?: Clinic;
   items?: (QuotationItem & { product?: Product })[];
+  createdByUser?: UserInfo | null;
+  respondedByUser?: UserInfo | null;
+  linkedOrder?: LinkedOrder | null;
 }
 
 interface ItemPricing {
@@ -350,22 +371,50 @@ export default function QuotationsPage({ supplierId }: QuotationsPageProps) {
               {pendingQuotations.map((quotation) => (
                 <div
                   key={quotation.id}
-                  className="flex items-center justify-between gap-4 p-4 rounded-lg border hover-elevate cursor-pointer"
+                  className="p-4 rounded-lg border hover-elevate cursor-pointer"
                   onClick={() => openRespondDialog(quotation)}
                   data-testid={`quotation-${quotation.id}`}
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-full bg-chart-3/10 flex items-center justify-center">
-                      <FileText className="h-5 w-5 text-chart-3" />
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-full bg-chart-3/10 flex items-center justify-center">
+                        <FileText className="h-5 w-5 text-chart-3" />
+                      </div>
+                      <div>
+                        <p className="font-medium">{quotation.clinic?.name || "Unbekannte Klinik"}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {quotation.items?.length || 0} Artikel - {new Date(quotation.createdAt!).toLocaleDateString("de-CH")}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-medium">{quotation.clinic?.name || "Unbekannte Klinik"}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {quotation.items?.length || 0} Artikel - {new Date(quotation.createdAt!).toLocaleDateString("de-CH")}
-                      </p>
-                    </div>
+                    <Button data-testid={`button-respond-${quotation.id}`}>Beantworten</Button>
                   </div>
-                  <Button data-testid={`button-respond-${quotation.id}`}>Beantworten</Button>
+                  {quotation.createdByUser && (
+                    <div className="mt-3 pt-3 border-t text-xs text-muted-foreground flex items-center gap-2">
+                      <span>Angefragt von:</span>
+                      <span className="font-medium text-foreground">
+                        {quotation.createdByUser.firstName || ""} {quotation.createdByUser.lastName || quotation.createdByUser.email || "Unbekannt"}
+                      </span>
+                      {quotation.createdByUser.email && (
+                        <a 
+                          href={`mailto:${quotation.createdByUser.email}`} 
+                          className="text-primary hover:underline"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {quotation.createdByUser.email}
+                        </a>
+                      )}
+                      {quotation.createdByUser.phone && (
+                        <a 
+                          href={`tel:${quotation.createdByUser.phone}`} 
+                          className="text-muted-foreground hover:text-primary"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {quotation.createdByUser.phone}
+                        </a>
+                      )}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -429,6 +478,14 @@ export default function QuotationsPage({ supplierId }: QuotationsPageProps) {
                         ))}
                       </TableBody>
                     </Table>
+                    <ActionHistoryFull
+                      createdAt={quotation.createdAt}
+                      updatedAt={quotation.updatedAt}
+                      createdByUser={quotation.createdByUser}
+                      respondedByUser={quotation.respondedByUser}
+                      linkedOrder={quotation.linkedOrder}
+                      status={quotation.status}
+                    />
                   </AccordionContent>
                 </AccordionItem>
               ))}
