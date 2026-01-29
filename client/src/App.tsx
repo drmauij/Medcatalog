@@ -13,6 +13,7 @@ import RoleSelection from "@/pages/role-selection";
 import SupplierDashboard from "@/pages/supplier/dashboard";
 import ClinicDashboard from "@/pages/clinic/dashboard";
 import AcceptInvitePage from "@/pages/accept-invite";
+import AcceptClinicInvitePage from "@/pages/accept-clinic-invite";
 import AddRole from "@/pages/add-role";
 import type { Supplier, Clinic, UserRole } from "@shared/schema";
 
@@ -183,6 +184,7 @@ function Router() {
       <Route path="/clinic/:id/:page" component={ClinicRoute} />
       <Route path="/add-role" component={AddRoleRoute} />
       <Route path="/invite/:token" component={AcceptInvitePage} />
+      <Route path="/clinic-invite/:token" component={AcceptClinicInvitePage} />
       <Route component={NotFound} />
     </Switch>
   );
