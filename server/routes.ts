@@ -987,5 +987,169 @@ export async function registerRoutes(
     }
   });
 
+  // ============================================
+  // Clinic Invitations Routes
+  // ============================================
+
+  // Get invitations for a clinic
+  app.get("/api/clinic-invitations/clinic/:clinicId", isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const { clinicId } = req.params;
+      if (!await verifyClinicAccess(req, clinicId)) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      const invitations = await storage.getInvitationsByClinicId(clinicId);
+      res.json(invitations);
+    } catch (error) {
+      console.error("Error fetching clinic invitations:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Create clinic invitation (invite coworker)
+  app.post("/api/clinic-invitations", isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const { clinicId, email } = req.body;
+      if (!clinicId || !email) {
+        return res.status(400).json({ error: "Missing required fields" });
+      }
+      
+      if (!await verifyClinicAccess(req, clinicId)) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      
+      const userId = getUserId(req);
+      if (!userId) return res.status(401).json({ error: "Unauthorized" });
+      
+      // Generate token and expiry
+      const token = crypto.randomUUID();
+      const expiresAt = new Date();
+      expiresAt.setDate(expiresAt.getDate() + 7); // 7 days expiry
+      
+      const invitation = await storage.createClinicInvitation({
+        clinicId,
+        email,
+        token,
+        invitedBy: userId,
+        status: "pending",
+        expiresAt,
+      });
+      
+      // Send invitation email
+      const clinic = await storage.getClinic(clinicId);
+      const user = (req.user as any)?.claims;
+      const inviterName = user?.firstName && user?.lastName 
+        ? `${user.firstName} ${user.lastName}` 
+        : user?.email || "Ein Teammitglied";
+      
+      try {
+        const { sendClinicInvitationEmail } = await import("./email");
+        await sendClinicInvitationEmail(email, clinic?.name || "Klinik", inviterName, token);
+      } catch (emailError) {
+        console.error("Error sending clinic invitation email:", emailError);
+        // Still return success - invitation created but email failed
+      }
+      
+      res.status(201).json(invitation);
+    } catch (error) {
+      console.error("Error creating clinic invitation:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Get clinic invitation by token (public - no auth required initially)
+  app.get("/api/clinic-invitations/token/:token", async (req: Request, res: Response) => {
+    try {
+      const { token } = req.params;
+      const invitation = await storage.getClinicInvitationByToken(token);
+      
+      if (!invitation) {
+        return res.status(404).json({ error: "Einladung nicht gefunden" });
+      }
+      
+      if (invitation.status !== "pending") {
+        return res.status(400).json({ error: "Einladung bereits verwendet oder abgelaufen" });
+      }
+      
+      if (new Date(invitation.expiresAt) < new Date()) {
+        await storage.updateClinicInvitationStatus(invitation.id, "expired");
+        return res.status(400).json({ error: "Einladung abgelaufen" });
+      }
+      
+      const clinic = await storage.getClinic(invitation.clinicId);
+      res.json({ invitation, clinic });
+    } catch (error) {
+      console.error("Error fetching clinic invitation by token:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Accept clinic invitation (authenticated user joins clinic)
+  app.post("/api/clinic-invitations/accept/:token", isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const { token } = req.params;
+      const userId = getUserId(req);
+      if (!userId) return res.status(401).json({ error: "Unauthorized" });
+      
+      const invitation = await storage.getClinicInvitationByToken(token);
+      
+      if (!invitation) {
+        return res.status(404).json({ error: "Einladung nicht gefunden" });
+      }
+      
+      if (invitation.status !== "pending") {
+        return res.status(400).json({ error: "Einladung bereits verwendet oder abgelaufen" });
+      }
+      
+      if (new Date(invitation.expiresAt) < new Date()) {
+        await storage.updateClinicInvitationStatus(invitation.id, "expired");
+        return res.status(400).json({ error: "Einladung abgelaufen" });
+      }
+      
+      // Check if user already has a clinic role
+      const existingClinicRole = await storage.getUserRoleByEntityId(userId, "clinic", invitation.clinicId);
+      if (existingClinicRole) {
+        return res.status(400).json({ error: "Sie sind bereits Mitglied dieser Klinik" });
+      }
+      
+      // Create user role as clinic team member
+      await storage.createUserRole({
+        userId,
+        role: "clinic",
+        entityId: invitation.clinicId,
+      });
+      
+      // Mark invitation as accepted
+      await storage.updateClinicInvitationStatus(invitation.id, "accepted");
+      
+      res.json({ success: true, message: "Einladung angenommen" });
+    } catch (error) {
+      console.error("Error accepting clinic invitation:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Delete/cancel clinic invitation
+  app.delete("/api/clinic-invitations/:id", isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const invitation = await storage.getClinicInvitation(id);
+      
+      if (!invitation) {
+        return res.status(404).json({ error: "Einladung nicht gefunden" });
+      }
+      
+      if (!await verifyClinicAccess(req, invitation.clinicId)) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      
+      await storage.updateClinicInvitationStatus(id, "cancelled");
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting clinic invitation:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
   return httpServer;
 }
