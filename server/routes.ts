@@ -16,6 +16,24 @@ export async function registerRoutes(
     return (req.user as any)?.claims?.sub || null;
   };
 
+  // Helper to verify supplier ownership
+  const verifySupplierAccess = async (req: Request, supplierId: string): Promise<boolean> => {
+    const userId = getUserId(req);
+    if (!userId) return false;
+    const role = await storage.getUserRole(userId);
+    if (!role || role.role !== "supplier" || role.entityId !== supplierId) return false;
+    return true;
+  };
+
+  // Helper to verify clinic ownership
+  const verifyClinicAccess = async (req: Request, clinicId: string): Promise<boolean> => {
+    const userId = getUserId(req);
+    if (!userId) return false;
+    const role = await storage.getUserRole(userId);
+    if (!role || role.role !== "clinic" || role.entityId !== clinicId) return false;
+    return true;
+  };
+
   // ============================================
   // User Role Routes
   // ============================================
@@ -89,6 +107,10 @@ export async function registerRoutes(
     try {
       const { supplierId } = req.params;
       
+      if (!await verifySupplierAccess(req, supplierId)) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      
       const categoriesData = await storage.getCategoriesBySupplierId(supplierId);
       const productsData = await storage.getProductsBySupplierId(supplierId);
       const quotationsData = await storage.getQuotationsBySupplierId(supplierId);
@@ -114,6 +136,10 @@ export async function registerRoutes(
     try {
       const { clinicId } = req.params;
       
+      if (!await verifyClinicAccess(req, clinicId)) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      
       const quotationsData = await storage.getQuotationsByClinicId(clinicId);
       const ordersData = await storage.getOrdersByClinicId(clinicId);
 
@@ -136,6 +162,11 @@ export async function registerRoutes(
   app.get("/api/categories/:supplierId", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const { supplierId } = req.params;
+      
+      if (!await verifySupplierAccess(req, supplierId)) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      
       const categoriesData = await storage.getCategoriesBySupplierId(supplierId);
       res.json(categoriesData);
     } catch (error) {
@@ -151,6 +182,11 @@ export async function registerRoutes(
       if (!name || !supplierId) {
         return res.status(400).json({ error: "Name and supplierId are required" });
       }
+      
+      if (!await verifySupplierAccess(req, supplierId)) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      
       const category = await storage.createCategory({ name, supplierId });
       res.json(category);
     } catch (error) {
@@ -167,6 +203,16 @@ export async function registerRoutes(
       if (!name) {
         return res.status(400).json({ error: "Name is required" });
       }
+      
+      // Verify ownership through category lookup
+      const existingCategory = await storage.getCategory(id);
+      if (!existingCategory) {
+        return res.status(404).json({ error: "Category not found" });
+      }
+      if (!await verifySupplierAccess(req, existingCategory.supplierId)) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      
       const category = await storage.updateCategory(id, name);
       res.json(category);
     } catch (error) {
@@ -179,6 +225,16 @@ export async function registerRoutes(
   app.delete("/api/categories/:id", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
+      
+      // Verify ownership through category lookup
+      const existingCategory = await storage.getCategory(id);
+      if (!existingCategory) {
+        return res.status(404).json({ error: "Category not found" });
+      }
+      if (!await verifySupplierAccess(req, existingCategory.supplierId)) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      
       await storage.deleteCategory(id);
       res.json({ success: true });
     } catch (error) {
@@ -195,6 +251,11 @@ export async function registerRoutes(
   app.get("/api/products/:supplierId", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const { supplierId } = req.params;
+      
+      if (!await verifySupplierAccess(req, supplierId)) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      
       const productsData = await storage.getProductsBySupplierId(supplierId);
       res.json(productsData.filter(p => p.isActive));
     } catch (error) {
@@ -210,6 +271,11 @@ export async function registerRoutes(
       if (!articleNumber || !description || !packQuantity || !categoryId || !supplierId) {
         return res.status(400).json({ error: "Missing required fields" });
       }
+      
+      if (!await verifySupplierAccess(req, supplierId)) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      
       const product = await storage.createProduct({
         articleNumber,
         description,
@@ -231,6 +297,16 @@ export async function registerRoutes(
     try {
       const { id } = req.params;
       const { articleNumber, description, packQuantity, categoryId, defaultPrice } = req.body;
+      
+      // Verify ownership through product lookup
+      const existingProduct = await storage.getProduct(id);
+      if (!existingProduct) {
+        return res.status(404).json({ error: "Product not found" });
+      }
+      if (!await verifySupplierAccess(req, existingProduct.supplierId)) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      
       const product = await storage.updateProduct(id, {
         articleNumber,
         description,
@@ -249,6 +325,16 @@ export async function registerRoutes(
   app.delete("/api/products/:id", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
+      
+      // Verify ownership through product lookup
+      const existingProduct = await storage.getProduct(id);
+      if (!existingProduct) {
+        return res.status(404).json({ error: "Product not found" });
+      }
+      if (!await verifySupplierAccess(req, existingProduct.supplierId)) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      
       await storage.deleteProduct(id);
       res.json({ success: true });
     } catch (error) {
@@ -331,6 +417,11 @@ export async function registerRoutes(
   app.get("/api/supplier/quotations/:supplierId", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const { supplierId } = req.params;
+      
+      if (!await verifySupplierAccess(req, supplierId)) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      
       const quotationsData = await storage.getQuotationsBySupplierId(supplierId);
       
       // Enrich with clinic info and items
@@ -359,6 +450,11 @@ export async function registerRoutes(
   app.get("/api/clinic/quotations/:clinicId", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const { clinicId } = req.params;
+      
+      if (!await verifyClinicAccess(req, clinicId)) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      
       const quotationsData = await storage.getQuotationsByClinicId(clinicId);
       
       // Enrich with supplier info and items
@@ -389,6 +485,10 @@ export async function registerRoutes(
       const { clinicId, supplierId, items, notes } = req.body;
       if (!clinicId || !supplierId || !items || items.length === 0) {
         return res.status(400).json({ error: "Missing required fields" });
+      }
+
+      if (!await verifyClinicAccess(req, clinicId)) {
+        return res.status(403).json({ error: "Forbidden" });
       }
 
       const quotation = await storage.createQuotationRequest({
@@ -426,6 +526,15 @@ export async function registerRoutes(
         return res.status(400).json({ error: "Items with prices are required" });
       }
 
+      // Verify supplier ownership
+      const quotation = await storage.getQuotationRequest(id);
+      if (!quotation) {
+        return res.status(404).json({ error: "Quotation not found" });
+      }
+      if (!await verifySupplierAccess(req, quotation.supplierId)) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+
       // Update item prices
       await Promise.all(
         items.map((item: { id: string; customPrice: string }) =>
@@ -434,8 +543,8 @@ export async function registerRoutes(
       );
 
       // Update quotation status
-      const quotation = await storage.updateQuotationStatus(id, "quoted");
-      res.json(quotation);
+      const updatedQuotation = await storage.updateQuotationStatus(id, "quoted");
+      res.json(updatedQuotation);
     } catch (error) {
       console.error("Error responding to quotation:", error);
       res.status(500).json({ error: "Internal server error" });
@@ -450,6 +559,10 @@ export async function registerRoutes(
       const quotation = await storage.getQuotationRequest(id);
       if (!quotation) {
         return res.status(404).json({ error: "Quotation not found" });
+      }
+      
+      if (!await verifyClinicAccess(req, quotation.clinicId)) {
+        return res.status(403).json({ error: "Forbidden" });
       }
 
       const items = await storage.getQuotationItems(id);
@@ -499,6 +612,15 @@ export async function registerRoutes(
   app.post("/api/quotations/:id/reject", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
+      
+      const existingQuotation = await storage.getQuotationRequest(id);
+      if (!existingQuotation) {
+        return res.status(404).json({ error: "Quotation not found" });
+      }
+      if (!await verifyClinicAccess(req, existingQuotation.clinicId)) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      
       const quotation = await storage.updateQuotationStatus(id, "rejected");
       res.json(quotation);
     } catch (error) {
@@ -515,6 +637,11 @@ export async function registerRoutes(
   app.get("/api/supplier/orders/:supplierId", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const { supplierId } = req.params;
+      
+      if (!await verifySupplierAccess(req, supplierId)) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      
       const ordersData = await storage.getOrdersBySupplierId(supplierId);
       
       // Enrich with clinic info and items
@@ -543,6 +670,11 @@ export async function registerRoutes(
   app.get("/api/clinic/orders/:clinicId", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const { clinicId } = req.params;
+      
+      if (!await verifyClinicAccess(req, clinicId)) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      
       const ordersData = await storage.getOrdersByClinicId(clinicId);
       
       // Enrich with supplier info and items
@@ -575,6 +707,16 @@ export async function registerRoutes(
       if (!status) {
         return res.status(400).json({ error: "Status is required" });
       }
+      
+      // Verify supplier ownership
+      const existingOrder = await storage.getOrder(id);
+      if (!existingOrder) {
+        return res.status(404).json({ error: "Order not found" });
+      }
+      if (!await verifySupplierAccess(req, existingOrder.supplierId)) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      
       const order = await storage.updateOrderStatus(id, status);
       res.json(order);
     } catch (error) {
