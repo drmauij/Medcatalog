@@ -1,0 +1,291 @@
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
+import { ShoppingCart, Package, Clock, CheckCircle, Truck, XCircle, Building2 } from "lucide-react";
+import type { Order, OrderItem, Product, Clinic } from "@shared/schema";
+
+interface OrdersPageProps {
+  supplierId: string;
+}
+
+interface OrderWithDetails extends Order {
+  clinic?: Clinic;
+  items?: (OrderItem & { product?: Product })[];
+}
+
+export default function OrdersPage({ supplierId }: OrdersPageProps) {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+  const { data: orders, isLoading } = useQuery<OrderWithDetails[]>({
+    queryKey: ["/api/supplier/orders", supplierId],
+  });
+
+  const updateStatusMutation = useMutation({
+    mutationFn: async ({ orderId, status }: { orderId: string; status: string }) => {
+      return apiRequest("PATCH", `/api/orders/${orderId}/status`, { status });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/supplier/orders", supplierId] });
+      queryClient.invalidateQueries({ queryKey: ["/api/supplier/stats", supplierId] });
+      toast({ title: "Order status updated" });
+    },
+    onError: (error: Error) => {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    },
+  });
+
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case "pending":
+        return <Badge variant="outline" className="bg-chart-3/10 text-chart-3 border-chart-3/20"><Clock className="h-3 w-3 mr-1" />Pending</Badge>;
+      case "confirmed":
+        return <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20"><CheckCircle className="h-3 w-3 mr-1" />Confirmed</Badge>;
+      case "shipped":
+        return <Badge variant="outline" className="bg-chart-4/10 text-chart-4 border-chart-4/20"><Truck className="h-3 w-3 mr-1" />Shipped</Badge>;
+      case "delivered":
+        return <Badge variant="outline" className="bg-accent/10 text-accent border-accent/20"><Package className="h-3 w-3 mr-1" />Delivered</Badge>;
+      case "cancelled":
+        return <Badge variant="outline" className="bg-destructive/10 text-destructive border-destructive/20"><XCircle className="h-3 w-3 mr-1" />Cancelled</Badge>;
+      default:
+        return <Badge variant="secondary">{status}</Badge>;
+    }
+  };
+
+  const pendingOrders = orders?.filter((o) => o.status === "pending") ?? [];
+  const activeOrders = orders?.filter((o) => ["confirmed", "shipped"].includes(o.status)) ?? [];
+  const completedOrders = orders?.filter((o) => ["delivered", "cancelled"].includes(o.status)) ?? [];
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-2xl font-bold">Orders</h2>
+        <p className="text-muted-foreground">Manage and track customer orders</p>
+      </div>
+
+      {/* Pending Orders */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Clock className="h-5 w-5 text-chart-3" />
+            Pending Orders
+          </CardTitle>
+          <CardDescription>
+            {pendingOrders.length} order{pendingOrders.length !== 1 ? "s" : ""} awaiting confirmation
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          {isLoading ? (
+            <div className="space-y-3">
+              <Skeleton className="h-20 w-full" />
+              <Skeleton className="h-20 w-full" />
+            </div>
+          ) : pendingOrders.length > 0 ? (
+            <div className="space-y-4">
+              {pendingOrders.map((order) => (
+                <div key={order.id} className="p-4 rounded-lg border" data-testid={`order-${order.id}`}>
+                  <div className="flex items-start justify-between gap-4 mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-full bg-chart-3/10 flex items-center justify-center">
+                        <Building2 className="h-5 w-5 text-chart-3" />
+                      </div>
+                      <div>
+                        <p className="font-medium">{order.clinic?.name || "Unknown Clinic"}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {order.items?.length || 0} items - {new Date(order.createdAt!).toLocaleDateString()}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {order.totalAmount && (
+                        <span className="font-semibold text-lg">{order.totalAmount} CHF</span>
+                      )}
+                      <Button
+                        onClick={() => updateStatusMutation.mutate({ orderId: order.id, status: "confirmed" })}
+                        disabled={updateStatusMutation.isPending}
+                        data-testid={`button-confirm-${order.id}`}
+                      >
+                        Confirm
+                      </Button>
+                    </div>
+                  </div>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Article #</TableHead>
+                        <TableHead>Description</TableHead>
+                        <TableHead>Qty</TableHead>
+                        <TableHead>Price</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {order.items?.map((item) => (
+                        <TableRow key={item.id}>
+                          <TableCell className="font-mono text-sm">{item.product?.articleNumber}</TableCell>
+                          <TableCell className="max-w-xs truncate">{item.product?.description}</TableCell>
+                          <TableCell>{item.quantity}</TableCell>
+                          <TableCell>{item.price} CHF</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-8">
+              <CheckCircle className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+              <p className="text-muted-foreground">No pending orders</p>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Active Orders */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Truck className="h-5 w-5 text-chart-4" />
+            Active Orders
+          </CardTitle>
+          <CardDescription>
+            Orders being processed or shipped
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          {isLoading ? (
+            <div className="space-y-3">
+              <Skeleton className="h-16 w-full" />
+            </div>
+          ) : activeOrders.length > 0 ? (
+            <div className="space-y-3">
+              {activeOrders.map((order) => (
+                <div key={order.id} className="flex items-center justify-between gap-4 p-4 rounded-lg border">
+                  <div className="flex items-center gap-3">
+                    <div>
+                      <p className="font-medium">{order.clinic?.name || "Unknown"}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {order.items?.length} items - {order.totalAmount} CHF
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    {getStatusBadge(order.status)}
+                    <Select
+                      value={order.status}
+                      onValueChange={(status) => updateStatusMutation.mutate({ orderId: order.id, status })}
+                    >
+                      <SelectTrigger className="w-32">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="confirmed">Confirmed</SelectItem>
+                        <SelectItem value="shipped">Shipped</SelectItem>
+                        <SelectItem value="delivered">Delivered</SelectItem>
+                        <SelectItem value="cancelled">Cancelled</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-8">
+              <ShoppingCart className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+              <p className="text-muted-foreground">No active orders</p>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Order History */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <ShoppingCart className="h-5 w-5" />
+            Order History
+          </CardTitle>
+          <CardDescription>
+            Completed and cancelled orders
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          {isLoading ? (
+            <div className="space-y-3">
+              <Skeleton className="h-12 w-full" />
+            </div>
+          ) : completedOrders.length > 0 ? (
+            <Accordion type="single" collapsible className="w-full">
+              {completedOrders.map((order) => (
+                <AccordionItem key={order.id} value={order.id}>
+                  <AccordionTrigger className="hover:no-underline">
+                    <div className="flex items-center gap-4 flex-1 pr-4">
+                      <span className="font-medium">{order.clinic?.name || "Unknown"}</span>
+                      {getStatusBadge(order.status)}
+                      <span className="text-sm text-muted-foreground">{order.totalAmount} CHF</span>
+                      <span className="text-sm text-muted-foreground ml-auto">
+                        {new Date(order.createdAt!).toLocaleDateString()}
+                      </span>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Article #</TableHead>
+                          <TableHead>Description</TableHead>
+                          <TableHead>Qty</TableHead>
+                          <TableHead>Price</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {order.items?.map((item) => (
+                          <TableRow key={item.id}>
+                            <TableCell className="font-mono text-sm">{item.product?.articleNumber}</TableCell>
+                            <TableCell className="max-w-xs truncate">{item.product?.description}</TableCell>
+                            <TableCell>{item.quantity}</TableCell>
+                            <TableCell>{item.price} CHF</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          ) : (
+            <div className="text-center py-8">
+              <ShoppingCart className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+              <p className="text-muted-foreground">No order history yet</p>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
