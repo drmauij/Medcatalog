@@ -119,24 +119,54 @@ export default function MyQuotations({ clinicId }: MyQuotationsProps) {
               <Skeleton className="h-16 w-full" />
             </div>
           ) : pendingQuotations.length > 0 ? (
-            <div className="space-y-3">
+            <Accordion type="single" collapsible className="w-full">
               {pendingQuotations.map((quotation) => (
-                <div key={quotation.id} className="flex items-center justify-between gap-4 p-4 rounded-lg border">
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-full bg-chart-3/10 flex items-center justify-center">
-                      <Building2 className="h-5 w-5 text-chart-3" />
+                <AccordionItem key={quotation.id} value={quotation.id} className="border rounded-lg mb-2 last:mb-0">
+                  <AccordionTrigger className="hover:no-underline px-4">
+                    <div className="flex items-center gap-3 flex-1 pr-4">
+                      <div className="h-10 w-10 rounded-full bg-chart-3/10 flex items-center justify-center flex-shrink-0">
+                        <Building2 className="h-5 w-5 text-chart-3" />
+                      </div>
+                      <div className="flex-1 text-left min-w-0">
+                        <p className="font-medium truncate">{quotation.supplier?.name || "Unbekannter Lieferant"}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {quotation.items?.length || 0} Artikel - Angefragt am {new Date(quotation.createdAt!).toLocaleDateString("de-CH")}
+                        </p>
+                      </div>
+                      {getStatusBadge(quotation.status)}
                     </div>
-                    <div>
-                      <p className="font-medium">{quotation.supplier?.name || "Unbekannter Lieferant"}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {quotation.items?.length || 0} Artikel - Angefragt am {new Date(quotation.createdAt!).toLocaleDateString("de-CH")}
-                      </p>
-                    </div>
-                  </div>
-                  {getStatusBadge(quotation.status)}
-                </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="px-4 pb-4">
+                    {quotation.notes && (
+                      <div className="p-3 rounded-lg bg-muted/30 mb-3">
+                        <p className="text-sm font-medium mb-1">Notizen:</p>
+                        <p className="text-sm text-muted-foreground">{quotation.notes}</p>
+                      </div>
+                    )}
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Artikel-Nr.</TableHead>
+                          <TableHead>Beschreibung</TableHead>
+                          <TableHead>Menge</TableHead>
+                          <TableHead>Packung</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {quotation.items?.map((item) => (
+                          <TableRow key={item.id}>
+                            <TableCell className="font-mono text-sm">{item.product?.articleNumber}</TableCell>
+                            <TableCell className="max-w-xs truncate">{item.product?.description}</TableCell>
+                            <TableCell>{item.quantity}</TableCell>
+                            <TableCell>{item.product?.packQuantity}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </AccordionContent>
+                </AccordionItem>
               ))}
-            </div>
+            </Accordion>
           ) : (
             <div className="text-center py-8">
               <CheckCircle className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
