@@ -11,6 +11,7 @@ import {
   orderItems,
   userRoles,
   supplierInvitations,
+  clinicInvitations,
   type Supplier,
   type InsertSupplier,
   type Clinic,
@@ -31,6 +32,8 @@ import {
   type InsertUserRole,
   type SupplierInvitation,
   type InsertSupplierInvitation,
+  type ClinicInvitation,
+  type InsertClinicInvitation,
 } from "@shared/schema";
 
 export interface IStorage {
@@ -96,6 +99,13 @@ export interface IStorage {
   getInvitationsBySupplierId(supplierId: string): Promise<SupplierInvitation[]>;
   createInvitation(data: InsertSupplierInvitation): Promise<SupplierInvitation>;
   updateInvitationStatus(id: string, status: string): Promise<SupplierInvitation | undefined>;
+
+  // Clinic Invitations
+  getClinicInvitation(id: string): Promise<ClinicInvitation | undefined>;
+  getClinicInvitationByToken(token: string): Promise<ClinicInvitation | undefined>;
+  getInvitationsByClinicId(clinicId: string): Promise<ClinicInvitation[]>;
+  createClinicInvitation(data: InsertClinicInvitation): Promise<ClinicInvitation>;
+  updateClinicInvitationStatus(id: string, status: string): Promise<ClinicInvitation | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -329,6 +339,36 @@ export class DatabaseStorage implements IStorage {
     const [invitation] = await db.update(supplierInvitations)
       .set({ status })
       .where(eq(supplierInvitations.id, id))
+      .returning();
+    return invitation;
+  }
+
+  // Clinic Invitations
+  async getClinicInvitation(id: string): Promise<ClinicInvitation | undefined> {
+    const [invitation] = await db.select().from(clinicInvitations).where(eq(clinicInvitations.id, id));
+    return invitation;
+  }
+
+  async getClinicInvitationByToken(token: string): Promise<ClinicInvitation | undefined> {
+    const [invitation] = await db.select().from(clinicInvitations).where(eq(clinicInvitations.token, token));
+    return invitation;
+  }
+
+  async getInvitationsByClinicId(clinicId: string): Promise<ClinicInvitation[]> {
+    return db.select().from(clinicInvitations)
+      .where(eq(clinicInvitations.clinicId, clinicId))
+      .orderBy(desc(clinicInvitations.createdAt));
+  }
+
+  async createClinicInvitation(data: InsertClinicInvitation): Promise<ClinicInvitation> {
+    const [invitation] = await db.insert(clinicInvitations).values(data).returning();
+    return invitation;
+  }
+
+  async updateClinicInvitationStatus(id: string, status: string): Promise<ClinicInvitation | undefined> {
+    const [invitation] = await db.update(clinicInvitations)
+      .set({ status })
+      .where(eq(clinicInvitations.id, id))
       .returning();
     return invitation;
   }

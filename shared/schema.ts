@@ -142,3 +142,19 @@ export const supplierInvitations = pgTable("supplier_invitations", {
 export const insertSupplierInvitationSchema = createInsertSchema(supplierInvitations).omit({ id: true, createdAt: true });
 export type InsertSupplierInvitation = z.infer<typeof insertSupplierInvitationSchema>;
 export type SupplierInvitation = typeof supplierInvitations.$inferSelect;
+
+// Clinic invitations (invite coworkers to join clinic workspace)
+export const clinicInvitations = pgTable("clinic_invitations", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  clinicId: varchar("clinic_id").notNull(),
+  email: text("email").notNull(),
+  token: varchar("token").notNull(),
+  invitedBy: varchar("invited_by").notNull(), // user ID of inviter
+  status: text("status").notNull().default("pending"), // pending, accepted, expired
+  createdAt: timestamp("created_at").defaultNow(),
+  expiresAt: timestamp("expires_at").notNull(),
+});
+
+export const insertClinicInvitationSchema = createInsertSchema(clinicInvitations).omit({ id: true, createdAt: true });
+export type InsertClinicInvitation = z.infer<typeof insertClinicInvitationSchema>;
+export type ClinicInvitation = typeof clinicInvitations.$inferSelect;
