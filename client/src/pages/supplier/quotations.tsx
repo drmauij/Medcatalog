@@ -113,7 +113,7 @@ export default function QuotationsPage({ supplierId }: QuotationsPageProps) {
 
       {/* Respond Dialog */}
       <Dialog open={!!selectedQuotation} onOpenChange={(open) => !open && setSelectedQuotation(null)}>
-        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto overflow-x-hidden">
           <DialogHeader>
             <DialogTitle>Offerte beantworten</DialogTitle>
             <DialogDescription>
@@ -140,10 +140,10 @@ export default function QuotationsPage({ supplierId }: QuotationsPageProps) {
               <div className="space-y-3">
                 <Label>Artikel & Preise</Label>
                 {selectedQuotation.items?.map((item) => (
-                  <div key={item.id} className="flex items-start gap-4 p-3 rounded-lg border">
-                    <div className="flex-1 min-w-0">
+                  <div key={item.id} className="flex items-start gap-3 p-3 rounded-lg border">
+                    <div className="flex-1 min-w-0 overflow-hidden">
                       <p className="font-mono text-sm">{item.product?.articleNumber}</p>
-                      <p className="text-sm text-muted-foreground truncate">{item.product?.description}</p>
+                      <p className="text-sm text-muted-foreground break-words">{item.product?.description}</p>
                       <div className="flex items-center gap-4 mt-1 text-xs text-muted-foreground">
                         <span>Menge: {item.quantity}</span>
                         <span>Packung: {item.product?.packQuantity}</span>
@@ -152,7 +152,7 @@ export default function QuotationsPage({ supplierId }: QuotationsPageProps) {
                         )}
                       </div>
                     </div>
-                    <div className="w-32">
+                    <div className="w-24 flex-shrink-0">
                       <Input
                         type="number"
                         step="0.01"
