@@ -269,7 +269,7 @@ export function ActionHistoryFull({
                   </Badge>
                   {linkedOrder.totalAmount && (
                     <span className="font-medium">
-                      CHF {parseFloat(linkedOrder.totalAmount).toFixed(2)}
+                      CHF {parseFloat(linkedOrder.totalAmount).toFixed(2)} (Netto)
                     </span>
                   )}
                 </div>

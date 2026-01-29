@@ -241,7 +241,7 @@ export default function MyQuotations({ clinicId }: MyQuotationsProps) {
                       </div>
                       <div className="text-right">
                         <p className="text-lg font-bold">{total.toFixed(2)} CHF</p>
-                        <p className="text-xs text-muted-foreground">Total</p>
+                        <p className="text-xs text-muted-foreground">Total Netto, zzgl. MwSt.</p>
                       </div>
                     </div>
                     <Table>
@@ -250,7 +250,7 @@ export default function MyQuotations({ clinicId }: MyQuotationsProps) {
                           <TableHead>Artikel-Nr.</TableHead>
                           <TableHead>Beschreibung</TableHead>
                           <TableHead>Menge</TableHead>
-                          <TableHead>Preis</TableHead>
+                          <TableHead>Preis (Netto)</TableHead>
                           <TableHead>Zwischensumme</TableHead>
                         </TableRow>
                       </TableHeader>
@@ -345,7 +345,7 @@ export default function MyQuotations({ clinicId }: MyQuotationsProps) {
                           <TableHead>Artikel-Nr.</TableHead>
                           <TableHead>Beschreibung</TableHead>
                           <TableHead>Menge</TableHead>
-                          <TableHead>Preis</TableHead>
+                          <TableHead>Preis (Netto)</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>

@@ -344,8 +344,8 @@ export default function BrowseCatalog({ clinicId }: BrowseCatalogProps) {
                       <div className="text-xs text-muted-foreground">
                         Packung: {product.packQuantity}
                         {product.defaultPrice && (
-                          <span className="ml-2 font-medium text-foreground">
-                            ~{product.defaultPrice} CHF
+                          <span className="ml-2 font-medium text-foreground" title="Netto, zzgl. MwSt.">
+                            ~{product.defaultPrice} CHF (Netto)
                           </span>
                         )}
                       </div>

@@ -232,9 +232,9 @@ export default function QuotationsPage({ supplierId }: QuotationsPageProps) {
                     <TableRow className="bg-muted/50">
                       <TableHead className="w-[200px]">Artikel</TableHead>
                       <TableHead className="text-center w-[60px]">Menge</TableHead>
-                      <TableHead className="text-right w-[120px]">Katalogpreis</TableHead>
+                      <TableHead className="text-right w-[120px]">Katalogpreis (Netto)</TableHead>
                       <TableHead className="text-center w-[80px]">Rabatt %</TableHead>
-                      <TableHead className="text-right w-[100px]">Endpreis</TableHead>
+                      <TableHead className="text-right w-[100px]">Endpreis (Netto)</TableHead>
                       <TableHead className="text-center w-[100px]">
                         <span className="flex items-center justify-center gap-1">
                           <Save className="h-3 w-3" />
@@ -326,9 +326,9 @@ export default function QuotationsPage({ supplierId }: QuotationsPageProps) {
               <div className="text-xs text-muted-foreground bg-muted/30 p-3 rounded-lg">
                 <p className="font-medium mb-1">Hinweis:</p>
                 <ul className="list-disc list-inside space-y-1">
-                  <li><strong>Katalogpreis:</strong> Der Standardpreis aus Ihrem Katalog. Bearbeiten Sie ihn bei Bedarf.</li>
+                  <li><strong>Katalogpreis:</strong> Der Standardpreis aus Ihrem Katalog (Netto). Bearbeiten Sie ihn bei Bedarf.</li>
                   <li><strong>Rabatt:</strong> Prozentsatz für diesen Kunden (z.B. basierend auf Bestellmenge).</li>
-                  <li><strong>Endpreis:</strong> Automatisch berechnet (Katalogpreis - Rabatt).</li>
+                  <li><strong>Endpreis:</strong> Automatisch berechnet (Katalogpreis - Rabatt). Alle Preise Netto, zzgl. MwSt.</li>
                   <li><strong>Speichern:</strong> Aktivieren, um den Katalogpreis als neuen Standardpreis zu speichern.</li>
                 </ul>
               </div>
@@ -464,7 +464,7 @@ export default function QuotationsPage({ supplierId }: QuotationsPageProps) {
                           <TableHead>Artikel-Nr.</TableHead>
                           <TableHead>Beschreibung</TableHead>
                           <TableHead>Menge</TableHead>
-                          <TableHead>Preis</TableHead>
+                          <TableHead>Preis (Netto)</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>

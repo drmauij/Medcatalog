@@ -114,6 +114,7 @@ export default function MyOrders({ clinicId }: MyOrdersProps) {
                       </div>
                       <div className="text-right">
                         <p className="text-lg font-bold">{order.totalAmount} CHF</p>
+                        <p className="text-xs text-muted-foreground">Netto, zzgl. MwSt.</p>
                         {getStatusBadge(order.status)}
                       </div>
                     </div>
@@ -160,7 +161,7 @@ export default function MyOrders({ clinicId }: MyOrdersProps) {
                           <TableHead>Artikel-Nr.</TableHead>
                           <TableHead>Beschreibung</TableHead>
                           <TableHead>Menge</TableHead>
-                          <TableHead>Preis</TableHead>
+                          <TableHead>Preis (Netto)</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -214,7 +215,7 @@ export default function MyOrders({ clinicId }: MyOrdersProps) {
                     <div className="flex items-center gap-4 flex-1 pr-4">
                       <span className="font-medium">{order.supplier?.name || "Unbekannt"}</span>
                       {getStatusBadge(order.status)}
-                      <span className="text-sm text-muted-foreground">{order.totalAmount} CHF</span>
+                      <span className="text-sm text-muted-foreground">{order.totalAmount} CHF (Netto)</span>
                       <span className="text-sm text-muted-foreground ml-auto">
                         {new Date(order.createdAt!).toLocaleDateString("de-CH")}
                       </span>
@@ -227,7 +228,7 @@ export default function MyOrders({ clinicId }: MyOrdersProps) {
                           <TableHead>Artikel-Nr.</TableHead>
                           <TableHead>Beschreibung</TableHead>
                           <TableHead>Menge</TableHead>
-                          <TableHead>Preis</TableHead>
+                          <TableHead>Preis (Netto)</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>

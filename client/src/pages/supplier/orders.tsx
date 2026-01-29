@@ -123,7 +123,10 @@ export default function OrdersPage({ supplierId }: OrdersPageProps) {
                     </div>
                     <div className="flex items-center gap-2">
                       {order.totalAmount && (
-                        <span className="font-semibold text-lg">{order.totalAmount} CHF</span>
+                        <div className="text-right">
+                          <span className="font-semibold text-lg">{order.totalAmount} CHF</span>
+                          <p className="text-xs text-muted-foreground">Netto, zzgl. MwSt.</p>
+                        </div>
                       )}
                       <Button
                         onClick={() => updateStatusMutation.mutate({ orderId: order.id, status: "confirmed" })}
@@ -140,7 +143,7 @@ export default function OrdersPage({ supplierId }: OrdersPageProps) {
                         <TableHead>Artikel-Nr.</TableHead>
                         <TableHead>Beschreibung</TableHead>
                         <TableHead>Menge</TableHead>
-                        <TableHead>Preis</TableHead>
+                        <TableHead>Preis (Netto)</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -190,7 +193,7 @@ export default function OrdersPage({ supplierId }: OrdersPageProps) {
                     <div>
                       <p className="font-medium">{order.clinic?.name || "Unbekannt"}</p>
                       <p className="text-sm text-muted-foreground">
-                        {order.items?.length} Artikel - {order.totalAmount} CHF
+                        {order.items?.length} Artikel - {order.totalAmount} CHF (Netto)
                       </p>
                     </div>
                   </div>
@@ -247,7 +250,7 @@ export default function OrdersPage({ supplierId }: OrdersPageProps) {
                     <div className="flex items-center gap-4 flex-1 pr-4">
                       <span className="font-medium">{order.clinic?.name || "Unbekannt"}</span>
                       {getStatusBadge(order.status)}
-                      <span className="text-sm text-muted-foreground">{order.totalAmount} CHF</span>
+                      <span className="text-sm text-muted-foreground">{order.totalAmount} CHF (Netto)</span>
                       <span className="text-sm text-muted-foreground ml-auto">
                         {new Date(order.createdAt!).toLocaleDateString("de-CH")}
                       </span>
@@ -260,7 +263,7 @@ export default function OrdersPage({ supplierId }: OrdersPageProps) {
                           <TableHead>Artikel-Nr.</TableHead>
                           <TableHead>Beschreibung</TableHead>
                           <TableHead>Menge</TableHead>
-                          <TableHead>Preis</TableHead>
+                          <TableHead>Preis (Netto)</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>

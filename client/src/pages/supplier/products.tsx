@@ -333,7 +333,7 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="defaultPrice">Standardpreis (optional)</Label>
+                <Label htmlFor="defaultPrice">Standardpreis Netto (optional)</Label>
                 <Input
                   id="defaultPrice"
                   type="number"
@@ -486,7 +486,7 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="edit-defaultPrice">Standardpreis (optional)</Label>
+              <Label htmlFor="edit-defaultPrice">Standardpreis Netto (optional)</Label>
               <Input
                 id="edit-defaultPrice"
                 type="number"
@@ -563,7 +563,7 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
                     <TableHead>Beschreibung</TableHead>
                     <TableHead>Kategorie</TableHead>
                     <TableHead>Packung</TableHead>
-                    <TableHead>Preis</TableHead>
+                    <TableHead>Preis (Netto)</TableHead>
                     <TableHead className="w-24">Aktionen</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -578,7 +578,7 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
                       <TableCell>{product.packQuantity}</TableCell>
                       <TableCell>
                         {product.defaultPrice ? (
-                          <span className="font-medium">{product.defaultPrice} CHF</span>
+                          <span className="font-medium" title="Netto, zzgl. MwSt.">{product.defaultPrice} CHF</span>
                         ) : (
                           <span className="text-muted-foreground">Nicht gesetzt</span>
                         )}
