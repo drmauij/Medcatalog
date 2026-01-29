@@ -797,5 +797,169 @@ export async function registerRoutes(
     }
   });
 
+  // ============================================
+  // Supplier Invitations Routes
+  // ============================================
+
+  // Get invitations for a supplier
+  app.get("/api/invitations/supplier/:supplierId", isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const { supplierId } = req.params;
+      if (!await verifySupplierAccess(req, supplierId)) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      const invitations = await storage.getInvitationsBySupplierId(supplierId);
+      res.json(invitations);
+    } catch (error) {
+      console.error("Error fetching invitations:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Create invitation (invite coworker)
+  app.post("/api/invitations", isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const { supplierId, email } = req.body;
+      if (!supplierId || !email) {
+        return res.status(400).json({ error: "Missing required fields" });
+      }
+      
+      if (!await verifySupplierAccess(req, supplierId)) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      
+      const userId = getUserId(req);
+      if (!userId) return res.status(401).json({ error: "Unauthorized" });
+      
+      // Generate token and expiry
+      const token = crypto.randomUUID();
+      const expiresAt = new Date();
+      expiresAt.setDate(expiresAt.getDate() + 7); // 7 days expiry
+      
+      const invitation = await storage.createInvitation({
+        supplierId,
+        email,
+        token,
+        invitedBy: userId,
+        status: "pending",
+        expiresAt,
+      });
+      
+      // Send invitation email
+      const supplier = await storage.getSupplier(supplierId);
+      const user = (req.user as any)?.claims;
+      const inviterName = user?.firstName && user?.lastName 
+        ? `${user.firstName} ${user.lastName}` 
+        : user?.email || "Ein Teammitglied";
+      
+      try {
+        const { sendInvitationEmail } = await import("./email");
+        await sendInvitationEmail(email, supplier?.name || "Lieferant", inviterName, token);
+      } catch (emailError) {
+        console.error("Error sending invitation email:", emailError);
+        // Still return success - invitation created but email failed
+      }
+      
+      res.status(201).json(invitation);
+    } catch (error) {
+      console.error("Error creating invitation:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Accept invitation (public - no auth required initially)
+  app.get("/api/invitations/token/:token", async (req: Request, res: Response) => {
+    try {
+      const { token } = req.params;
+      const invitation = await storage.getInvitationByToken(token);
+      
+      if (!invitation) {
+        return res.status(404).json({ error: "Einladung nicht gefunden" });
+      }
+      
+      if (invitation.status !== "pending") {
+        return res.status(400).json({ error: "Einladung bereits verwendet oder abgelaufen" });
+      }
+      
+      if (new Date(invitation.expiresAt) < new Date()) {
+        await storage.updateInvitationStatus(invitation.id, "expired");
+        return res.status(400).json({ error: "Einladung abgelaufen" });
+      }
+      
+      const supplier = await storage.getSupplier(invitation.supplierId);
+      res.json({ invitation, supplier });
+    } catch (error) {
+      console.error("Error fetching invitation by token:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Accept invitation (authenticated user joins supplier)
+  app.post("/api/invitations/accept/:token", isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const { token } = req.params;
+      const userId = getUserId(req);
+      if (!userId) return res.status(401).json({ error: "Unauthorized" });
+      
+      const invitation = await storage.getInvitationByToken(token);
+      
+      if (!invitation) {
+        return res.status(404).json({ error: "Einladung nicht gefunden" });
+      }
+      
+      if (invitation.status !== "pending") {
+        return res.status(400).json({ error: "Einladung bereits verwendet oder abgelaufen" });
+      }
+      
+      if (new Date(invitation.expiresAt) < new Date()) {
+        await storage.updateInvitationStatus(invitation.id, "expired");
+        return res.status(400).json({ error: "Einladung abgelaufen" });
+      }
+      
+      // Check if user already has a role
+      const existingRole = await storage.getUserRole(userId);
+      if (existingRole) {
+        return res.status(400).json({ error: "Sie haben bereits eine Rolle in der Anwendung" });
+      }
+      
+      // Create user role as supplier team member
+      await storage.createUserRole({
+        userId,
+        role: "supplier",
+        entityId: invitation.supplierId,
+      });
+      
+      // Mark invitation as accepted
+      await storage.updateInvitationStatus(invitation.id, "accepted");
+      
+      res.json({ success: true, message: "Einladung angenommen" });
+    } catch (error) {
+      console.error("Error accepting invitation:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Delete/cancel invitation
+  app.delete("/api/invitations/:id", isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const invitation = await storage.getInvitation(id);
+      
+      if (!invitation) {
+        return res.status(404).json({ error: "Einladung nicht gefunden" });
+      }
+      
+      if (!await verifySupplierAccess(req, invitation.supplierId)) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      
+      await storage.updateInvitationStatus(id, "cancelled");
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting invitation:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
   return httpServer;
 }

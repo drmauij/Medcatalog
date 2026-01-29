@@ -12,6 +12,7 @@ import Landing from "@/pages/landing";
 import RoleSelection from "@/pages/role-selection";
 import SupplierDashboard from "@/pages/supplier/dashboard";
 import ClinicDashboard from "@/pages/clinic/dashboard";
+import AcceptInvitePage from "@/pages/accept-invite";
 import type { Supplier, Clinic, UserRole } from "@shared/schema";
 
 interface UserRoleData {
@@ -74,6 +75,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={AuthenticatedApp} />
+      <Route path="/invite/:token" component={AcceptInvitePage} />
       <Route component={NotFound} />
     </Switch>
   );

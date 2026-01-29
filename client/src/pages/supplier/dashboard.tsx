@@ -27,6 +27,7 @@ import {
   LayoutDashboard,
   LogOut,
   Settings,
+  Users,
 } from "lucide-react";
 import type { Supplier } from "@shared/schema";
 import SupplierOverview from "./overview";
@@ -34,6 +35,7 @@ import CategoriesPage from "./categories";
 import ProductsPage from "./products";
 import QuotationsPage from "./quotations";
 import OrdersPage from "./orders";
+import TeamPage from "./team";
 
 const menuItems = [
   { id: "overview", title: "Übersicht", icon: LayoutDashboard },
@@ -41,6 +43,7 @@ const menuItems = [
   { id: "products", title: "Produkte", icon: Package },
   { id: "quotations", title: "Offerten", icon: FileText },
   { id: "orders", title: "Bestellungen", icon: ShoppingCart },
+  { id: "team", title: "Team", icon: Users },
 ];
 
 interface SupplierDashboardProps {
@@ -77,6 +80,8 @@ export default function SupplierDashboard({ supplier }: SupplierDashboardProps) 
         return <QuotationsPage supplierId={supplier.id} />;
       case "orders":
         return <OrdersPage supplierId={supplier.id} />;
+      case "team":
+        return <TeamPage supplierId={supplier.id} />;
       default:
         return <SupplierOverview supplier={supplier} stats={stats} isLoading={statsLoading} />;
     }
