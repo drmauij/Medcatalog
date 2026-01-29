@@ -81,10 +81,10 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
       queryClient.invalidateQueries({ queryKey: ["/api/supplier/stats", supplierId] });
       setIsAddOpen(false);
       resetForm();
-      toast({ title: "Product created successfully" });
+      toast({ title: "Produkt erfolgreich erstellt" });
     },
     onError: (error: Error) => {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: "Fehler", description: error.message, variant: "destructive" });
     },
   });
 
@@ -100,10 +100,10 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
       queryClient.invalidateQueries({ queryKey: ["/api/products", supplierId] });
       setEditProduct(null);
       resetForm();
-      toast({ title: "Product updated successfully" });
+      toast({ title: "Produkt erfolgreich aktualisiert" });
     },
     onError: (error: Error) => {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: "Fehler", description: error.message, variant: "destructive" });
     },
   });
 
@@ -114,10 +114,10 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/products", supplierId] });
       queryClient.invalidateQueries({ queryKey: ["/api/supplier/stats", supplierId] });
-      toast({ title: "Product deleted successfully" });
+      toast({ title: "Produkt erfolgreich gelöscht" });
     },
     onError: (error: Error) => {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: "Fehler", description: error.message, variant: "destructive" });
     },
   });
 
@@ -144,7 +144,7 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
 
   const handleSubmit = () => {
     if (!formData.articleNumber.trim() || !formData.description.trim() || !formData.categoryId) {
-      toast({ title: "Please fill all required fields", variant: "destructive" });
+      toast({ title: "Bitte füllen Sie alle Pflichtfelder aus", variant: "destructive" });
       return;
     }
     if (editProduct) {
@@ -163,15 +163,15 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
   });
 
   const getCategoryName = (categoryId: string) => {
-    return categories?.find((c) => c.id === categoryId)?.name ?? "Unknown";
+    return categories?.find((c) => c.id === categoryId)?.name ?? "Unbekannt";
   };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div>
-          <h2 className="text-2xl font-bold">Products</h2>
-          <p className="text-muted-foreground">Manage your product catalog</p>
+          <h2 className="text-2xl font-bold">Produkte</h2>
+          <p className="text-muted-foreground">Verwalten Sie Ihren Produktkatalog</p>
         </div>
         <Dialog open={isAddOpen} onOpenChange={(open) => {
           setIsAddOpen(open);
@@ -180,30 +180,30 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
           <DialogTrigger asChild>
             <Button data-testid="button-add-product">
               <Plus className="h-4 w-4 mr-2" />
-              Add Product
+              Produkt hinzufügen
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-lg">
             <DialogHeader>
-              <DialogTitle>Add Product</DialogTitle>
+              <DialogTitle>Produkt hinzufügen</DialogTitle>
               <DialogDescription>
-                Add a new product to your catalog
+                Fügen Sie ein neues Produkt zu Ihrem Katalog hinzu
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4 py-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="articleNumber">Article Number *</Label>
+                  <Label htmlFor="articleNumber">Artikelnummer *</Label>
                   <Input
                     id="articleNumber"
                     value={formData.articleNumber}
                     onChange={(e) => setFormData({ ...formData, articleNumber: e.target.value })}
-                    placeholder="e.g., Q112218N-IGS"
+                    placeholder="z.B. Q112218N-IGS"
                     data-testid="input-article-number"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="packQuantity">Pack Quantity *</Label>
+                  <Label htmlFor="packQuantity">Packungsmenge *</Label>
                   <Input
                     id="packQuantity"
                     type="number"
@@ -215,13 +215,13 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="categoryId">Category *</Label>
+                <Label htmlFor="categoryId">Kategorie *</Label>
                 <Select
                   value={formData.categoryId}
                   onValueChange={(value) => setFormData({ ...formData, categoryId: value })}
                 >
                   <SelectTrigger data-testid="select-category">
-                    <SelectValue placeholder="Select a category" />
+                    <SelectValue placeholder="Kategorie auswählen" />
                   </SelectTrigger>
                   <SelectContent>
                     {categories?.map((category) => (
@@ -233,18 +233,18 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="description">Description *</Label>
+                <Label htmlFor="description">Beschreibung *</Label>
                 <Textarea
                   id="description"
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  placeholder="Product description..."
+                  placeholder="Produktbeschreibung..."
                   rows={3}
                   data-testid="input-description"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="defaultPrice">Default Price (optional)</Label>
+                <Label htmlFor="defaultPrice">Standardpreis (optional)</Label>
                 <Input
                   id="defaultPrice"
                   type="number"
@@ -259,14 +259,14 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
             </div>
             <DialogFooter>
               <Button variant="outline" onClick={() => { setIsAddOpen(false); resetForm(); }}>
-                Cancel
+                Abbrechen
               </Button>
               <Button
                 onClick={handleSubmit}
                 disabled={createMutation.isPending}
                 data-testid="button-save-product"
               >
-                {createMutation.isPending ? "Creating..." : "Create"}
+                {createMutation.isPending ? "Wird erstellt..." : "Erstellen"}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -277,15 +277,15 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
       <Dialog open={!!editProduct} onOpenChange={(open) => { if (!open) { setEditProduct(null); resetForm(); } }}>
         <DialogContent className="max-w-lg">
           <DialogHeader>
-            <DialogTitle>Edit Product</DialogTitle>
+            <DialogTitle>Produkt bearbeiten</DialogTitle>
             <DialogDescription>
-              Update product details
+              Produktdetails aktualisieren
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="edit-articleNumber">Article Number *</Label>
+                <Label htmlFor="edit-articleNumber">Artikelnummer *</Label>
                 <Input
                   id="edit-articleNumber"
                   value={formData.articleNumber}
@@ -293,7 +293,7 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="edit-packQuantity">Pack Quantity *</Label>
+                <Label htmlFor="edit-packQuantity">Packungsmenge *</Label>
                 <Input
                   id="edit-packQuantity"
                   type="number"
@@ -304,13 +304,13 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="edit-categoryId">Category *</Label>
+              <Label htmlFor="edit-categoryId">Kategorie *</Label>
               <Select
                 value={formData.categoryId}
                 onValueChange={(value) => setFormData({ ...formData, categoryId: value })}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Select a category" />
+                  <SelectValue placeholder="Kategorie auswählen" />
                 </SelectTrigger>
                 <SelectContent>
                   {categories?.map((category) => (
@@ -322,7 +322,7 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
               </Select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="edit-description">Description *</Label>
+              <Label htmlFor="edit-description">Beschreibung *</Label>
               <Textarea
                 id="edit-description"
                 value={formData.description}
@@ -331,7 +331,7 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="edit-defaultPrice">Default Price (optional)</Label>
+              <Label htmlFor="edit-defaultPrice">Standardpreis (optional)</Label>
               <Input
                 id="edit-defaultPrice"
                 type="number"
@@ -345,10 +345,10 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => { setEditProduct(null); resetForm(); }}>
-              Cancel
+              Abbrechen
             </Button>
             <Button onClick={handleSubmit} disabled={updateMutation.isPending}>
-              {updateMutation.isPending ? "Saving..." : "Save"}
+              {updateMutation.isPending ? "Wird gespeichert..." : "Speichern"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -359,7 +359,7 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
         <div className="relative flex-1 min-w-64">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search products..."
+            placeholder="Produkte suchen..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-9"
@@ -368,10 +368,10 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
         </div>
         <Select value={filterCategory} onValueChange={setFilterCategory}>
           <SelectTrigger className="w-48" data-testid="select-filter-category">
-            <SelectValue placeholder="All Categories" />
+            <SelectValue placeholder="Alle Kategorien" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Categories</SelectItem>
+            <SelectItem value="all">Alle Kategorien</SelectItem>
             {categories?.map((category) => (
               <SelectItem key={category.id} value={category.id}>
                 {category.name}
@@ -386,10 +386,10 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Package className="h-5 w-5" />
-            Products
+            Produkte
           </CardTitle>
           <CardDescription>
-            {filteredProducts?.length ?? 0} products
+            {filteredProducts?.length ?? 0} Produkte
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -404,12 +404,12 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Article #</TableHead>
-                    <TableHead>Description</TableHead>
-                    <TableHead>Category</TableHead>
-                    <TableHead>Pack Qty</TableHead>
-                    <TableHead>Price</TableHead>
-                    <TableHead className="w-24">Actions</TableHead>
+                    <TableHead>Artikel-Nr.</TableHead>
+                    <TableHead>Beschreibung</TableHead>
+                    <TableHead>Kategorie</TableHead>
+                    <TableHead>Packung</TableHead>
+                    <TableHead>Preis</TableHead>
+                    <TableHead className="w-24">Aktionen</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -425,7 +425,7 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
                         {product.defaultPrice ? (
                           <span className="font-medium">{product.defaultPrice} CHF</span>
                         ) : (
-                          <span className="text-muted-foreground">Not set</span>
+                          <span className="text-muted-foreground">Nicht gesetzt</span>
                         )}
                       </TableCell>
                       <TableCell>
@@ -455,11 +455,11 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
           ) : (
             <div className="text-center py-12">
               <Package className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">No products found</p>
+              <p className="text-muted-foreground">Keine Produkte gefunden</p>
               <p className="text-sm text-muted-foreground">
                 {searchQuery || filterCategory !== "all"
-                  ? "Try adjusting your filters"
-                  : "Add your first product to get started"}
+                  ? "Versuchen Sie, die Filter anzupassen"
+                  : "Fügen Sie Ihr erstes Produkt hinzu, um zu beginnen"}
               </p>
             </div>
           )}

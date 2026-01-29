@@ -47,10 +47,10 @@ export default function MyQuotations({ clinicId }: MyQuotationsProps) {
       queryClient.invalidateQueries({ queryKey: ["/api/clinic/quotations", clinicId] });
       queryClient.invalidateQueries({ queryKey: ["/api/clinic/orders", clinicId] });
       queryClient.invalidateQueries({ queryKey: ["/api/clinic/stats", clinicId] });
-      toast({ title: "Order placed successfully" });
+      toast({ title: "Bestellung erfolgreich aufgegeben" });
     },
     onError: (error: Error) => {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: "Fehler", description: error.message, variant: "destructive" });
     },
   });
 
@@ -61,23 +61,23 @@ export default function MyQuotations({ clinicId }: MyQuotationsProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/clinic/quotations", clinicId] });
       queryClient.invalidateQueries({ queryKey: ["/api/clinic/stats", clinicId] });
-      toast({ title: "Quotation rejected" });
+      toast({ title: "Offerte abgelehnt" });
     },
     onError: (error: Error) => {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: "Fehler", description: error.message, variant: "destructive" });
     },
   });
 
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "pending":
-        return <Badge variant="outline" className="bg-chart-3/10 text-chart-3 border-chart-3/20"><Clock className="h-3 w-3 mr-1" />Pending</Badge>;
+        return <Badge variant="outline" className="bg-chart-3/10 text-chart-3 border-chart-3/20"><Clock className="h-3 w-3 mr-1" />Offen</Badge>;
       case "quoted":
-        return <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20"><CheckCircle className="h-3 w-3 mr-1" />Quoted</Badge>;
+        return <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20"><CheckCircle className="h-3 w-3 mr-1" />Offeriert</Badge>;
       case "accepted":
-        return <Badge variant="outline" className="bg-accent/10 text-accent border-accent/20"><CheckCircle className="h-3 w-3 mr-1" />Accepted</Badge>;
+        return <Badge variant="outline" className="bg-accent/10 text-accent border-accent/20"><CheckCircle className="h-3 w-3 mr-1" />Angenommen</Badge>;
       case "rejected":
-        return <Badge variant="outline" className="bg-destructive/10 text-destructive border-destructive/20"><XCircle className="h-3 w-3 mr-1" />Rejected</Badge>;
+        return <Badge variant="outline" className="bg-destructive/10 text-destructive border-destructive/20"><XCircle className="h-3 w-3 mr-1" />Abgelehnt</Badge>;
       default:
         return <Badge variant="secondary">{status}</Badge>;
     }
@@ -98,8 +98,8 @@ export default function MyQuotations({ clinicId }: MyQuotationsProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold">My Quotations</h2>
-        <p className="text-muted-foreground">Track your quotation requests and responses</p>
+        <h2 className="text-2xl font-bold">Meine Offerten</h2>
+        <p className="text-muted-foreground">Offertanfragen und Antworten verfolgen</p>
       </div>
 
       {/* Pending */}
@@ -107,10 +107,10 @@ export default function MyQuotations({ clinicId }: MyQuotationsProps) {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Clock className="h-5 w-5 text-chart-3" />
-            Awaiting Response
+            Warten auf Antwort
           </CardTitle>
           <CardDescription>
-            Quotations waiting for supplier pricing
+            Offerten warten auf Lieferantenpreise
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -127,9 +127,9 @@ export default function MyQuotations({ clinicId }: MyQuotationsProps) {
                       <Building2 className="h-5 w-5 text-chart-3" />
                     </div>
                     <div>
-                      <p className="font-medium">{quotation.supplier?.name || "Unknown Supplier"}</p>
+                      <p className="font-medium">{quotation.supplier?.name || "Unbekannter Lieferant"}</p>
                       <p className="text-sm text-muted-foreground">
-                        {quotation.items?.length || 0} items - Requested {new Date(quotation.createdAt!).toLocaleDateString()}
+                        {quotation.items?.length || 0} Artikel - Angefragt am {new Date(quotation.createdAt!).toLocaleDateString("de-CH")}
                       </p>
                     </div>
                   </div>
@@ -140,7 +140,7 @@ export default function MyQuotations({ clinicId }: MyQuotationsProps) {
           ) : (
             <div className="text-center py-8">
               <CheckCircle className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">No pending quotations</p>
+              <p className="text-muted-foreground">Keine offenen Offerten</p>
             </div>
           )}
         </CardContent>
@@ -151,10 +151,10 @@ export default function MyQuotations({ clinicId }: MyQuotationsProps) {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <FileText className="h-5 w-5 text-primary" />
-            Ready to Order
+            Bereit zur Bestellung
           </CardTitle>
           <CardDescription>
-            Quotations with pricing ready for your review
+            Offerten mit Preisen zur Prüfung bereit
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -174,9 +174,9 @@ export default function MyQuotations({ clinicId }: MyQuotationsProps) {
                           <Building2 className="h-5 w-5 text-primary" />
                         </div>
                         <div>
-                          <p className="font-medium">{quotation.supplier?.name || "Unknown"}</p>
+                          <p className="font-medium">{quotation.supplier?.name || "Unbekannt"}</p>
                           <p className="text-sm text-muted-foreground">
-                            Quoted {new Date(quotation.updatedAt!).toLocaleDateString()}
+                            Offeriert am {new Date(quotation.updatedAt!).toLocaleDateString("de-CH")}
                           </p>
                         </div>
                       </div>
@@ -188,11 +188,11 @@ export default function MyQuotations({ clinicId }: MyQuotationsProps) {
                     <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead>Article #</TableHead>
-                          <TableHead>Description</TableHead>
-                          <TableHead>Qty</TableHead>
-                          <TableHead>Price</TableHead>
-                          <TableHead>Subtotal</TableHead>
+                          <TableHead>Artikel-Nr.</TableHead>
+                          <TableHead>Beschreibung</TableHead>
+                          <TableHead>Menge</TableHead>
+                          <TableHead>Preis</TableHead>
+                          <TableHead>Zwischensumme</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -218,7 +218,7 @@ export default function MyQuotations({ clinicId }: MyQuotationsProps) {
                         disabled={rejectMutation.isPending}
                         data-testid={`button-reject-${quotation.id}`}
                       >
-                        Reject
+                        Ablehnen
                       </Button>
                       <Button
                         onClick={() => acceptMutation.mutate(quotation.id)}
@@ -226,7 +226,7 @@ export default function MyQuotations({ clinicId }: MyQuotationsProps) {
                         data-testid={`button-accept-${quotation.id}`}
                       >
                         <ShoppingCart className="h-4 w-4 mr-2" />
-                        Place Order
+                        Bestellen
                       </Button>
                     </div>
                   </div>
@@ -236,7 +236,7 @@ export default function MyQuotations({ clinicId }: MyQuotationsProps) {
           ) : (
             <div className="text-center py-8">
               <FileText className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">No quotations ready for review</p>
+              <p className="text-muted-foreground">Keine Offerten zur Prüfung</p>
             </div>
           )}
         </CardContent>
@@ -247,10 +247,10 @@ export default function MyQuotations({ clinicId }: MyQuotationsProps) {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <FileText className="h-5 w-5" />
-            Quotation History
+            Offertverlauf
           </CardTitle>
           <CardDescription>
-            Completed quotation requests
+            Abgeschlossene Offertanfragen
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -264,10 +264,10 @@ export default function MyQuotations({ clinicId }: MyQuotationsProps) {
                 <AccordionItem key={quotation.id} value={quotation.id}>
                   <AccordionTrigger className="hover:no-underline">
                     <div className="flex items-center gap-4 flex-1 pr-4">
-                      <span className="font-medium">{quotation.supplier?.name || "Unknown"}</span>
+                      <span className="font-medium">{quotation.supplier?.name || "Unbekannt"}</span>
                       {getStatusBadge(quotation.status)}
                       <span className="text-sm text-muted-foreground ml-auto">
-                        {new Date(quotation.createdAt!).toLocaleDateString()}
+                        {new Date(quotation.createdAt!).toLocaleDateString("de-CH")}
                       </span>
                     </div>
                   </AccordionTrigger>
@@ -275,10 +275,10 @@ export default function MyQuotations({ clinicId }: MyQuotationsProps) {
                     <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead>Article #</TableHead>
-                          <TableHead>Description</TableHead>
-                          <TableHead>Qty</TableHead>
-                          <TableHead>Price</TableHead>
+                          <TableHead>Artikel-Nr.</TableHead>
+                          <TableHead>Beschreibung</TableHead>
+                          <TableHead>Menge</TableHead>
+                          <TableHead>Preis</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -299,7 +299,7 @@ export default function MyQuotations({ clinicId }: MyQuotationsProps) {
           ) : (
             <div className="text-center py-8">
               <FileText className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">No quotation history yet</p>
+              <p className="text-muted-foreground">Noch kein Offertverlauf</p>
             </div>
           )}
         </CardContent>

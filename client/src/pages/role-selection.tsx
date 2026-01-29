@@ -26,15 +26,15 @@ export default function RoleSelection({ onComplete }: RoleSelectionProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/user/role"] });
       toast({
-        title: "Account created",
-        description: `Your ${selectedRole} account has been set up successfully.`,
+        title: "Konto erstellt",
+        description: `Ihr ${selectedRole === "supplier" ? "Lieferanten" : "Klinik"}-Konto wurde erfolgreich eingerichtet.`,
       });
       onComplete();
     },
     onError: (error: Error) => {
       toast({
-        title: "Error",
-        description: error.message || "Failed to create account",
+        title: "Fehler",
+        description: error.message || "Konto konnte nicht erstellt werden",
         variant: "destructive",
       });
     },
@@ -43,8 +43,8 @@ export default function RoleSelection({ onComplete }: RoleSelectionProps) {
   const handleSubmit = () => {
     if (!selectedRole || !entityName.trim()) {
       toast({
-        title: "Missing information",
-        description: "Please select a role and enter a name.",
+        title: "Fehlende Informationen",
+        description: "Bitte wählen Sie eine Rolle und geben Sie einen Namen ein.",
         variant: "destructive",
       });
       return;
@@ -71,9 +71,9 @@ export default function RoleSelection({ onComplete }: RoleSelectionProps) {
       <main className="flex-1 flex items-center justify-center p-4">
         <div className="w-full max-w-2xl space-y-8">
           <div className="text-center space-y-2">
-            <h1 className="font-serif text-3xl font-bold">Welcome to MedCatalog</h1>
+            <h1 className="font-serif text-3xl font-bold">Willkommen bei MedCatalog</h1>
             <p className="text-muted-foreground">
-              Choose how you want to use the platform
+              Wählen Sie, wie Sie die Plattform nutzen möchten
             </p>
           </div>
 
@@ -92,17 +92,17 @@ export default function RoleSelection({ onComplete }: RoleSelectionProps) {
                 <div className="mx-auto h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center mb-2">
                   <Building2 className="h-8 w-8 text-primary" />
                 </div>
-                <CardTitle>Supplier</CardTitle>
+                <CardTitle>Lieferant</CardTitle>
                 <CardDescription>
-                  Manage your product catalog and respond to quotation requests
+                  Verwalten Sie Ihren Produktkatalog und beantworten Sie Offertanfragen
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <ul className="text-sm text-muted-foreground space-y-1">
-                  <li>Create and manage product categories</li>
-                  <li>Add and edit products</li>
-                  <li>Set default and custom prices</li>
-                  <li>Review and respond to quotations</li>
+                  <li>Produktkategorien erstellen und verwalten</li>
+                  <li>Produkte hinzufügen und bearbeiten</li>
+                  <li>Standard- und individuelle Preise festlegen</li>
+                  <li>Offerten prüfen und beantworten</li>
                 </ul>
               </CardContent>
             </Card>
@@ -120,17 +120,17 @@ export default function RoleSelection({ onComplete }: RoleSelectionProps) {
                 <div className="mx-auto h-16 w-16 rounded-full bg-accent/10 flex items-center justify-center mb-2">
                   <Stethoscope className="h-8 w-8 text-accent" />
                 </div>
-                <CardTitle>Clinic</CardTitle>
+                <CardTitle>Klinik</CardTitle>
                 <CardDescription>
-                  Browse catalogs and request quotations from suppliers
+                  Durchsuchen Sie Kataloge und fordern Sie Offerten von Lieferanten an
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <ul className="text-sm text-muted-foreground space-y-1">
-                  <li>Browse supplier catalogs</li>
-                  <li>Request pricing quotations</li>
-                  <li>Place orders</li>
-                  <li>Track order history</li>
+                  <li>Lieferantenkataloge durchsuchen</li>
+                  <li>Preisofferten anfordern</li>
+                  <li>Bestellungen aufgeben</li>
+                  <li>Bestellhistorie verfolgen</li>
                 </ul>
               </CardContent>
             </Card>
@@ -141,16 +141,16 @@ export default function RoleSelection({ onComplete }: RoleSelectionProps) {
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">
-                  {selectedRole === "supplier" ? "Company Name" : "Clinic Name"}
+                  {selectedRole === "supplier" ? "Firmenname" : "Klinikname"}
                 </CardTitle>
                 <CardDescription>
-                  Enter the name of your {selectedRole === "supplier" ? "company" : "clinic"}
+                  Geben Sie den Namen Ihrer {selectedRole === "supplier" ? "Firma" : "Klinik"} ein
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="entityName">
-                    {selectedRole === "supplier" ? "Company Name" : "Clinic Name"}
+                    {selectedRole === "supplier" ? "Firmenname" : "Klinikname"}
                   </Label>
                   <Input
                     id="entityName"
@@ -158,8 +158,8 @@ export default function RoleSelection({ onComplete }: RoleSelectionProps) {
                     onChange={(e) => setEntityName(e.target.value)}
                     placeholder={
                       selectedRole === "supplier"
-                        ? "e.g., Anandic Medical Supplies"
-                        : "e.g., City General Hospital"
+                        ? "z.B. Anandic Medical Supplies"
+                        : "z.B. Städtisches Krankenhaus"
                     }
                     data-testid="input-entity-name"
                   />
@@ -170,7 +170,7 @@ export default function RoleSelection({ onComplete }: RoleSelectionProps) {
                   disabled={!entityName.trim() || createRoleMutation.isPending}
                   data-testid="button-create-account"
                 >
-                  {createRoleMutation.isPending ? "Creating..." : "Create Account"}
+                  {createRoleMutation.isPending ? "Wird erstellt..." : "Konto erstellen"}
                 </Button>
               </CardContent>
             </Card>

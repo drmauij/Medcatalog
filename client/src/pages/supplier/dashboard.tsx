@@ -36,11 +36,11 @@ import QuotationsPage from "./quotations";
 import OrdersPage from "./orders";
 
 const menuItems = [
-  { id: "overview", title: "Overview", icon: LayoutDashboard },
-  { id: "categories", title: "Categories", icon: FolderTree },
-  { id: "products", title: "Products", icon: Package },
-  { id: "quotations", title: "Quotations", icon: FileText },
-  { id: "orders", title: "Orders", icon: ShoppingCart },
+  { id: "overview", title: "Übersicht", icon: LayoutDashboard },
+  { id: "categories", title: "Kategorien", icon: FolderTree },
+  { id: "products", title: "Produkte", icon: Package },
+  { id: "quotations", title: "Offerten", icon: FileText },
+  { id: "orders", title: "Bestellungen", icon: ShoppingCart },
 ];
 
 interface SupplierDashboardProps {
@@ -82,6 +82,11 @@ export default function SupplierDashboard({ supplier }: SupplierDashboardProps) 
     }
   };
 
+  const getPageTitle = () => {
+    const item = menuItems.find(m => m.id === activeTab);
+    return item?.title || "Übersicht";
+  };
+
   return (
     <SidebarProvider style={style as React.CSSProperties}>
       <div className="flex h-screen w-full">
@@ -93,13 +98,13 @@ export default function SupplierDashboard({ supplier }: SupplierDashboardProps) 
               </div>
               <div className="flex-1 min-w-0">
                 <p className="font-semibold text-sm truncate">{supplier.name}</p>
-                <p className="text-xs text-muted-foreground">Supplier Portal</p>
+                <p className="text-xs text-muted-foreground">Lieferantenportal</p>
               </div>
             </div>
           </SidebarHeader>
           <SidebarContent>
             <SidebarGroup>
-              <SidebarGroupLabel>Menu</SidebarGroupLabel>
+              <SidebarGroupLabel>Menü</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
                   {menuItems.map((item) => (
@@ -138,7 +143,7 @@ export default function SupplierDashboard({ supplier }: SupplierDashboardProps) 
               </Avatar>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium truncate">
-                  {user?.firstName || user?.email || "User"}
+                  {user?.firstName || user?.email || "Benutzer"}
                 </p>
                 <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
               </div>
@@ -158,7 +163,7 @@ export default function SupplierDashboard({ supplier }: SupplierDashboardProps) 
           <header className="flex items-center justify-between gap-4 p-4 border-b bg-background/95 backdrop-blur">
             <div className="flex items-center gap-2">
               <SidebarTrigger data-testid="button-sidebar-toggle" />
-              <h1 className="font-semibold text-lg capitalize">{activeTab}</h1>
+              <h1 className="font-semibold text-lg">{getPageTitle()}</h1>
             </div>
             <ThemeToggle />
           </header>

@@ -62,10 +62,10 @@ export default function QuotationsPage({ supplierId }: QuotationsPageProps) {
       queryClient.invalidateQueries({ queryKey: ["/api/supplier/stats", supplierId] });
       setSelectedQuotation(null);
       setItemPrices({});
-      toast({ title: "Quotation sent successfully" });
+      toast({ title: "Offerte erfolgreich gesendet" });
     },
     onError: (error: Error) => {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: "Fehler", description: error.message, variant: "destructive" });
     },
   });
 
@@ -89,13 +89,13 @@ export default function QuotationsPage({ supplierId }: QuotationsPageProps) {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "pending":
-        return <Badge variant="outline" className="bg-chart-3/10 text-chart-3 border-chart-3/20"><Clock className="h-3 w-3 mr-1" />Pending</Badge>;
+        return <Badge variant="outline" className="bg-chart-3/10 text-chart-3 border-chart-3/20"><Clock className="h-3 w-3 mr-1" />Offen</Badge>;
       case "quoted":
-        return <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20"><CheckCircle className="h-3 w-3 mr-1" />Quoted</Badge>;
+        return <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20"><CheckCircle className="h-3 w-3 mr-1" />Offeriert</Badge>;
       case "accepted":
-        return <Badge variant="outline" className="bg-accent/10 text-accent border-accent/20"><CheckCircle className="h-3 w-3 mr-1" />Accepted</Badge>;
+        return <Badge variant="outline" className="bg-accent/10 text-accent border-accent/20"><CheckCircle className="h-3 w-3 mr-1" />Angenommen</Badge>;
       case "rejected":
-        return <Badge variant="outline" className="bg-destructive/10 text-destructive border-destructive/20"><XCircle className="h-3 w-3 mr-1" />Rejected</Badge>;
+        return <Badge variant="outline" className="bg-destructive/10 text-destructive border-destructive/20"><XCircle className="h-3 w-3 mr-1" />Abgelehnt</Badge>;
       default:
         return <Badge variant="secondary">{status}</Badge>;
     }
@@ -107,17 +107,17 @@ export default function QuotationsPage({ supplierId }: QuotationsPageProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold">Quotation Requests</h2>
-        <p className="text-muted-foreground">Review and respond to pricing requests from clinics</p>
+        <h2 className="text-2xl font-bold">Offertanfragen</h2>
+        <p className="text-muted-foreground">Prüfen und beantworten Sie Preisanfragen von Kliniken</p>
       </div>
 
       {/* Respond Dialog */}
       <Dialog open={!!selectedQuotation} onOpenChange={(open) => !open && setSelectedQuotation(null)}>
         <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Respond to Quotation</DialogTitle>
+            <DialogTitle>Offerte beantworten</DialogTitle>
             <DialogDescription>
-              Set prices for the requested items
+              Preise für die angefragten Artikel festlegen
             </DialogDescription>
           </DialogHeader>
           {selectedQuotation && (
@@ -125,30 +125,30 @@ export default function QuotationsPage({ supplierId }: QuotationsPageProps) {
               <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
                 <Building2 className="h-5 w-5 text-muted-foreground" />
                 <div>
-                  <p className="font-medium">{selectedQuotation.clinic?.name || "Unknown Clinic"}</p>
+                  <p className="font-medium">{selectedQuotation.clinic?.name || "Unbekannte Klinik"}</p>
                   <p className="text-sm text-muted-foreground">
-                    Requested on {new Date(selectedQuotation.createdAt!).toLocaleDateString()}
+                    Angefragt am {new Date(selectedQuotation.createdAt!).toLocaleDateString("de-CH")}
                   </p>
                 </div>
               </div>
               {selectedQuotation.notes && (
                 <div className="p-3 rounded-lg bg-muted/30">
-                  <p className="text-sm font-medium mb-1">Notes from clinic:</p>
+                  <p className="text-sm font-medium mb-1">Notizen der Klinik:</p>
                   <p className="text-sm text-muted-foreground">{selectedQuotation.notes}</p>
                 </div>
               )}
               <div className="space-y-3">
-                <Label>Items & Pricing</Label>
+                <Label>Artikel & Preise</Label>
                 {selectedQuotation.items?.map((item) => (
                   <div key={item.id} className="flex items-start gap-4 p-3 rounded-lg border">
                     <div className="flex-1 min-w-0">
                       <p className="font-mono text-sm">{item.product?.articleNumber}</p>
                       <p className="text-sm text-muted-foreground truncate">{item.product?.description}</p>
                       <div className="flex items-center gap-4 mt-1 text-xs text-muted-foreground">
-                        <span>Qty: {item.quantity}</span>
-                        <span>Pack: {item.product?.packQuantity}</span>
+                        <span>Menge: {item.quantity}</span>
+                        <span>Packung: {item.product?.packQuantity}</span>
                         {item.product?.defaultPrice && (
-                          <span>Default: {item.product.defaultPrice} CHF</span>
+                          <span>Standard: {item.product.defaultPrice} CHF</span>
                         )}
                       </div>
                     </div>
@@ -159,7 +159,7 @@ export default function QuotationsPage({ supplierId }: QuotationsPageProps) {
                         min={0}
                         value={itemPrices[item.id] || ""}
                         onChange={(e) => setItemPrices({ ...itemPrices, [item.id]: e.target.value })}
-                        placeholder="Price"
+                        placeholder="Preis"
                         data-testid={`input-price-${item.id}`}
                       />
                     </div>
@@ -170,14 +170,14 @@ export default function QuotationsPage({ supplierId }: QuotationsPageProps) {
           )}
           <DialogFooter>
             <Button variant="outline" onClick={() => setSelectedQuotation(null)}>
-              Cancel
+              Abbrechen
             </Button>
             <Button
               onClick={handleRespond}
               disabled={respondMutation.isPending}
               data-testid="button-send-quotation"
             >
-              {respondMutation.isPending ? "Sending..." : "Send Quotation"}
+              {respondMutation.isPending ? "Wird gesendet..." : "Offerte senden"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -188,10 +188,10 @@ export default function QuotationsPage({ supplierId }: QuotationsPageProps) {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Clock className="h-5 w-5 text-chart-3" />
-            Pending Requests
+            Offene Anfragen
           </CardTitle>
           <CardDescription>
-            {pendingQuotations.length} request{pendingQuotations.length !== 1 ? "s" : ""} awaiting your response
+            {pendingQuotations.length} Anfrage{pendingQuotations.length !== 1 ? "n" : ""} warten auf Ihre Antwort
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -214,20 +214,20 @@ export default function QuotationsPage({ supplierId }: QuotationsPageProps) {
                       <FileText className="h-5 w-5 text-chart-3" />
                     </div>
                     <div>
-                      <p className="font-medium">{quotation.clinic?.name || "Unknown Clinic"}</p>
+                      <p className="font-medium">{quotation.clinic?.name || "Unbekannte Klinik"}</p>
                       <p className="text-sm text-muted-foreground">
-                        {quotation.items?.length || 0} items - {new Date(quotation.createdAt!).toLocaleDateString()}
+                        {quotation.items?.length || 0} Artikel - {new Date(quotation.createdAt!).toLocaleDateString("de-CH")}
                       </p>
                     </div>
                   </div>
-                  <Button data-testid={`button-respond-${quotation.id}`}>Respond</Button>
+                  <Button data-testid={`button-respond-${quotation.id}`}>Beantworten</Button>
                 </div>
               ))}
             </div>
           ) : (
             <div className="text-center py-8">
               <CheckCircle className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">No pending requests</p>
+              <p className="text-muted-foreground">Keine offenen Anfragen</p>
             </div>
           )}
         </CardContent>
@@ -238,10 +238,10 @@ export default function QuotationsPage({ supplierId }: QuotationsPageProps) {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <FileText className="h-5 w-5" />
-            Quotation History
+            Offertverlauf
           </CardTitle>
           <CardDescription>
-            Previously responded quotations
+            Bereits beantwortete Offerten
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -256,10 +256,10 @@ export default function QuotationsPage({ supplierId }: QuotationsPageProps) {
                 <AccordionItem key={quotation.id} value={quotation.id}>
                   <AccordionTrigger className="hover:no-underline">
                     <div className="flex items-center gap-4 flex-1 pr-4">
-                      <span className="font-medium">{quotation.clinic?.name || "Unknown"}</span>
+                      <span className="font-medium">{quotation.clinic?.name || "Unbekannt"}</span>
                       {getStatusBadge(quotation.status)}
                       <span className="text-sm text-muted-foreground ml-auto">
-                        {new Date(quotation.createdAt!).toLocaleDateString()}
+                        {new Date(quotation.createdAt!).toLocaleDateString("de-CH")}
                       </span>
                     </div>
                   </AccordionTrigger>
@@ -267,10 +267,10 @@ export default function QuotationsPage({ supplierId }: QuotationsPageProps) {
                     <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead>Article #</TableHead>
-                          <TableHead>Description</TableHead>
-                          <TableHead>Qty</TableHead>
-                          <TableHead>Price</TableHead>
+                          <TableHead>Artikel-Nr.</TableHead>
+                          <TableHead>Beschreibung</TableHead>
+                          <TableHead>Menge</TableHead>
+                          <TableHead>Preis</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -291,7 +291,7 @@ export default function QuotationsPage({ supplierId }: QuotationsPageProps) {
           ) : (
             <div className="text-center py-8">
               <FileText className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">No quotation history yet</p>
+              <p className="text-muted-foreground">Noch kein Offertverlauf</p>
             </div>
           )}
         </CardContent>

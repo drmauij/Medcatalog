@@ -82,10 +82,10 @@ export default function BrowseCatalog({ clinicId }: BrowseCatalogProps) {
       setCart([]);
       setIsQuotationOpen(false);
       setQuotationNotes("");
-      toast({ title: "Quotation request sent successfully" });
+      toast({ title: "Offertanfrage erfolgreich gesendet" });
     },
     onError: (error: Error) => {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: "Fehler", description: error.message, variant: "destructive" });
     },
   });
 
@@ -110,7 +110,7 @@ export default function BrowseCatalog({ clinicId }: BrowseCatalogProps) {
       }
       return [...prev, { product, quantity: 1 }];
     });
-    toast({ title: "Added to quotation cart" });
+    toast({ title: "Zum Offertwarenkorb hinzugefügt" });
   };
 
   const updateCartQuantity = (productId: string, delta: number) => {
@@ -151,8 +151,8 @@ export default function BrowseCatalog({ clinicId }: BrowseCatalogProps) {
     <div className="space-y-6">
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div>
-          <h2 className="text-2xl font-bold">Browse Catalog</h2>
-          <p className="text-muted-foreground">Find products and request quotations</p>
+          <h2 className="text-2xl font-bold">Katalog durchsuchen</h2>
+          <p className="text-muted-foreground">Produkte finden und Offerten anfordern</p>
         </div>
         <Button
           onClick={() => setIsQuotationOpen(true)}
@@ -160,7 +160,7 @@ export default function BrowseCatalog({ clinicId }: BrowseCatalogProps) {
           data-testid="button-view-cart"
         >
           <ShoppingCart className="h-4 w-4 mr-2" />
-          Quotation Cart ({cartTotal})
+          Offertwarenkorb ({cartTotal})
         </Button>
       </div>
 
@@ -168,9 +168,9 @@ export default function BrowseCatalog({ clinicId }: BrowseCatalogProps) {
       <Dialog open={isQuotationOpen} onOpenChange={setIsQuotationOpen}>
         <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Request Quotation</DialogTitle>
+            <DialogTitle>Offerte anfordern</DialogTitle>
             <DialogDescription>
-              Review items and request pricing from supplier
+              Artikel prüfen und Preise vom Lieferanten anfordern
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
@@ -179,9 +179,9 @@ export default function BrowseCatalog({ clinicId }: BrowseCatalogProps) {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Product</TableHead>
-                      <TableHead>Quantity</TableHead>
-                      <TableHead className="w-24">Actions</TableHead>
+                      <TableHead>Produkt</TableHead>
+                      <TableHead>Menge</TableHead>
+                      <TableHead className="w-24">Aktionen</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -222,7 +222,7 @@ export default function BrowseCatalog({ clinicId }: BrowseCatalogProps) {
                             size="sm"
                             onClick={() => removeFromCart(item.product.id)}
                           >
-                            Remove
+                            Entfernen
                           </Button>
                         </TableCell>
                       </TableRow>
@@ -230,12 +230,12 @@ export default function BrowseCatalog({ clinicId }: BrowseCatalogProps) {
                   </TableBody>
                 </Table>
                 <div className="space-y-2">
-                  <Label htmlFor="notes">Notes (optional)</Label>
+                  <Label htmlFor="notes">Notizen (optional)</Label>
                   <Textarea
                     id="notes"
                     value={quotationNotes}
                     onChange={(e) => setQuotationNotes(e.target.value)}
-                    placeholder="Any special requirements or questions..."
+                    placeholder="Besondere Anforderungen oder Fragen..."
                     rows={3}
                     data-testid="input-quotation-notes"
                   />
@@ -244,20 +244,20 @@ export default function BrowseCatalog({ clinicId }: BrowseCatalogProps) {
             ) : (
               <div className="text-center py-8">
                 <ShoppingCart className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                <p className="text-muted-foreground">Your quotation cart is empty</p>
+                <p className="text-muted-foreground">Ihr Offertwarenkorb ist leer</p>
               </div>
             )}
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsQuotationOpen(false)}>
-              Cancel
+              Abbrechen
             </Button>
             <Button
               onClick={handleRequestQuotation}
               disabled={cart.length === 0 || createQuotationMutation.isPending}
               data-testid="button-send-quotation-request"
             >
-              {createQuotationMutation.isPending ? "Sending..." : "Request Quotation"}
+              {createQuotationMutation.isPending ? "Wird gesendet..." : "Offerte anfordern"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -268,7 +268,7 @@ export default function BrowseCatalog({ clinicId }: BrowseCatalogProps) {
         <div className="relative flex-1 min-w-64">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search products..."
+            placeholder="Produkte suchen..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-9"
@@ -277,10 +277,10 @@ export default function BrowseCatalog({ clinicId }: BrowseCatalogProps) {
         </div>
         <Select value={filterSupplier} onValueChange={(val) => { setFilterSupplier(val); setFilterCategory("all"); }}>
           <SelectTrigger className="w-48" data-testid="select-filter-supplier">
-            <SelectValue placeholder="All Suppliers" />
+            <SelectValue placeholder="Alle Lieferanten" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Suppliers</SelectItem>
+            <SelectItem value="all">Alle Lieferanten</SelectItem>
             {suppliers?.map((supplier) => (
               <SelectItem key={supplier.id} value={supplier.id}>
                 {supplier.name}
@@ -290,10 +290,10 @@ export default function BrowseCatalog({ clinicId }: BrowseCatalogProps) {
         </Select>
         <Select value={filterCategory} onValueChange={setFilterCategory}>
           <SelectTrigger className="w-48" data-testid="select-filter-category">
-            <SelectValue placeholder="All Categories" />
+            <SelectValue placeholder="Alle Kategorien" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Categories</SelectItem>
+            <SelectItem value="all">Alle Kategorien</SelectItem>
             {categories?.map((category) => (
               <SelectItem key={category.id} value={category.id}>
                 {category.name}
@@ -328,12 +328,12 @@ export default function BrowseCatalog({ clinicId }: BrowseCatalogProps) {
                       <div>
                         <p className="font-mono text-sm font-medium">{product.articleNumber}</p>
                         <Badge variant="secondary" className="mt-1 text-xs">
-                          {product.category?.name || "Unknown"}
+                          {product.category?.name || "Unbekannt"}
                         </Badge>
                       </div>
                       <Badge variant="outline" className="text-xs whitespace-nowrap">
                         <Building2 className="h-3 w-3 mr-1" />
-                        {product.supplier?.name || "Unknown"}
+                        {product.supplier?.name || "Unbekannt"}
                       </Badge>
                     </div>
                     <p className="text-sm text-muted-foreground line-clamp-2">
@@ -341,7 +341,7 @@ export default function BrowseCatalog({ clinicId }: BrowseCatalogProps) {
                     </p>
                     <div className="flex items-center justify-between gap-2">
                       <div className="text-xs text-muted-foreground">
-                        Pack: {product.packQuantity}
+                        Packung: {product.packQuantity}
                         {product.defaultPrice && (
                           <span className="ml-2 font-medium text-foreground">
                             ~{product.defaultPrice} CHF
@@ -375,7 +375,7 @@ export default function BrowseCatalog({ clinicId }: BrowseCatalogProps) {
                           data-testid={`button-add-${product.id}`}
                         >
                           <FileText className="h-3 w-3 mr-1" />
-                          Add
+                          Hinzufügen
                         </Button>
                       )}
                     </div>
@@ -389,11 +389,11 @@ export default function BrowseCatalog({ clinicId }: BrowseCatalogProps) {
             <CardContent className="py-12">
               <div className="text-center">
                 <Package className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                <p className="text-muted-foreground">No products found</p>
+                <p className="text-muted-foreground">Keine Produkte gefunden</p>
                 <p className="text-sm text-muted-foreground">
                   {searchQuery || filterSupplier !== "all" || filterCategory !== "all"
-                    ? "Try adjusting your filters"
-                    : "Products will appear here once suppliers add them"}
+                    ? "Versuchen Sie, die Filter anzupassen"
+                    : "Produkte erscheinen hier, sobald Lieferanten sie hinzufügen"}
                 </p>
               </div>
             </CardContent>

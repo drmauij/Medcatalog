@@ -36,15 +36,15 @@ export default function MyOrders({ clinicId }: MyOrdersProps) {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "pending":
-        return <Badge variant="outline" className="bg-chart-3/10 text-chart-3 border-chart-3/20"><Clock className="h-3 w-3 mr-1" />Pending</Badge>;
+        return <Badge variant="outline" className="bg-chart-3/10 text-chart-3 border-chart-3/20"><Clock className="h-3 w-3 mr-1" />Offen</Badge>;
       case "confirmed":
-        return <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20"><CheckCircle className="h-3 w-3 mr-1" />Confirmed</Badge>;
+        return <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20"><CheckCircle className="h-3 w-3 mr-1" />Bestätigt</Badge>;
       case "shipped":
-        return <Badge variant="outline" className="bg-chart-4/10 text-chart-4 border-chart-4/20"><Truck className="h-3 w-3 mr-1" />Shipped</Badge>;
+        return <Badge variant="outline" className="bg-chart-4/10 text-chart-4 border-chart-4/20"><Truck className="h-3 w-3 mr-1" />Versendet</Badge>;
       case "delivered":
-        return <Badge variant="outline" className="bg-accent/10 text-accent border-accent/20"><Package className="h-3 w-3 mr-1" />Delivered</Badge>;
+        return <Badge variant="outline" className="bg-accent/10 text-accent border-accent/20"><Package className="h-3 w-3 mr-1" />Geliefert</Badge>;
       case "cancelled":
-        return <Badge variant="outline" className="bg-destructive/10 text-destructive border-destructive/20"><XCircle className="h-3 w-3 mr-1" />Cancelled</Badge>;
+        return <Badge variant="outline" className="bg-destructive/10 text-destructive border-destructive/20"><XCircle className="h-3 w-3 mr-1" />Storniert</Badge>;
       default:
         return <Badge variant="secondary">{status}</Badge>;
     }
@@ -52,10 +52,17 @@ export default function MyOrders({ clinicId }: MyOrdersProps) {
 
   const getStatusSteps = (status: string) => {
     const steps = ["pending", "confirmed", "shipped", "delivered"];
+    const stepLabels: Record<string, string> = {
+      pending: "Offen",
+      confirmed: "Bestätigt",
+      shipped: "Versendet",
+      delivered: "Geliefert",
+    };
     const currentIndex = steps.indexOf(status);
     if (status === "cancelled") return [];
     return steps.map((step, index) => ({
       step,
+      label: stepLabels[step],
       completed: index <= currentIndex,
       current: index === currentIndex,
     }));
@@ -67,8 +74,8 @@ export default function MyOrders({ clinicId }: MyOrdersProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold">My Orders</h2>
-        <p className="text-muted-foreground">Track your orders and delivery status</p>
+        <h2 className="text-2xl font-bold">Meine Bestellungen</h2>
+        <p className="text-muted-foreground">Bestellungen und Lieferstatus verfolgen</p>
       </div>
 
       {/* Active Orders */}
@@ -76,10 +83,10 @@ export default function MyOrders({ clinicId }: MyOrdersProps) {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Truck className="h-5 w-5 text-chart-4" />
-            Active Orders
+            Aktive Bestellungen
           </CardTitle>
           <CardDescription>
-            Orders in progress
+            Bestellungen in Bearbeitung
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -99,9 +106,9 @@ export default function MyOrders({ clinicId }: MyOrdersProps) {
                           <Building2 className="h-5 w-5 text-chart-4" />
                         </div>
                         <div>
-                          <p className="font-medium">{order.supplier?.name || "Unknown"}</p>
+                          <p className="font-medium">{order.supplier?.name || "Unbekannt"}</p>
                           <p className="text-sm text-muted-foreground">
-                            Order placed {new Date(order.createdAt!).toLocaleDateString()}
+                            Bestellt am {new Date(order.createdAt!).toLocaleDateString("de-CH")}
                           </p>
                         </div>
                       </div>
@@ -129,8 +136,8 @@ export default function MyOrders({ clinicId }: MyOrdersProps) {
                                 {s.step === "shipped" && <Truck className="h-4 w-4" />}
                                 {s.step === "delivered" && <Package className="h-4 w-4" />}
                               </div>
-                              <span className={`text-xs mt-1 capitalize ${s.current ? "font-medium" : "text-muted-foreground"}`}>
-                                {s.step}
+                              <span className={`text-xs mt-1 ${s.current ? "font-medium" : "text-muted-foreground"}`}>
+                                {s.label}
                               </span>
                             </div>
                             {index < steps.length - 1 && (
@@ -150,10 +157,10 @@ export default function MyOrders({ clinicId }: MyOrdersProps) {
                     <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead>Article #</TableHead>
-                          <TableHead>Description</TableHead>
-                          <TableHead>Qty</TableHead>
-                          <TableHead>Price</TableHead>
+                          <TableHead>Artikel-Nr.</TableHead>
+                          <TableHead>Beschreibung</TableHead>
+                          <TableHead>Menge</TableHead>
+                          <TableHead>Preis</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -174,9 +181,9 @@ export default function MyOrders({ clinicId }: MyOrdersProps) {
           ) : (
             <div className="text-center py-8">
               <ShoppingCart className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">No active orders</p>
+              <p className="text-muted-foreground">Keine aktiven Bestellungen</p>
               <p className="text-sm text-muted-foreground">
-                Place an order by accepting a quotation
+                Geben Sie eine Bestellung auf, indem Sie eine Offerte annehmen
               </p>
             </div>
           )}
@@ -188,10 +195,10 @@ export default function MyOrders({ clinicId }: MyOrdersProps) {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <ShoppingCart className="h-5 w-5" />
-            Order History
+            Bestellverlauf
           </CardTitle>
           <CardDescription>
-            Completed and cancelled orders
+            Abgeschlossene und stornierte Bestellungen
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -205,11 +212,11 @@ export default function MyOrders({ clinicId }: MyOrdersProps) {
                 <AccordionItem key={order.id} value={order.id}>
                   <AccordionTrigger className="hover:no-underline">
                     <div className="flex items-center gap-4 flex-1 pr-4">
-                      <span className="font-medium">{order.supplier?.name || "Unknown"}</span>
+                      <span className="font-medium">{order.supplier?.name || "Unbekannt"}</span>
                       {getStatusBadge(order.status)}
                       <span className="text-sm text-muted-foreground">{order.totalAmount} CHF</span>
                       <span className="text-sm text-muted-foreground ml-auto">
-                        {new Date(order.createdAt!).toLocaleDateString()}
+                        {new Date(order.createdAt!).toLocaleDateString("de-CH")}
                       </span>
                     </div>
                   </AccordionTrigger>
@@ -217,10 +224,10 @@ export default function MyOrders({ clinicId }: MyOrdersProps) {
                     <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead>Article #</TableHead>
-                          <TableHead>Description</TableHead>
-                          <TableHead>Qty</TableHead>
-                          <TableHead>Price</TableHead>
+                          <TableHead>Artikel-Nr.</TableHead>
+                          <TableHead>Beschreibung</TableHead>
+                          <TableHead>Menge</TableHead>
+                          <TableHead>Preis</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -241,7 +248,7 @@ export default function MyOrders({ clinicId }: MyOrdersProps) {
           ) : (
             <div className="text-center py-8">
               <ShoppingCart className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">No order history yet</p>
+              <p className="text-muted-foreground">Noch kein Bestellverlauf</p>
             </div>
           )}
         </CardContent>

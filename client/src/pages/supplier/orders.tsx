@@ -53,25 +53,25 @@ export default function OrdersPage({ supplierId }: OrdersPageProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/supplier/orders", supplierId] });
       queryClient.invalidateQueries({ queryKey: ["/api/supplier/stats", supplierId] });
-      toast({ title: "Order status updated" });
+      toast({ title: "Bestellstatus aktualisiert" });
     },
     onError: (error: Error) => {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: "Fehler", description: error.message, variant: "destructive" });
     },
   });
 
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "pending":
-        return <Badge variant="outline" className="bg-chart-3/10 text-chart-3 border-chart-3/20"><Clock className="h-3 w-3 mr-1" />Pending</Badge>;
+        return <Badge variant="outline" className="bg-chart-3/10 text-chart-3 border-chart-3/20"><Clock className="h-3 w-3 mr-1" />Offen</Badge>;
       case "confirmed":
-        return <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20"><CheckCircle className="h-3 w-3 mr-1" />Confirmed</Badge>;
+        return <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20"><CheckCircle className="h-3 w-3 mr-1" />Bestätigt</Badge>;
       case "shipped":
-        return <Badge variant="outline" className="bg-chart-4/10 text-chart-4 border-chart-4/20"><Truck className="h-3 w-3 mr-1" />Shipped</Badge>;
+        return <Badge variant="outline" className="bg-chart-4/10 text-chart-4 border-chart-4/20"><Truck className="h-3 w-3 mr-1" />Versendet</Badge>;
       case "delivered":
-        return <Badge variant="outline" className="bg-accent/10 text-accent border-accent/20"><Package className="h-3 w-3 mr-1" />Delivered</Badge>;
+        return <Badge variant="outline" className="bg-accent/10 text-accent border-accent/20"><Package className="h-3 w-3 mr-1" />Geliefert</Badge>;
       case "cancelled":
-        return <Badge variant="outline" className="bg-destructive/10 text-destructive border-destructive/20"><XCircle className="h-3 w-3 mr-1" />Cancelled</Badge>;
+        return <Badge variant="outline" className="bg-destructive/10 text-destructive border-destructive/20"><XCircle className="h-3 w-3 mr-1" />Storniert</Badge>;
       default:
         return <Badge variant="secondary">{status}</Badge>;
     }
@@ -84,8 +84,8 @@ export default function OrdersPage({ supplierId }: OrdersPageProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold">Orders</h2>
-        <p className="text-muted-foreground">Manage and track customer orders</p>
+        <h2 className="text-2xl font-bold">Bestellungen</h2>
+        <p className="text-muted-foreground">Kundenbestellungen verwalten und verfolgen</p>
       </div>
 
       {/* Pending Orders */}
@@ -93,10 +93,10 @@ export default function OrdersPage({ supplierId }: OrdersPageProps) {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Clock className="h-5 w-5 text-chart-3" />
-            Pending Orders
+            Offene Bestellungen
           </CardTitle>
           <CardDescription>
-            {pendingOrders.length} order{pendingOrders.length !== 1 ? "s" : ""} awaiting confirmation
+            {pendingOrders.length} Bestellung{pendingOrders.length !== 1 ? "en" : ""} warten auf Bestätigung
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -115,9 +115,9 @@ export default function OrdersPage({ supplierId }: OrdersPageProps) {
                         <Building2 className="h-5 w-5 text-chart-3" />
                       </div>
                       <div>
-                        <p className="font-medium">{order.clinic?.name || "Unknown Clinic"}</p>
+                        <p className="font-medium">{order.clinic?.name || "Unbekannte Klinik"}</p>
                         <p className="text-sm text-muted-foreground">
-                          {order.items?.length || 0} items - {new Date(order.createdAt!).toLocaleDateString()}
+                          {order.items?.length || 0} Artikel - {new Date(order.createdAt!).toLocaleDateString("de-CH")}
                         </p>
                       </div>
                     </div>
@@ -130,17 +130,17 @@ export default function OrdersPage({ supplierId }: OrdersPageProps) {
                         disabled={updateStatusMutation.isPending}
                         data-testid={`button-confirm-${order.id}`}
                       >
-                        Confirm
+                        Bestätigen
                       </Button>
                     </div>
                   </div>
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Article #</TableHead>
-                        <TableHead>Description</TableHead>
-                        <TableHead>Qty</TableHead>
-                        <TableHead>Price</TableHead>
+                        <TableHead>Artikel-Nr.</TableHead>
+                        <TableHead>Beschreibung</TableHead>
+                        <TableHead>Menge</TableHead>
+                        <TableHead>Preis</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -160,7 +160,7 @@ export default function OrdersPage({ supplierId }: OrdersPageProps) {
           ) : (
             <div className="text-center py-8">
               <CheckCircle className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">No pending orders</p>
+              <p className="text-muted-foreground">Keine offenen Bestellungen</p>
             </div>
           )}
         </CardContent>
@@ -171,10 +171,10 @@ export default function OrdersPage({ supplierId }: OrdersPageProps) {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Truck className="h-5 w-5 text-chart-4" />
-            Active Orders
+            Aktive Bestellungen
           </CardTitle>
           <CardDescription>
-            Orders being processed or shipped
+            Bestellungen in Bearbeitung oder Versand
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -188,9 +188,9 @@ export default function OrdersPage({ supplierId }: OrdersPageProps) {
                 <div key={order.id} className="flex items-center justify-between gap-4 p-4 rounded-lg border">
                   <div className="flex items-center gap-3">
                     <div>
-                      <p className="font-medium">{order.clinic?.name || "Unknown"}</p>
+                      <p className="font-medium">{order.clinic?.name || "Unbekannt"}</p>
                       <p className="text-sm text-muted-foreground">
-                        {order.items?.length} items - {order.totalAmount} CHF
+                        {order.items?.length} Artikel - {order.totalAmount} CHF
                       </p>
                     </div>
                   </div>
@@ -204,10 +204,10 @@ export default function OrdersPage({ supplierId }: OrdersPageProps) {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="confirmed">Confirmed</SelectItem>
-                        <SelectItem value="shipped">Shipped</SelectItem>
-                        <SelectItem value="delivered">Delivered</SelectItem>
-                        <SelectItem value="cancelled">Cancelled</SelectItem>
+                        <SelectItem value="confirmed">Bestätigt</SelectItem>
+                        <SelectItem value="shipped">Versendet</SelectItem>
+                        <SelectItem value="delivered">Geliefert</SelectItem>
+                        <SelectItem value="cancelled">Storniert</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -217,7 +217,7 @@ export default function OrdersPage({ supplierId }: OrdersPageProps) {
           ) : (
             <div className="text-center py-8">
               <ShoppingCart className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">No active orders</p>
+              <p className="text-muted-foreground">Keine aktiven Bestellungen</p>
             </div>
           )}
         </CardContent>
@@ -228,10 +228,10 @@ export default function OrdersPage({ supplierId }: OrdersPageProps) {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <ShoppingCart className="h-5 w-5" />
-            Order History
+            Bestellverlauf
           </CardTitle>
           <CardDescription>
-            Completed and cancelled orders
+            Abgeschlossene und stornierte Bestellungen
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -245,11 +245,11 @@ export default function OrdersPage({ supplierId }: OrdersPageProps) {
                 <AccordionItem key={order.id} value={order.id}>
                   <AccordionTrigger className="hover:no-underline">
                     <div className="flex items-center gap-4 flex-1 pr-4">
-                      <span className="font-medium">{order.clinic?.name || "Unknown"}</span>
+                      <span className="font-medium">{order.clinic?.name || "Unbekannt"}</span>
                       {getStatusBadge(order.status)}
                       <span className="text-sm text-muted-foreground">{order.totalAmount} CHF</span>
                       <span className="text-sm text-muted-foreground ml-auto">
-                        {new Date(order.createdAt!).toLocaleDateString()}
+                        {new Date(order.createdAt!).toLocaleDateString("de-CH")}
                       </span>
                     </div>
                   </AccordionTrigger>
@@ -257,10 +257,10 @@ export default function OrdersPage({ supplierId }: OrdersPageProps) {
                     <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead>Article #</TableHead>
-                          <TableHead>Description</TableHead>
-                          <TableHead>Qty</TableHead>
-                          <TableHead>Price</TableHead>
+                          <TableHead>Artikel-Nr.</TableHead>
+                          <TableHead>Beschreibung</TableHead>
+                          <TableHead>Menge</TableHead>
+                          <TableHead>Preis</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -281,7 +281,7 @@ export default function OrdersPage({ supplierId }: OrdersPageProps) {
           ) : (
             <div className="text-center py-8">
               <ShoppingCart className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">No order history yet</p>
+              <p className="text-muted-foreground">Noch kein Bestellverlauf</p>
             </div>
           )}
         </CardContent>

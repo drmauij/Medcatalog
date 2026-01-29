@@ -16,28 +16,28 @@ interface ClinicOverviewProps {
 export default function ClinicOverview({ clinic, stats, isLoading }: ClinicOverviewProps) {
   const statCards = [
     {
-      title: "Pending Quotations",
+      title: "Offene Offerten",
       value: stats?.pendingQuotations ?? 0,
       icon: FileText,
       color: "text-chart-3",
       bgColor: "bg-chart-3/10",
-      description: "Awaiting supplier response",
+      description: "Warten auf Lieferantenantwort",
     },
     {
-      title: "Active Orders",
+      title: "Aktive Bestellungen",
       value: stats?.activeOrders ?? 0,
       icon: ShoppingCart,
       color: "text-primary",
       bgColor: "bg-primary/10",
-      description: "Orders in progress",
+      description: "Bestellungen in Bearbeitung",
     },
     {
-      title: "Total Orders",
+      title: "Gesamte Bestellungen",
       value: stats?.totalOrders ?? 0,
       icon: Package,
       color: "text-accent",
       bgColor: "bg-accent/10",
-      description: "All time orders",
+      description: "Alle bisherigen Bestellungen",
     },
   ];
 
@@ -45,9 +45,9 @@ export default function ClinicOverview({ clinic, stats, isLoading }: ClinicOverv
     <div className="space-y-6">
       {/* Welcome Section */}
       <div className="space-y-2">
-        <h2 className="text-2xl font-bold">Welcome back!</h2>
+        <h2 className="text-2xl font-bold">Willkommen zurück!</h2>
         <p className="text-muted-foreground">
-          Manage your orders and quotations for {clinic.name}
+          Verwalten Sie Ihre Bestellungen und Offerten für {clinic.name}
         </p>
       </div>
 
@@ -82,10 +82,10 @@ export default function ClinicOverview({ clinic, stats, isLoading }: ClinicOverv
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <TrendingUp className="h-5 w-5" />
-            Quick Actions
+            Schnellaktionen
           </CardTitle>
           <CardDescription>
-            Common tasks to get you started
+            Häufige Aufgaben für den Einstieg
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -96,8 +96,8 @@ export default function ClinicOverview({ clinic, stats, isLoading }: ClinicOverv
                   <Store className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="font-medium">Browse Catalog</p>
-                  <p className="text-xs text-muted-foreground">Find products you need</p>
+                  <p className="font-medium">Katalog durchsuchen</p>
+                  <p className="text-xs text-muted-foreground">Benötigte Produkte finden</p>
                 </div>
               </CardContent>
             </Card>
@@ -107,8 +107,8 @@ export default function ClinicOverview({ clinic, stats, isLoading }: ClinicOverv
                   <FileText className="h-5 w-5 text-chart-3" />
                 </div>
                 <div>
-                  <p className="font-medium">Request Quotation</p>
-                  <p className="text-xs text-muted-foreground">Get pricing for items</p>
+                  <p className="font-medium">Offerte anfordern</p>
+                  <p className="text-xs text-muted-foreground">Preise für Artikel erhalten</p>
                 </div>
               </CardContent>
             </Card>
@@ -118,8 +118,8 @@ export default function ClinicOverview({ clinic, stats, isLoading }: ClinicOverv
                   <ShoppingCart className="h-5 w-5 text-accent" />
                 </div>
                 <div>
-                  <p className="font-medium">View Orders</p>
-                  <p className="text-xs text-muted-foreground">Track your orders</p>
+                  <p className="font-medium">Bestellungen ansehen</p>
+                  <p className="text-xs text-muted-foreground">Ihre Bestellungen verfolgen</p>
                 </div>
               </CardContent>
             </Card>
@@ -130,8 +130,8 @@ export default function ClinicOverview({ clinic, stats, isLoading }: ClinicOverv
       {/* Activity Summary */}
       <Card>
         <CardHeader>
-          <CardTitle>Recent Activity</CardTitle>
-          <CardDescription>Your latest updates</CardDescription>
+          <CardTitle>Letzte Aktivitäten</CardTitle>
+          <CardDescription>Ihre neuesten Aktualisierungen</CardDescription>
         </CardHeader>
         <CardContent>
           {isLoading ? (
@@ -148,9 +148,9 @@ export default function ClinicOverview({ clinic, stats, isLoading }: ClinicOverv
                   </div>
                   <div>
                     <p className="text-sm font-medium">
-                      {stats.pendingQuotations} pending quotation{stats.pendingQuotations > 1 ? "s" : ""}
+                      {stats.pendingQuotations} offene Offerte{stats.pendingQuotations > 1 ? "n" : ""}
                     </p>
-                    <p className="text-xs text-muted-foreground">Waiting for supplier pricing</p>
+                    <p className="text-xs text-muted-foreground">Warten auf Lieferantenpreise</p>
                   </div>
                 </div>
               )}
@@ -161,16 +161,16 @@ export default function ClinicOverview({ clinic, stats, isLoading }: ClinicOverv
                   </div>
                   <div>
                     <p className="text-sm font-medium">
-                      {stats.activeOrders} active order{stats.activeOrders > 1 ? "s" : ""}
+                      {stats.activeOrders} aktive Bestellung{stats.activeOrders > 1 ? "en" : ""}
                     </p>
-                    <p className="text-xs text-muted-foreground">Orders being processed</p>
+                    <p className="text-xs text-muted-foreground">Bestellungen in Bearbeitung</p>
                   </div>
                 </div>
               )}
             </div>
           ) : (
             <p className="text-muted-foreground text-sm text-center py-8">
-              No recent activity. Start by browsing the catalog!
+              Keine aktuellen Aktivitäten. Stöbern Sie im Katalog!
             </p>
           )}
         </CardContent>

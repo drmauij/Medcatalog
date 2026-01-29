@@ -34,10 +34,10 @@ import MyQuotations from "./my-quotations";
 import MyOrders from "./my-orders";
 
 const menuItems = [
-  { id: "overview", title: "Overview", icon: LayoutDashboard },
-  { id: "catalog", title: "Browse Catalog", icon: Store },
-  { id: "quotations", title: "My Quotations", icon: FileText },
-  { id: "orders", title: "My Orders", icon: ShoppingCart },
+  { id: "overview", title: "Übersicht", icon: LayoutDashboard },
+  { id: "catalog", title: "Katalog durchsuchen", icon: Store },
+  { id: "quotations", title: "Meine Offerten", icon: FileText },
+  { id: "orders", title: "Meine Bestellungen", icon: ShoppingCart },
 ];
 
 interface ClinicDashboardProps {
@@ -76,6 +76,11 @@ export default function ClinicDashboard({ clinic }: ClinicDashboardProps) {
     }
   };
 
+  const getPageTitle = () => {
+    const item = menuItems.find(m => m.id === activeTab);
+    return item?.title || "Übersicht";
+  };
+
   return (
     <SidebarProvider style={style as React.CSSProperties}>
       <div className="flex h-screen w-full">
@@ -87,13 +92,13 @@ export default function ClinicDashboard({ clinic }: ClinicDashboardProps) {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="font-semibold text-sm truncate">{clinic.name}</p>
-                <p className="text-xs text-muted-foreground">Clinic Portal</p>
+                <p className="text-xs text-muted-foreground">Klinikportal</p>
               </div>
             </div>
           </SidebarHeader>
           <SidebarContent>
             <SidebarGroup>
-              <SidebarGroupLabel>Menu</SidebarGroupLabel>
+              <SidebarGroupLabel>Menü</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
                   {menuItems.map((item) => (
@@ -132,7 +137,7 @@ export default function ClinicDashboard({ clinic }: ClinicDashboardProps) {
               </Avatar>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium truncate">
-                  {user?.firstName || user?.email || "User"}
+                  {user?.firstName || user?.email || "Benutzer"}
                 </p>
                 <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
               </div>
@@ -152,7 +157,7 @@ export default function ClinicDashboard({ clinic }: ClinicDashboardProps) {
           <header className="flex items-center justify-between gap-4 p-4 border-b bg-background/95 backdrop-blur">
             <div className="flex items-center gap-2">
               <SidebarTrigger data-testid="button-sidebar-toggle" />
-              <h1 className="font-semibold text-lg capitalize">{activeTab === "catalog" ? "Browse Catalog" : activeTab}</h1>
+              <h1 className="font-semibold text-lg">{getPageTitle()}</h1>
             </div>
             <ThemeToggle />
           </header>

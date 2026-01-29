@@ -17,28 +17,28 @@ interface SupplierOverviewProps {
 export default function SupplierOverview({ supplier, stats, isLoading }: SupplierOverviewProps) {
   const statCards = [
     {
-      title: "Categories",
+      title: "Kategorien",
       value: stats?.categories ?? 0,
       icon: FolderTree,
       color: "text-primary",
       bgColor: "bg-primary/10",
     },
     {
-      title: "Products",
+      title: "Produkte",
       value: stats?.products ?? 0,
       icon: Package,
       color: "text-accent",
       bgColor: "bg-accent/10",
     },
     {
-      title: "Pending Quotations",
+      title: "Offene Offerten",
       value: stats?.pendingQuotations ?? 0,
       icon: FileText,
       color: "text-chart-3",
       bgColor: "bg-chart-3/10",
     },
     {
-      title: "Pending Orders",
+      title: "Offene Bestellungen",
       value: stats?.pendingOrders ?? 0,
       icon: ShoppingCart,
       color: "text-chart-4",
@@ -50,9 +50,9 @@ export default function SupplierOverview({ supplier, stats, isLoading }: Supplie
     <div className="space-y-6">
       {/* Welcome Section */}
       <div className="space-y-2">
-        <h2 className="text-2xl font-bold">Welcome back!</h2>
+        <h2 className="text-2xl font-bold">Willkommen zurück!</h2>
         <p className="text-muted-foreground">
-          Here's an overview of your catalog and activity for {supplier.name}
+          Hier ist eine Übersicht Ihres Katalogs und Ihrer Aktivitäten für {supplier.name}
         </p>
       </div>
 
@@ -84,10 +84,10 @@ export default function SupplierOverview({ supplier, stats, isLoading }: Supplie
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <TrendingUp className="h-5 w-5" />
-            Quick Actions
+            Schnellaktionen
           </CardTitle>
           <CardDescription>
-            Common tasks to manage your catalog
+            Häufige Aufgaben zur Verwaltung Ihres Katalogs
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -98,8 +98,8 @@ export default function SupplierOverview({ supplier, stats, isLoading }: Supplie
                   <Package className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="font-medium">Add Product</p>
-                  <p className="text-xs text-muted-foreground">Add a new product to catalog</p>
+                  <p className="font-medium">Produkt hinzufügen</p>
+                  <p className="text-xs text-muted-foreground">Neues Produkt zum Katalog hinzufügen</p>
                 </div>
               </CardContent>
             </Card>
@@ -109,8 +109,8 @@ export default function SupplierOverview({ supplier, stats, isLoading }: Supplie
                   <FolderTree className="h-5 w-5 text-accent" />
                 </div>
                 <div>
-                  <p className="font-medium">Manage Categories</p>
-                  <p className="text-xs text-muted-foreground">Organize your products</p>
+                  <p className="font-medium">Kategorien verwalten</p>
+                  <p className="text-xs text-muted-foreground">Produkte organisieren</p>
                 </div>
               </CardContent>
             </Card>
@@ -120,8 +120,8 @@ export default function SupplierOverview({ supplier, stats, isLoading }: Supplie
                   <FileText className="h-5 w-5 text-chart-3" />
                 </div>
                 <div>
-                  <p className="font-medium">Review Quotations</p>
-                  <p className="text-xs text-muted-foreground">Respond to pricing requests</p>
+                  <p className="font-medium">Offerten prüfen</p>
+                  <p className="text-xs text-muted-foreground">Auf Preisanfragen antworten</p>
                 </div>
               </CardContent>
             </Card>
@@ -132,8 +132,8 @@ export default function SupplierOverview({ supplier, stats, isLoading }: Supplie
       {/* Recent Activity Placeholder */}
       <Card>
         <CardHeader>
-          <CardTitle>Recent Activity</CardTitle>
-          <CardDescription>Latest updates and actions</CardDescription>
+          <CardTitle>Letzte Aktivitäten</CardTitle>
+          <CardDescription>Neueste Aktualisierungen und Aktionen</CardDescription>
         </CardHeader>
         <CardContent>
           {isLoading ? (
@@ -151,9 +151,9 @@ export default function SupplierOverview({ supplier, stats, isLoading }: Supplie
                   </div>
                   <div>
                     <p className="text-sm font-medium">
-                      {stats.pendingQuotations} pending quotation{stats.pendingQuotations > 1 ? "s" : ""}
+                      {stats.pendingQuotations} offene Offertanfrage{stats.pendingQuotations > 1 ? "n" : ""}
                     </p>
-                    <p className="text-xs text-muted-foreground">Awaiting your response</p>
+                    <p className="text-xs text-muted-foreground">Warten auf Ihre Antwort</p>
                   </div>
                 </div>
               )}
@@ -164,16 +164,16 @@ export default function SupplierOverview({ supplier, stats, isLoading }: Supplie
                   </div>
                   <div>
                     <p className="text-sm font-medium">
-                      {stats.pendingOrders} pending order{stats.pendingOrders > 1 ? "s" : ""}
+                      {stats.pendingOrders} offene Bestellung{stats.pendingOrders > 1 ? "en" : ""}
                     </p>
-                    <p className="text-xs text-muted-foreground">Awaiting confirmation</p>
+                    <p className="text-xs text-muted-foreground">Warten auf Bestätigung</p>
                   </div>
                 </div>
               )}
             </div>
           ) : (
             <p className="text-muted-foreground text-sm text-center py-8">
-              No recent activity
+              Keine aktuellen Aktivitäten
             </p>
           )}
         </CardContent>

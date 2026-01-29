@@ -51,10 +51,10 @@ export default function CategoriesPage({ supplierId }: CategoriesPageProps) {
       queryClient.invalidateQueries({ queryKey: ["/api/supplier/stats", supplierId] });
       setIsAddOpen(false);
       setCategoryName("");
-      toast({ title: "Category created successfully" });
+      toast({ title: "Kategorie erfolgreich erstellt" });
     },
     onError: (error: Error) => {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: "Fehler", description: error.message, variant: "destructive" });
     },
   });
 
@@ -66,10 +66,10 @@ export default function CategoriesPage({ supplierId }: CategoriesPageProps) {
       queryClient.invalidateQueries({ queryKey: ["/api/categories", supplierId] });
       setEditCategory(null);
       setCategoryName("");
-      toast({ title: "Category updated successfully" });
+      toast({ title: "Kategorie erfolgreich aktualisiert" });
     },
     onError: (error: Error) => {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: "Fehler", description: error.message, variant: "destructive" });
     },
   });
 
@@ -80,10 +80,10 @@ export default function CategoriesPage({ supplierId }: CategoriesPageProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/categories", supplierId] });
       queryClient.invalidateQueries({ queryKey: ["/api/supplier/stats", supplierId] });
-      toast({ title: "Category deleted successfully" });
+      toast({ title: "Kategorie erfolgreich gelöscht" });
     },
     onError: (error: Error) => {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: "Fehler", description: error.message, variant: "destructive" });
     },
   });
 
@@ -106,31 +106,31 @@ export default function CategoriesPage({ supplierId }: CategoriesPageProps) {
     <div className="space-y-6">
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div>
-          <h2 className="text-2xl font-bold">Categories</h2>
-          <p className="text-muted-foreground">Manage your product categories</p>
+          <h2 className="text-2xl font-bold">Kategorien</h2>
+          <p className="text-muted-foreground">Verwalten Sie Ihre Produktkategorien</p>
         </div>
         <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
           <DialogTrigger asChild>
             <Button data-testid="button-add-category">
               <Plus className="h-4 w-4 mr-2" />
-              Add Category
+              Kategorie hinzufügen
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Add Category</DialogTitle>
+              <DialogTitle>Kategorie hinzufügen</DialogTitle>
               <DialogDescription>
-                Create a new product category
+                Erstellen Sie eine neue Produktkategorie
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4 py-4">
               <div className="space-y-2">
-                <Label htmlFor="name">Category Name</Label>
+                <Label htmlFor="name">Kategoriename</Label>
                 <Input
                   id="name"
                   value={categoryName}
                   onChange={(e) => setCategoryName(e.target.value)}
-                  placeholder="e.g., Airway Management"
+                  placeholder="z.B. Airway Management"
                   data-testid="input-category-name"
                 />
               </div>
@@ -143,14 +143,14 @@ export default function CategoriesPage({ supplierId }: CategoriesPageProps) {
                   setCategoryName("");
                 }}
               >
-                Cancel
+                Abbrechen
               </Button>
               <Button
                 onClick={handleAdd}
                 disabled={!categoryName.trim() || createMutation.isPending}
                 data-testid="button-save-category"
               >
-                {createMutation.isPending ? "Creating..." : "Create"}
+                {createMutation.isPending ? "Wird erstellt..." : "Erstellen"}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -161,14 +161,14 @@ export default function CategoriesPage({ supplierId }: CategoriesPageProps) {
       <Dialog open={!!editCategory} onOpenChange={(open) => !open && setEditCategory(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit Category</DialogTitle>
+            <DialogTitle>Kategorie bearbeiten</DialogTitle>
             <DialogDescription>
-              Update the category name
+              Aktualisieren Sie den Kategorienamen
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="edit-name">Category Name</Label>
+              <Label htmlFor="edit-name">Kategoriename</Label>
               <Input
                 id="edit-name"
                 value={categoryName}
@@ -179,13 +179,13 @@ export default function CategoriesPage({ supplierId }: CategoriesPageProps) {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setEditCategory(null)}>
-              Cancel
+              Abbrechen
             </Button>
             <Button
               onClick={handleEdit}
               disabled={!categoryName.trim() || updateMutation.isPending}
             >
-              {updateMutation.isPending ? "Saving..." : "Save"}
+              {updateMutation.isPending ? "Wird gespeichert..." : "Speichern"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -196,10 +196,10 @@ export default function CategoriesPage({ supplierId }: CategoriesPageProps) {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <FolderTree className="h-5 w-5" />
-            All Categories
+            Alle Kategorien
           </CardTitle>
           <CardDescription>
-            {categories?.length ?? 0} categories in your catalog
+            {categories?.length ?? 0} Kategorien in Ihrem Katalog
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -214,7 +214,7 @@ export default function CategoriesPage({ supplierId }: CategoriesPageProps) {
               <TableHeader>
                 <TableRow>
                   <TableHead>Name</TableHead>
-                  <TableHead className="w-32">Actions</TableHead>
+                  <TableHead className="w-32">Aktionen</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -249,9 +249,9 @@ export default function CategoriesPage({ supplierId }: CategoriesPageProps) {
           ) : (
             <div className="text-center py-12">
               <FolderTree className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">No categories yet</p>
+              <p className="text-muted-foreground">Noch keine Kategorien</p>
               <p className="text-sm text-muted-foreground">
-                Add your first category to organize products
+                Fügen Sie Ihre erste Kategorie hinzu, um Produkte zu organisieren
               </p>
             </div>
           )}
