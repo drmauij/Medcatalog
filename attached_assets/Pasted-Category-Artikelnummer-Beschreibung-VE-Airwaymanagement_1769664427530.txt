@@ -1,0 +1,468 @@
+Category	Artikelnummer	Beschreibung	VE
+Airwaymanagement	Q112218N-IGS	Q-Tube Beatmungsschlauch-Set, 1.80 m, Winkelstück, integrierte CO2-Leitung	30
+Airwaymanagement	Q112218N-IGS12BC2L	Q-Tube Beatmungsschlauch-Set, 1.80 m, Winkelstück, 2L Beutel mit Ring, 1.20 m Schlauch, integrierte CO2-Leitung	30
+Airwaymanagement	Q112218N-IGSGE12BC2L	Q-Tube Beatmungsschlauch-Set, 1.80 m, Winkelstück, 2L Beutel mit Ring, 1.20 m Schlauch, integrierte CO2-Leitung, ABS GE Konnektor	30
+Airwaymanagement	Q112218P	Q-Tube Beatmungsschlauch, 1.80 m, Winkelstück, CO2-Anschluss	30
+Airwaymanagement	Q112224N-IGS	Q-Tube Beatmungsschlauch, 2.40 m, Winkelstück	30
+Airwaymanagement	Q112218N-IGS12CC2LW4	Q-Tube Beatmungsschlauch, 1.80 m, Winkelstück, 2L Beutel mit Ring, 1.20 m Schlauch, integrierte CO2-Leitung, 2 Wasserfallen	20
+Airwaymanagement	Q112224N-IGS12CC2LW4	Q-Tube Beatmungsschlauch, 2.40 m, Winkelstück, 2L Beutel mit Ring, 1.20 m Schlauch, integrierte CO2-Leitung, 2 Wasserfallen	20
+Airwaymanagement	Q112224N-IGS12BC2L	Q-Tube Beatmungsschlauch-Set, 2.40 m, Winkelstück, 2L Beutel mit Ring, 1.20 m Schlauch, integrierte CO2-Leitung	25
+Airwaymanagement	Q112230N-IGS	Q-Tube Beatmungsschlauch, 3.00 m, Winkelstück, integrierte CO2-Leitung	30
+Airwaymanagement	Q112230N-IGS12BC2L	Q-Tube Beatmungsschlauch-Set, 3.00 m, Winkelstück, 2L Beutel mit Ring, 1.20 m Schlauch, integrierte CO2-Leitung	20
+Airwaymanagement	Q112230P	Q-Tube Beatmungsschlauch, 3.00 m, Winkelstück, CO2-Anschluss	30
+Airwaymanagement	Q112230P-30BE2L	Q-Tube Beatmungsschlauch-Set, 3.00 m, Winkelstück, CO2-Anschluss, 2L Beutel mit Ring, Schlauch 0.90 - 3.00 m adaptierbar	20
+Airwaymanagement	Q712218N-IGS	Q-Guard Beatmungsschlauch, 1.80 m, Winkelstück, integrierte CO2-Leitung	30
+Airwaymanagement	Q712218N-IGS12BC2L	Q-Guard Beatmungsschlauch-Set, 1.80 m, Winkelstück, 2L Beutel mit Ring, 1.20 m Schlauch, integrierte CO2-Leitung	30
+Airwaymanagement	Q712218N-IGSGE12BC2L	Q-Guard Beatmungsschlauch-Set, 1.80 m, Winkelstück, 2L Beutel mit Ring, 1.20 m Schlauch, integrierte CO2-Leitung, ABS GE Konnektor	30
+Airwaymanagement	Q712218P	Q-Guard Beatmungsschlauch, 1.80 m, Winkelstück, CO2-Anschluss	30
+Airwaymanagement	Q712218P-GE12BC2L	Q-Guard Beatumungsschlauch-Set, 1.20 m, Winkelstück, CO2-Anschluss, 2L Beutel mit Ring, 1.20 m Schlauch, ABS GE Konnektor	30
+Airwaymanagement	Q712224N-IGS12BC2L	Q-Guard Beatmungsschlauch-Set, 2.40 m, Winkelstück, 2L Beutel mit Ring, 1.20 m Schlauch, integrierte CO2-Leitung	25
+Airwaymanagement	Q712230N-IGS12BC2L	Q-Guard Beatmungsschlauch-Set, 3.00 m, Winkelstück, CO2-Anschluss, 2L Beutel mit Ring, 1.20 m Schlauch, integrierte CO2-Leitung	20
+Airwaymanagement	VS AFNXXXXX	Limbo Beatmungsschlauch, 1.83 m, Winkelstück, CO2-Anschluss	20
+Airwaymanagement	VS AFPXXXXX	Limbo Beatmungsschlauch, 2.74 m, Winkelstück, CO2-Anschluss	20
+Airwaymanagement	VS GPAXXXXX	Limbo Beatmungsschlauch-Set, 1.83 m, Winkelstück, CO2-Anschluss, 2L Beutel mit 1.00 m Schlauch, integrierte CO2-Leitung, Generic Konnektor	15
+Airwaymanagement	VS GURXXXXX	Limbo Beatmungsschlauch-Set, 2.74 m, Winkelstück, 2L Beutel mit 1.80 m Schlauch, Spirometrie, HMEF 750S, Generic Konnektor	15
+Airwaymanagement	T41500M	Trident Beatmungsschlauch, koaxial, 1.50 m, Pädiatrie	15
+Airwaymanagement	T62000M	Trident Beatmungsschlauch, koaxial, 2.00 m	25
+Airwaymanagement	T63000M	Trident Beatmungsschlauch, koaxial, 3.00 m	15
+Airwaymanagement	M1036386	Atembeutel 1L, F 22 mm	20
+Airwaymanagement	M1036387	Atembeutel 2L, F 22 mm	20
+Airwaymanagement	QPRB005A	Atembeutel 0.5L, 7 day's, Einweg	10
+Airwaymanagement	QPRB010A	Atembeutel 1L, 7 day's, Einweg	10
+Airwaymanagement	M1019521	Atembeutel 2L mit 1.80 m Schlauch	20
+Airwaymanagement	QGE12BC2L	Q-Tube Atembeutel 2L, 7 day's mit 1.20 m Schlauch, ABS GE Konnektor, Einweg	40
+Airwaymanagement	8004382	D-lite+ Spirometrie-Set (feucht), 3.00 m	20
+Airwaymanagement	73318	CO2-Messleitung, m/m, Luer, 2.00 m	10
+Airwaymanagement	73319	CO2-Messleitung, m/m, Luer, 3.00 m	10
+Airwaymanagement	733170	CO2-Messleitung, m/m, abgewinkelt, 3.00 m, 10FR	10
+Airwaymanagement	884101	Spirometrie-Schlauch, 3.00 m (Erwachsene/Kinder)	5
+Airwaymanagement	8001948	Pedi-Lite+ Spirometrie-Sensor (feucht), Einweg	50
+Airwaymanagement	73393	Pedi-Lite Spirometrie Sensor, transparent, gelb, Mehrweg	1
+Airwaymanagement	VS 124030EU	Respirgard II Verneblersystem mit Filter für Pentamidine	20
+Airwaymanagement	557070100	Filter HMEF 1000/S mit integriertem Bakterien/Viren-Filter, Erwachsene	50
+Airwaymanagement	557022500	Uni-Filter/S, Bakterien/Viren-Filter	60
+Airwaymanagement	M1010534	Filter HMEF 1000/S abgewinkelt, mit CO2-Anschluss	50
+Airwaymanagement	M1004132	Filter HMEF 750/S mit integriertem Bakterien/Viren-Filter, Erwachsene	50
+Airwaymanagement	M1010538	Filter HMEF 750/S abgewinkelt, mit integriertem Bakterien/Viren-Filter, Erwachsene	50
+Airwaymanagement	557070500	Filter HMEF 500/S, Kinder	75
+Airwaymanagement	8004231	Filter HMEF Mini/S mit integriertem Bakterien/Viren-Filter, Kinder	50
+Airwaymanagement	2106570-008	HEPA Filter	50
+Airwaymanagement	2105489-003	Amsorb Plus, vorgefüllter Absorber für Aisys/Avance	8
+Airwaymanagement	2105489-006	Amsorb Plus, vorgefüllter Absorber für CS650/750	8
+Airwaymanagement	8003138	Medisorb Multi-Absorber, für Aespire/Avance/Aisys	6
+Airwaymanagement	2079796-001	Medisorb Ex Absorber, für CS650/750	6
+Airwaymanagement	8570043	Medisorb Absorber, weiss zu violett (2 x 4.5 kg)	2
+Airwaymanagement	427000100	Medisorb Multi-Absorber, weiss zu violett, für Aespire/Avance/Aisys	12
+Airwaymanagement	VS 4810	Beatmungsmaske Lite, Neonatal, Gr. 1	20
+Airwaymanagement	VS 4820	Beatmungsmaske Lite, Kleinkind, Gr. 2	20
+Airwaymanagement	VS 4830	Beatmungsmaske Lite, Kleinkind, Gr. 3	20
+Airwaymanagement	VS 4840	Beatmungsmaske Lite, Kind, Gr. 4	20
+Airwaymanagement	VS 4852	Beatmungsmaske Lite, Erwachsene, klein, Gr. 5	20
+Airwaymanagement	VS 4860	Beatmungsmaske Lite, Erwachsene, mittel, Gr. 6	20
+Airwaymanagement	VS 6830	Beatmungsmaske, Kleinkind, Gr. 3	20
+Airwaymanagement	VS 6840	Beatmungsmaske, Kind + kleine Erwachsene, Gr. 4	20
+Airwaymanagement	VS 6850	Beatmungsmaske, Erwachsene, Gr. 5	20
+Airwaymanagement	VS 6860	Beatmungsmaske, Erwachsene, gross, Gr. 6	20
+Airwaymanagement	PAR-I-PFHV-30	Endotracheal-Tubus, Hivo-Lopr, cuffed, 3.0 mm	10
+Airwaymanagement	PAR-I-PFHV-35	Endotracheal-Tubus, Hivo-Lopr, cuffed, 3.5 mm	10
+Airwaymanagement	PAR-I-PFHV-40	Endotracheal-Tubus, Hivo-Lopr, cuffed, 4.0 mm	10
+Airwaymanagement	PAR-I-PFHV-45	Endotracheal-Tubus, Hivo-Lopr, cuffed, 4.5 mm	10
+Airwaymanagement	PAR-I-PFHV-50	Endotracheal-Tubus, Hivo-Lopr, cuffed, 5.0 mm	10
+Airwaymanagement	PAR-I-PFHV-55	Endotracheal-Tubus, Hivo-Lopr, cuffed, 5.5 mm	10
+Airwaymanagement	PAR-I-PFHV-60	Endotracheal-Tubus, Hivo-Lopr, cuffed, 6.0 mm	10
+Airwaymanagement	PAR-I-PFHV-65	Endotracheal-Tubus, Hivo-Lopr, cuffed, 6.5 mm	10
+Airwaymanagement	PAR-I-PFHV-70	Endotracheal-Tubus, Hivo-Lopr, cuffed, 7.0 mm	10
+Airwaymanagement	PAR-I-PFHV-75	Endotracheal-Tubus, Hivo-Lopr, cuffed, 7.5 mm	10
+Airwaymanagement	PAR-I-PFHV-80	Endotracheal-Tubus, Hivo-Lopr, cuffed, 8.0 mm	10
+Airwaymanagement	PAR-I-PFHV-85	Endotracheal-Tubus, Hivo-Lopr, cuffed, 8.5 mm	10
+Airwaymanagement	PAR-I-PFHV-90	Endotracheal-Tubus, Hivo-Lopr, cuffed, 9.0 mm	10
+Airwaymanagement	PAR-I-PFHV-95	Endotracheal-Tubus, Hivo-Lopr, cuffed, 9.5 mm	10
+Airwaymanagement	PAR-I-PFST-40	Endotracheal-Tubus, Hivo-Lopr, cuffed, 4.0 mm, mit Aluminium-Mandrin	10
+Airwaymanagement	PAR-I-PFST-45	Endotracheal-Tubus, Hivo-Lopr, cuffed, 4.5 mm, mit Aluminium-Mandrin	10
+Airwaymanagement	PAR-I-PFST-50	Endotracheal-Tubus, Hivo-Lopr, cuffed, 5.0 mm, mit Aluminium-Mandrin	10
+Airwaymanagement	PAR-I-PFST-55	Endotracheal-Tubus, Hivo-Lopr, cuffed, 5.5 mm, mit Aluminium-Mandrin	10
+Airwaymanagement	PAR-I-PFST-60	Endotracheal-Tubus, Hivo-Lopr, cuffed, 6.0 mm, mit Aluminium-Mandrin	10
+Airwaymanagement	PAR-I-PFST-65	Endotracheal-Tubus, Hivo-Lopr, cuffed, 6.5 mm, mit Aluminium-Mandrin	10
+Airwaymanagement	PAR-I-PFST-70	Endotracheal-Tubus, Hivo-Lopr, cuffed, 7.0 mm, mit Aluminium-Mandrin	10
+Airwaymanagement	PAR-I-PFST-75	Endotracheal-Tubus, Hivo-Lopr, cuffed, 7.5 mm, mit Aluminium-Mandrin	10
+Airwaymanagement	PAR-I-PFST-80	Endotracheal-Tubus, Hivo-Lopr, cuffed, 8.0 mm, mit Aluminium-Mandrin	10
+Airwaymanagement	PAR-I-PFST-85	Endotracheal-Tubus, Hivo-Lopr, cuffed, 8.5 mm, mit Aluminium-Mandrin	10
+Airwaymanagement	PAR-I-PFST-90	Endotracheal-Tubus, Hivo-Lopr, cuffed, 9.0 mm, mit Aluminium-Mandrin	10
+Airwaymanagement	PAR-I-PFST-95	Endotracheal-Tubus, Hivo-Lopr, cuffed, 9.5 mm, mit Aluminium-Mandrin	10
+Airwaymanagement	PAR-I-PFNC-30	Endotracheal-Tubus, vorgeformt nasal, cuffed, 3.0 mm	5
+Airwaymanagement	PAR-I-PFNC-35	Endotracheal-Tubus, vorgeformt nasal, cuffed, 3.5 mm	5
+Airwaymanagement	PAR-I-PFNC-40	Endotracheal-Tubus, vorgeformt nasal, cuffed, 4.0 mm	5
+Airwaymanagement	PAR-I-PFNC-45	Endotracheal-Tubus, vorgeformt nasal, cuffed, 4.5 mm	5
+Airwaymanagement	PAR-I-PFNC-50	Endotracheal-Tubus, vorgeformt nasal, cuffed, 5.0 mm	5
+Airwaymanagement	PAR-I-PFNC-55	Endotracheal-Tubus, vorgeformt nasal, cuffed, 5.5 mm	5
+Airwaymanagement	PAR-I-PFNC-60	Endotracheal-Tubus, vorgeformt nasal, cuffed, 6.0 mm	5
+Airwaymanagement	PAR-I-PFNC-65	Endotracheal-Tubus, vorgeformt nasal, cuffed, 6.5 mm	5
+Airwaymanagement	PAR-I-PFNC-70	Endotracheal-Tubus, vorgeformt nasal, cuffed, 7.0 mm	5
+Airwaymanagement	PAR-I-PFNC-75	Endotracheal-Tubus, vorgeformt nasal, cuffed, 7.5 mm	5
+Airwaymanagement	PAR-I-PFNC-80	Endotracheal-Tubus, vorgeformt nasal, cuffed, 8.0 mm	5
+Airwaymanagement	PAR-I-PFNC-85	Endotracheal-Tubus, vorgeformt nasal, cuffed, 8.5 mm	5
+Airwaymanagement	PAR-I-PFNC-90	Endotracheal-Tubus, vorgeformt nasal, cuffed, 9.0 mm	5
+Airwaymanagement	PAR-I-PFOC-30	Endotracheal-Tubus, vorgeformt oral, cuffed, 3.0 mm	10
+Airwaymanagement	PAR-I-PFOC-35	Endotracheal-Tubus, vorgeformt oral, cuffed, 3.5 mm	10
+Airwaymanagement	PAR-I-PFOC-40	Endotracheal-Tubus, vorgeformt oral, cuffed, 4.0 mm	10
+Airwaymanagement	PAR-I-PFOC-45	Endotracheal-Tubus, vorgeformt oral, cuffed, 4.5 mm	10
+Airwaymanagement	PAR-I-PFOC-50	Endotracheal-Tubus, vorgeformt oral, cuffed, 5.0 mm	10
+Airwaymanagement	PAR-I-PFOC-55	Endotracheal-Tubus, vorgeformt oral, cuffed, 5.5 mm	10
+Airwaymanagement	PAR-I-PFOC-60	Endotracheal-Tubus, vorgeformt oral, cuffed, 6.0 mm	10
+Airwaymanagement	PAR-I-PFOC-65	Endotracheal-Tubus, vorgeformt oral, cuffed, 6.5 mm	10
+Airwaymanagement	PAR-I-PFOC-70	Endotracheal-Tubus, vorgeformt oral, cuffed, 7.0 mm	10
+Airwaymanagement	PAR-I-PFOC-75	Endotracheal-Tubus, vorgeformt oral, cuffed, 7.5 mm	10
+Airwaymanagement	PAR-I-PFOC-80	Endotracheal-Tubus, vorgeformt oral, cuffed, 8.0 mm	10
+Airwaymanagement	PAR-I-PFOC-85	Endotracheal-Tubus, vorgeformt oral, cuffed, 8.5 mm	10
+Airwaymanagement	PAR-I-PFOC-90	Endotracheal-Tubus, vorgeformt oral, cuffed, 9.0 mm	10
+Airwaymanagement	PAR-I-PMLT-40	Microlaryngeal-Tubus, cuffed, 4.0 mm	10
+Airwaymanagement	PAR-I-PMLT-50	Microlaryngeal-Tubus, cuffed, 5.0 mm	10
+Airwaymanagement	PAR-I-PMLT-60	Microlaryngeal-Tubus, cuffed, 6.0 mm	10
+Airwaymanagement	PAR-I-PFRC-55	Spiralfeder-Tubus, cuffed, 5.5 mm	5
+Airwaymanagement	PAR-I-PFRC-60	Spiralfeder-Tubus, cuffed, 6.0 mm	5
+Airwaymanagement	PAR-I-PFRC-65	Spiralfeder-Tubus, cuffed, 6.5 mm	5
+Airwaymanagement	PAR-I-PFRC-70	Spiralfeder-Tubus, cuffed, 7.0 mm	5
+Airwaymanagement	PAR-I-PFRC-75	Spiralfeder-Tubus, cuffed, 7.5 mm	5
+Airwaymanagement	PAR-I-PFRC-80	Spiralfeder-Tubus, cuffed, 8.0 mm	5
+Airwaymanagement	PAR-I-PFRC-85	Spiralfeder-Tubus, cuffed, 8.5 mm	5
+Airwaymanagement	PAR-I-PFRC-90	Spiralfeder-Tubus, cuffed, 9.0 mm	5
+Airwaymanagement	PAR-I-PTCL-30	Thin Cuff, Low Pressure, Polyurethan Cuff, 3.0 mm, DEHP-frei, ohne Murphyauge	10
+Airwaymanagement	PAR-I-PTCL-35	Thin Cuff, Low Pressure, Polyurethan Cuff, 3.5 mm, DEHP-frei, ohne Murphyauge	10
+Airwaymanagement	PAR-I-PTCL-40	Thin Cuff, Low Pressure, Polyurethan Cuff, 4.0 mm, DEHP-frei, ohne Murphyauge	10
+Airwaymanagement	PAR-I-PTCL-45	Thin Cuff, Low Pressure, Polyurethan Cuff, 4.5 mm, DEHP-frei, ohne Murphyauge	10
+Airwaymanagement	PAR-I-PTCL-50	Thin Cuff, Low Pressure, Polyurethan Cuff, 5.0 mm, DEHP-frei, ohne Murphyauge	10
+Airwaymanagement	PAR-I-PTCL-55	Thin Cuff, Low Pressure, Polyurethan Cuff, 5.5 mm, DEHP-frei, ohne Murphyauge	10
+Airwaymanagement	PAR-I-PTCL-60	Thin Cuff, Low Pressure, Polyurethan Cuff, 6.0 mm, DEHP-frei, ohne Murphyauge	10
+Airwaymanagement	PAR-I-PTCL-65	Thin Cuff, Low Pressure, Polyurethan Cuff, 6.5 mm, DEHP-frei, ohne Murphyauge	10
+Airwaymanagement	PAR-I-PTCL-70	Thin Cuff, Low Pressure, Polyurethan Cuff, 7.0 mm, DEHP-frei, ohne Murphyauge	10
+Airwaymanagement	PAR-231028	Endobronchial-Doppellumentubus, 28FR, zur linksseitigen Intubation	1
+Airwaymanagement	PAR-231032	Endobronchial-Doppellumentubus, 32FR, zur linksseitigen Intubation	1
+Airwaymanagement	PAR-231035	Endobronchial-Doppellumentubus, 35FR, zur linksseitigen Intubation	1
+Airwaymanagement	PAR-231037	Endobronchial-Doppellumentubus, 37FR, zur linksseitigen Intubation	1
+Airwaymanagement	PAR-231039	Endobronchial-Doppellumentubus, 39FR, zur linksseitigen Intubation	1
+Airwaymanagement	PAR-231041	Endobronchial-Doppellumentubus, 41FR, zur linksseitigen Intubation	1
+Airwaymanagement	PAR-232028	Endobronchial-Doppellumentubus, 28FR, zur rechtsseitigen Intubation	1
+Airwaymanagement	PAR-232032	Endobronchial-Doppellumentubus, 32FR, zur rechtsseitigen Intubation	1
+Airwaymanagement	PAR-232035	Endobronchial-Doppellumentubus, 35FR, zur rechtsseitigen Intubation	1
+Airwaymanagement	PAR-232037	Endobronchial-Doppellumentubus, 37FR, zur rechtsseitigen Intubation	1
+Airwaymanagement	PAR-232039	Endobronchial-Doppellumentubus, 39FR, zur rechtsseitigen Intubation	1
+Airwaymanagement	PAR-232041	Endobronchial-Doppellumentubus, 41FR, zur rechtsseitigen Intubation	1
+Airwaymanagement	WL-251006	Intubations-Stylet, Einweg, 6FR	20
+Airwaymanagement	WL-251010	Intubations-Stylet, Einweg, 10FR	20
+Airwaymanagement	WL-251014	Intubations-Stylet, Einweg, 14FR	20
+Airwaymanagement	PAR-I-NPA-12	Nasopharyngeal-Tubus, Flex-Tip, 12FR	10
+Airwaymanagement	PAR-I-NPA-14	Nasopharyngeal-Tubus, Flex-Tip, 14FR	10
+Airwaymanagement	PAR-I-NPA-16	Nasopharyngeal-Tubus, Flex-Tip, 16FR	10
+Airwaymanagement	PAR-I-NPA-18	Nasopharyngeal-Tubus, Flex-Tip, 18FR	10
+Airwaymanagement	PAR-I-NPA-20	Nasopharyngeal-Tubus, Flex-Tip, 20FR	10
+Airwaymanagement	PAR-I-NPA-22	Nasopharyngeal-Tubus, Flex-Tip, 22FR	10
+Airwaymanagement	PAR-I-NPA-24	Nasopharyngeal-Tubus, Flex-Tip, 24FR	10
+Airwaymanagement	PAR-I-NPA-26	Nasopharyngeal-Tubus, Flex-Tip, 26FR	10
+Airwaymanagement	PAR-I-NPA-28	Nasopharyngeal-Tubus, Flex-Tip, 28FR	10
+Airwaymanagement	PAR-I-NPA-30	Nasopharyngeal-Tubus, Flex-Tip, 30FR	10
+Airwaymanagement	PAR-I-NPA-32	Nasopharyngeal-Tubus, Flex-Tip, 32FR	10
+Airwaymanagement	PAR-I-NPA-34	Nasopharyngeal-Tubus, Flex-Tip, 34FR	10
+Airwaymanagement	PAR-I-NPA-36	Nasopharyngeal-Tubus, Flex-Tip, 36FR	10
+Airwaymanagement	I-SFTVPU-70-100	Absaug-Trachealtubus TrachVac, 7.0 mm	10
+Airwaymanagement	I-SFTVPU-75-100	Absaug-Trachealtubus TrachVac, 7.5 mm	10
+Airwaymanagement	I-SFTVPU-80-100	Absaug-Trachealtubus TrachVac, 8.0 mm	10
+Airwaymanagement	I-SFTVPU-85-100	Absaug-Trachealtubus TrachVac, 8.5 mm	10
+Airwaymanagement	30005	Air-Q3 Standard-Larynxmaske, Gr. 0, <2.0 kg	10
+Airwaymanagement	30055	Air-Q3 Standard-Larynxmaske, Gr. 0.5, 2-4 kg	10
+Airwaymanagement	30105	Air-Q3 Standard-Larynxmaske, Gr. 1, 4-7 kg	10
+Airwaymanagement	30155	Air-Q3 Standard-Larynxmaske, Gr. 1.5, 7-17 kg	10
+Airwaymanagement	30205	Air-Q3 Standard-Larynxmaske, Gr. 2, 17-30 kg	10
+Airwaymanagement	30305	Air-Q3 Standard-Larynxmaske, Gr. 3, 30-60 kg	10
+Airwaymanagement	30405	Air-Q3 Standard-Larynxmaske, Gr. 4, 60-80 kg	10
+Airwaymanagement	30505	Air-Q3 Standard-Larynxmaske, Gr. 5, >80 kg	10
+Airwaymanagement	50005	Air-Q3G Larynxmaske, Gr. 0, <2.0 kg, mit Absaugkanal	10
+Airwaymanagement	50055	Air-Q3G Larynxmaske, Gr. 0.5, 2-4 kg, mit Absaugkanal	10
+Airwaymanagement	50105	Air-Q3G Larynxmaske, Gr. 1, 4-7 kg, mit Absaugkanal	10
+Airwaymanagement	50155	Air-Q3G Larynxmaske, Gr. 1.5, 7-17 kg, mit Absaugkanal	10
+Airwaymanagement	50205	Air-Q3G Larynxmaske, Gr. 2, 17-30 kg, mit Absaugkanal	10
+Airwaymanagement	50305	Air-Q3G Larynxmaske, Gr. 3, 30-60 kg, mit Absaugkanal	10
+Airwaymanagement	50405	Air-Q3G Larynxmaske, Gr. 4, 60-80 kg, mit Absaugkanal	10
+Airwaymanagement	50505	Air-Q3G Larynxmaske, Gr. 5, >80 kg, mit Absaugkanal	10
+Airwaymanagement	40005	Air-QSP3 Larynxmaske, Gr. 0, <2.0 kg	10
+Airwaymanagement	40055	Air-QSP3 Larynxmaske, Gr. 0.5, 2-4 kg	10
+Airwaymanagement	40105	Air-QSP3 Larynxmaske, Gr. 1, 4-7 kg	10
+Airwaymanagement	40155	Air-QSP3 Larynxmaske, Gr. 1.5, 7-17 kg	10
+Airwaymanagement	40205	Air-QSP3 Larynxmaske, Gr. 2, 17-30 kg	10
+Airwaymanagement	40305	Air-QSP3 Larynxmaske, Gr. 3, 30-60 kg	10
+Airwaymanagement	40405	Air-QSP3 Larynxmaske, Gr. 4, 60-80 kg	10
+Airwaymanagement	40505	Air-QSP3 Larynxmaske, Gr. 5, >80 kg	10
+Airwaymanagement	60005	Air-QSP3G Larynxmaske, Gr. 0, <2.0 kg	10
+Airwaymanagement	60055	Air-QSP3G Larynxmaske, Gr. 0.5, 2-4 kg	10
+Airwaymanagement	60105	Air-QSP3G Larynxmaske, Gr. 1, 4-7 kg	10
+Airwaymanagement	60155	Air-QSP3G Larynxmaske, Gr. 1.5, 7-17 kg	10
+Airwaymanagement	60205	Air-QSP3G Larynxmaske, Gr. 2, 17-30 kg	10
+Airwaymanagement	60305	Air-QSP3G Larynxmaske, Gr. 3, 30-60 kg	10
+Airwaymanagement	60405	Air-QSP3G Larynxmaske, Gr. 4, 60-80 kg	10
+Airwaymanagement	60505	Air-QSP3G Larynxmaske, Gr. 5, >80 kg	10
+Airwaymanagement	MER-10-1006	Entnahmemandrin, Einweg, Gr. 00, für Tubusgrössen 2.5-4.5	10
+Airwaymanagement	MER-10-1005	Entnahmemandrin, Einweg, Gr. 0, für Tubusgrössen 4.5-6.0	10
+Airwaymanagement	MER-10-1004	Entnahmemandrin, Einweg, Gr. 1.0, für Tubusgrössen 6.0-8.5	10
+Airwaymanagement	PAR-I-PLMDR-10	Spiralverstärkte Larynxmaske, Gr. 1	5
+Airwaymanagement	PAR-I-PLMDR-15	Spiralverstärkte Larynxmaske, Gr. 1.5	5
+Airwaymanagement	PAR-I-PLMDR-20	Spiralverstärkte Larynxmaske, Gr. 2	5
+Airwaymanagement	PAR-I-PLMDR-25	Spiralverstärkte Larynxmaske, Gr. 2.5	5
+Airwaymanagement	PAR-I-PLMDR-30	Spiralverstärkte Larynxmaske, Gr. 3	5
+Airwaymanagement	PAR-I-PLMDR-40	Spiralverstärkte Larynxmaske, Gr. 4	5
+Airwaymanagement	PAR-I-PLMDR-50	Spiralverstärkte Larynxmaske, Gr. 5	5
+Airwaymanagement	NIV041S	NIV Full-Face-Maske, nicht entlüftet, Gr. S	10
+Airwaymanagement	NIV041M	NIV Full-Face-Maske, nicht entlüftet, Gr. M	10
+Airwaymanagement	NIV041L	NIV Full-Face-Maske, nicht entlüftet, Gr. L	10
+Airwaymanagement	NIV040S	NIV Full-Face-Maske, entlüftet, mit Anti-Asphyxie-Ventil, Gr. S	10
+Airwaymanagement	NIV040M	NIV Full-Face-Maske, entlüftet, mit Anti-Asphyxie-Ventil, Gr. M	10
+Airwaymanagement	NIV040L	NIV Full-Face-Maske, entlüftet, mit Anti-Asphyxie-Ventil, Gr. L	10
+Airwaymanagement	MH0015	OmniOx HFT750 System	1
+Airwaymanagement	PG0086_20	Trolley zu HFT750 System	1
+Airwaymanagement	MB0019_01	Beheiztes Beatmungsschlauchsystem mit Befeuchter	10
+Airwaymanagement	MKMD2002	Nasenkanüle HFNC, Gr. L	10
+Airwaymanagement	MKMD2003	Nasenkanüle HFNC, Gr. M	10
+Airwaymanagement	MKMD2004	Nasenkanüle HFNC, Gr. S	10
+Airwaymanagement	SNL-20	Super NO2VA Nasal Interface Gr. L	20
+Airwaymanagement	SNM-20	Super NO2VA Nasal Interface Gr. M	20
+Airwaymanagement	SSL-20	Super NO2VA, Satellite Kit Gr. L	20
+Airwaymanagement	SSM-20	Super NO2VA, Satellite Kit Gr. M	20
+Airwaymanagement	CSC100	Verso-Atemwegsadapter 45°, Erwachsene/Kinder	20
+Airwaymanagement	CSC300	Neo-Verso-Y-Atemwegsadapter, Neonatal/Kinder	20
+Airwaymanagement	CSC400	Verso-Atemwegsadapter 90°, Erwachsene/Kinder	20
+Airwaymanagement	CSC500	Verso-T-Atemwegsadapter, Erwachsene/Kinder	20
+Airwaymanagement	CSC205	Absaugkatheter, geschlossen, 5FR, 31 cm	50
+Airwaymanagement	CSC205S	Flüssigkeits-/Zugangskatheter, 5FR, 31 cm	50
+Airwaymanagement	CSC206	Absaugkatheter, geschlossen, 6FR, 31 cm	50
+Airwaymanagement	CSC207	Absaugkatheter, geschlossen, 7FR, 31 cm	50
+Airwaymanagement	CSC208	Absaugkatheter, geschlossen, 8FR, 31 cm	50
+Airwaymanagement	CSC110	Absaugkatheter, geschlossen, 10FR, 54 cm	50
+Airwaymanagement	CSC112	Absaugkatheter, geschlossen, 12FR, 54 cm	50
+Airwaymanagement	CSC114	Absaugkatheter, geschlossen, 14FR, 54 cm	50
+Airwaymanagement	CSC116	Absaugkatheter, geschlossen, 16FR, 54 cm	50
+Airwaymanagement	CSC110T	Absaugkatheter, geschlossen, Tracheostomie, 10FR, 34 cm	50
+Airwaymanagement	CSC112T	Absaugkatheter, geschlossen, Tracheostomie, 12FR, 34 cm	50
+Airwaymanagement	CSC114T	Absaugkatheter, geschlossen, Tracheostomie, 14FR, 34 cm	50
+Airwaymanagement	CSC116T	Absaugkatheter, geschlossen, Tracheostomie, 16FR, 34 cm	50
+Airwaymanagement	QVIEW	QView Kopflagerungskissen Standard, Höhe 15 cm, mit Spiegel	6
+Airwaymanagement	QVIEW-3	QView Kopflagerungskissen Standard, Höhe 12 cm, mit Spiegel	8
+Airwaymanagement	QVIEW-PS	QView Kopflagerungskissen, Memory Foam, Höhe 12 cm, Spiegel auf Anfrage	8
+Laryngoskopie	VS 4558GSP	ISO Green, Laryngoskopgriff, Standard	1
+Laryngoskopie	VS 4559GSP	ISO Green, Laryngoskopgriff Stubby, kurz	1
+Laryngoskopie	VS 4602	ISO Green Laryngoskopspatel, Metall, Mac 2	20
+Laryngoskopie	VS 4603	ISO Green Laryngoskopspatel, Metall, Mac 3	20
+Laryngoskopie	VS 4604	ISO Green Laryngoskopspatel, Metall, Mac 4	20
+Laryngoskopie	VS 4610	ISO Green Laryngoskopspatel, Metall, Miller 0	20
+Laryngoskopie	VS 4611	ISO Green Laryngoskopspatel, Metall, Miller 1	20
+Laryngoskopie	VS 4612	ISO Green Laryngoskopspatel, Metall, Miller 2	20
+Laryngoskopie	VS 4613	ISO Green Laryngoskopspatel, Metall, Miller 3	20
+Videolaryngoskopie	MC-VS-10H	Medcaptain Videolaryngoskop mit HDMI-Ausgang	1
+Videolaryngoskopie	MC-VS-10S	Medcaptain Videolaryngoskop ohne HDMI-Ausgang	1
+Videolaryngoskopie	MC-3011-00006-01-M1	Videolaryngoskopspatel, Gr. 1, Neonaten/Kinder	12
+Videolaryngoskopie	MC-3011-00007-01-M2	Videolaryngoskopspatel, Gr. 2, Neonaten/Kinder	12
+Videolaryngoskopie	MC-3011-00008-01-M3	Videolaryngoskopspatel, Gr. 3, Erwachsene	12
+Videolaryngoskopie	MC-3011-00010-01-M3D	Videolaryngoskopspatel, Gr. 3D, schwierige Atemwege	12
+Videolaryngoskopie	MC-3011-00009-01-M4	Videolaryngoskopspatel, Gr. 4, Erwachsene	12
+Videolaryngoskopie	DXU GS 0270-1055	GlideScope Core 10"Monitor, 1 Video Baton QC Large, QC Kabel, Workstation	1
+Videolaryngoskopie	DXU GS 0570-0420	Video Baton QC Large	1
+Videolaryngoskopie	DXU GS 0800-0682	GlideScope Core Quick Connect Kabel	1
+Videolaryngoskopie	DXU GS 0270-1125	Einwegspatel GVL Stat 3	10
+Videolaryngoskopie	DXU GS 0270-1126	Einwegspatel GVL Stat 4	10
+Videolaryngoskopie	DXU GS 0270-1121	Einwegspatel GVL Stat 0	10
+Videolaryngoskopie	DXU GS 0270-1122	Einwegspatel GVL Stat 1	10
+Videolaryngoskopie	DXU GS 0270-1123	Einwegspatel GVL Stat 2	10
+Videolaryngoskopie	DXU GS 0270-1124	Einwegspatel GVL Stat 2.5	10
+Videolaryngoskopie	DXU GS 0270-1073	Einwegspatel Miller S0	10
+Videolaryngoskopie	DXU GS 0270-1074	Einwegspatel Miller S1	10
+Videolaryngoskopie	DXU GS 0270-1075	Einwegspatel Spectrum, LoPro S1	10
+Videolaryngoskopie	DXU GS 0270-1076	Einwegspatel Spectrum, LoPro S2	10
+Videolaryngoskopie	DXU GS 0270-1077	Einwegspatel Spectrum, LoPro S2.5	10
+Videolaryngoskopie	DXU GS 0270-1078	Einwegspatel Spectrum, LoPro S3	10
+Videolaryngoskopie	DXU GS 0270-1079	Einwegspatel Spectrum, LoPro S4	10
+Videolaryngoskopie	DXU GS 0270-1080	Einwegspatel Spectrum, DVM S3	10
+Videolaryngoskopie	DXU GS 0270-1081	Einwegspatel Spectrum, DVM S4	10
+Videolaryngoskopie	DXU GS 0270-1118	GlideRite SU Stylet (Small), Einweg	10
+Videolaryngoskopie	DXU GS 0270-1119	GlideRite SU Stylet (Medium), Einweg	10
+Videolaryngoskopie	DXU GS 0270-1120	GlideRite SU Stylet (Large), Einweg	10
+Videolaryngoskopie	DXU GS 0270-0681	Rigid Stylet Guide, Mehrweg	10
+Inhalative Sedation	1026022	Sedaconda Spritze, 50 ml	25
+Inhalative Sedation	1026050	Sedaconda ACD-S, 50 ml	12
+Inhalative Sedation	2026030	Starterkit komplett ACD (für 24h-Test)	6
+Inhalative Sedation	26042	Abbvie QuikFil Fülladapter, Mehrweg	1
+Inhalative Sedation	26044	Baxter S-T-S Adapter, Mehrweg	1
+Inhalative Sedation	26048	Standard Iso/Sevo Fülladapter, Einweg	12
+Inhalative Sedation	1026057	Scavenging Tube (FlurAbsorb Zubehörset)	10
+Inhalative Sedation	26094	FlurAbsorb-S, 150 ml	12
+Inhalative Sedation	26096	FlurAbsorb, 500 ml	6
+Inhalative Sedation	26098	FlurAbsorb Halterung	1
+Infusionsmanagement	A10189	ELFensor P6 Infusionspumpe mit PCA, WiFi, Boluseinheit 2.0 m, Lithiumbatterie, Scanner	1
+Infusionsmanagement	A10125	ELFensor P6 Infusionspumpe mit PCA, WiFi, Boluseinheit 2.0 m, Lithiumbatterie	1
+Infusionsmanagement	3001-00180-01	Reservoir für P-Serie, 50 ml, mit Verlängerungsleitung	20
+Infusionsmanagement	3001-00181-01	Reservoir für P-Serie, 100 ml, mit Verlängerungsleitung	20
+Infusionsmanagement	3001-00182-01	Reservoir für P-Serie, 150 ml, mit Verlängerungsleitung	20
+Infusionsmanagement	3001-00183-01	Reservoir für P-Serie, 300 ml, mit Verlängerungsleitung	20
+Infusionsmanagement	3001-00184-01	Reservoir für P-Serie, 500 ml, mit Verlängerungsleitung	20
+Infusionsmanagement	3001-00185-01	Reservoir für P-Serie, 50ml, mit Verlängerungsleitung, NRFit Konnektor	20
+Infusionsmanagement	3101-00374-01	Verabreichungsset mit Spike, transparent, 0.2µm Filter, Luer Lock Konnektor	50
+Infusionsmanagement	3101-00377-01	Verabreichungsset mit Spike, blau, 0.2µm Filter, Luer Lock Konnektor	50
+Infusionsmanagement	3101-00379-01	Verabreichungsset mit Spike, gelb, 0.2µm Filter, Luer Lock Konnektor	50
+Infusionsmanagement	3101-00381-01	Verabreichungsset mit Spike, gelb, 0.2µm Filter, NRFit Konnektor	50
+Infusionsmanagement	1199-00076-01	ELFensor P-Serie Halterung	1
+Infusionsmanagement	A10144	ELFensor P-Serie Einwegtasche (für 50/100/150 ml Reservoir)	100
+Infusionsmanagement	A10146	ELFensor P-Serie Mehrwegtasche (für 50/100/150 ml Reservoir)	10
+Temperaturmonitoring	AMS 1006	A-temp Temperatursonde, Universal, 6FR	50
+Temperaturmonitoring	AMS 1007	A-temp Temperatursonde, Universal, 7FR	50
+Temperaturmonitoring	AMS 1016	A-temp Temperatursonde, Universal, 9FR	50
+Temperaturmonitoring	AMS 1017	Vital Temperatursonde, Haut, 7 mm	25
+Temperaturmonitoring	AMS 1331	Temperatursonde Verbindungskabel, HP/Philips 400, 3.00 m	1
+Temperaturmonitoring	AMS 1332	Temperatursonde Verbindungskabel, 400er Anschluss, 3.00 m	1
+Temperaturmonitoring	AMS 1332-5	Temperatursonde Verbindungskabel, 400er Anschluss, 5.00 m	1
+Temperaturmonitoring	AMS 005-08	Foleykatheter mit Temperatursensor, 8FR	10
+Temperaturmonitoring	AMS 005-10	Foleykatheter mit Temperatursensor, 10FR	10
+Temperaturmonitoring	AMS 005-12	Foleykatheter mit Temperatursensor, 12FR	10
+Temperaturmonitoring	AMS 005-14	Foleykatheter mit Temperatursensor, 14FR	10
+Temperaturmonitoring	AMS 005-16	Foleykatheter mit Temperatursensor, 16FR	10
+Temperaturmonitoring	AMS 005-18	Foleykatheter mit Temperatursensor, 18FR	10
+Narkosemonitoring	MK-01	Einweg-EEG-Sensor, Erwachsene	25
+Narkosemonitoring	MK-02	Einweg-EEG-Sensor, Pädiatrie	25
+Narkosemonitoring	MK-04	Bilateral Einweg-EEG-Sensor, Erwachsene	25
+Wärmemanagement	SUR-MA1200	Mistral-Air Warmluftgebläse	1
+Wärmemanagement	SUR-MA5250	Fahrständer mit Korb, höhenverstellbar	1
+Wärmemanagement	SUR-MA5002	Mistral-Air Betthalterung (Set)	1
+Wärmemanagement	SUR-MA5001-E	Mistral-Air Schlauchhalterung	1
+Wärmemanagement	SUR-MA2220	Ganzkörperdecke, 227 x 133 cm	40
+Wärmemanagement	SUR-MA2230	Ganzkörperdecke Kinder, 166 x 133 cm	40
+Wärmemanagement	SUR-MA2240	Neonataldecke, 116 x 133 cm	40
+Wärmemanagement	SUR-MA2250	Unterkörperdecke, 132 x 133 cm	40
+Wärmemanagement	SUR-MA2260	Oberkörperdecke, 201 x 76 cm	40
+Wärmemanagement	SUR-MA2265	Halbe Oberkörperdecke, 160 x 76 cm	40
+Wärmemanagement	SUR-MA2270	Torsodecke, 124 x 76 cm	40
+Wärmemanagement	SUR-MA2400	Ganzkörper Unterlegedecke, 220 x 90 cm	40
+Wärmemanagement	SUR-MA2450	Halbe Unterlegedecke, 168 x 90 cm	40
+Wärmemanagement	SUR-MA2455	Lithotomiedecke, 168 x 93 cm	40
+Wärmemanagement	SUR-MA2475	Unterlegedecke Kinder, 168 x 90 cm	40
+Wärmemanagement	SUR-MA3320	Ganzkörperdecke Premium, 227 x 133 cm	40
+Wärmemanagement	SUR-MA3330	Ganzkörperdecke Kinder Premium, 166 x 133 cm	40
+Wärmemanagement	SUR-MA3340	Neonataldecke Premium, 116 x 133 cm	40
+Wärmemanagement	SUR-MA3350	Unterkörperdecke Premium, 132 x 133 cm	40
+Wärmemanagement	SUR-MA3360	Oberkörperdecke Premium, 201 x 76 cm	40
+Wärmemanagement	SUR-MA3365	Halbe Oberkörperdecke Premium, 160 x 76 cm	40
+Wärmemanagement	SUR-MA3400	Ganzkörper Unterlegedecke Premium, 220 x 90 cm	40
+Wärmemanagement	SUR-MA3450	Halbe Unterlegedecke Premium, 168 x 90 cm	40
+Wärmemanagement	SUR-MA3455	Lithotomiedecke Premium, 168 x 93 cm	40
+Wärmemanagement	SUR-MA3475	Unterlegedecke Kinder Premium, 168 x 90 cm	40
+Wärmemanagement	SUR-MA0510	Wärmeschlauch, 175 x 15 cm, Plus	50
+Wärmemanagement	SUR-MA2280	Ganzkörper OP-Decke, steril, 220 x 133 cm, Plus	20
+Wärmemanagement	SUR-MA2285	OP-Decke untere Extremitäten, steril, 183 x 133 cm, Plus	20
+Wärmemanagement	SUR-MA2286	OP-Decke Cardiac, steril, 170 x 133 cm, Plus	10
+Wärmemanagement	SUR-MA2290	Ganzkörper OP-Decke, 220 x 133 cm, Plus	20
+Wärmemanagement	SUR-5100-250	Baby-Umhang	50
+Wärmemanagement	SUR-5100-400	Decke, 120 x 120 cm, medium	50
+Wärmemanagement	SUR-5100-700	Decke, 120 x 210 cm, large	25
+Wärmemanagement	SUR-5110-100	Haube für Erwachsene	100
+Wärmemanagement	SUR-5120-350	Leggings	100
+Wärmemanagement	SUR-MA1710	Mistral-Air Warming Suit, Gr. S	10
+Wärmemanagement	SUR-MA1720	Mistral-Air Warming Suit, Gr. M/L	10
+Wärmemanagement	SUR-MA1620	Mistral-Air Premium Warming Suit, Gr. M	10
+Wärmemanagement	SUR-MA1630	Mistral-Air Premium Warming Suit, Gr. L	10
+Wärmemanagement	SUR-650000	Fluido Compact System (Kontroll- und Wärmeeinheit)	1
+Wärmemanagement	SUR-660700	Halterung Wärmeeinheit Fluido Compact	1
+Wärmemanagement	SUR-672000	Fluido Compact Standard-Set	30
+Wärmemanagement	SUR-655230	Fluido AirGuard System (komplett)	1
+Wärmemanagement	SUR-671200	Fluido SA200 Standard-Set	20
+Wärmemanagement	SUR-671500	Fluido TA500 Trauma-Set	15
+Wärmemanagement	SUR-651230-I	Fluido Irrigation Flüssigkeitserwärmer	1
+Wärmemanagement	SUR-660100-B	Fluido Powerlifter	1
+Wärmemanagement	SUR-670800-B	Fluido Irrigation URO-Set	10
+Wärmemanagement	SUR-680801-B	Fluido Irrigation URO-Patientenleitung	20
+Wärmemanagement	SUR-680803-B	Fluido Irrigation URO-Spike-Set	20
+Wärmemanagement	SUR-680910	Fluido Irrigation Buchse	40
+Wärmemanagement	SUR-680911	Fluido Irrigation Stecker	40
+Wärmemanagement	SUR-680912	Fluido Irrigation Katheteranschluss	40
+Wärmemanagement	SUR-680913	Fluido Irrigation Trichteranschluss	40
+Wärmemanagement	SUR-680805	Fluido Irrigation URO-Stecker	40
+Medikamentenvernebler	AG-AS3010	Aerogen Solo T-Stück 22 mm	10
+Medikamentenvernebler	AG-AS3020	Aerogen Solo T-Stück 15 mm	10
+Medikamentenvernebler	AG-AS3035	Aerogen Solo T-Stück 12 mm	10
+Medikamentenvernebler	AG-AS3036	Aerogen Solo T-Stück 10 mm	10
+Medikamentenvernebler	AG-AS3450	Aerogen Solo T-Stück Verschluss	10
+Medikamentenvernebler	AG-AS3075	Aerogen Solo Schlauchset	5
+Medikamentenvernebler	AG-AS3085	Aerogen Solo Spritze für die kontinuierliche Vernebelung	5
+Medikamentenvernebler	AG-AS3200	Aerogen Solo Verneblereinheit	10
+Medikamentenvernebler	AG-AS3600	Aerogen Solo Verneblereinheit	25
+Medikamentenvernebler	AG-AS3350	Aerogen Solo Convenience Kit	10
+Medikamentenvernebler	AG-AS7000-EU	Aerogen Ultra mit Mundstück	10
+Medikamentenvernebler	AG-AS7001-EU	Aerogen Ultra Maske, Erwachsene	10
+Medikamentenvernebler	AG-AS7002-EU	Aerogen Ultra Maske, Pädiatrie	10
+Medikamentenvernebler	AG-AS7003-EU	Mundstück	10
+Medikamentenvernebler	AG-AS7501-EU	Aerogen Ultra Starterkit, Erwachsene	10
+Medikamentenvernebler	AG-AS7502-EU	Aerogen Ultra Starterkit, Pädiatrie	10
+Medikamentenvernebler	AG-AS7008-EU	O2-Schlauch	10
+Medikamentenvernebler	AG-UC1000-NE	Aerogen USB-Controller	1
+Medikamentenvernebler	AG-PX1000-NE	Aerogen Pro-X-Controller	1
+Medikamentenvernebler	AG-AP1040-EU	Aerogen AC/DC Adapter	1
+Medikamentenvernebler	AG-UC1040-EU	Aerogen USB AC/DC Adapter	1
+Medikamentenvernebler	AG-AP1060	Aerogen Universal-Montagehalterung	1
+Medikamentenvernebler	AG-UC1020-EU	Aerogen USB-Controller Halterung	1
+Medikamentenvernebler	AG-AP1085	Aerogen Controller Verbindungskabel Solo/Pro	1
+Medikamentenvernebler	AG-AP1085-GE	Aerogen Verbindungskabel für GE-Geräte	1
+Medikamentenvernebler	AG-AP1085-HM	Aerogen Verbindungskabel für Hamilton-Geräte	1
+Medikamentenvernebler	AG-AP1085-MQ-I	Aerogen Verbindungskabel Marquet Servo-I	1
+Medikamentenvernebler	AG-UC1010-EU	Batteriepack für Aerogen USB-Steuereinheit	1
+Einweg-Bronchoskopie	30030000	Screeni HD mit Ladegerät, Netzkabel und Befestigungsklemme	1
+Einweg-Bronchoskopie	10030001	Broncoflex Vortex, steril, Einweg	5
+Einweg-Bronchoskopie	20030001	Broncoflex Agile, steril, Einweg	5
+Einweg-Bronchoskopie	41010000	Easy BAL Clip, Halterung für Sekretprobenbehälter	10
+Einweg-Bronchoskopie	1000006	Sekretprobenbehälter	50
+Einweg-Bronchoskopie	1000007	Absaugschlauch 1.80 m	80
+Spirometrie	NDD 2500-3C	EasyOne Air Spirometer	1
+Spirometrie	NDD 5050-50	FlowTube	50
+Spirometrie	NDD 5050-200	FlowTube	200
+Spirometrie	NDD 3000-50.21.SP	Nasenklemmen	25
+Spirometrie	NDD 2091-422	EasyOne Filter FT	100
+Spirometrie	NDD 2700-3	Easy on-PC Spirometer	1
+Spirometrie	NDD 2050-1	Spirette Standard, rund	50
+Spirometrie	NDD 2050-5	Spirette Standard, rund	200
+Spirometrie	NDD 2091-412	EasyOne Filter SP	100
+Spirometrie	NDD 3000-1	EasyOne Pro Spirometer und DLCO-System	1
+Spirometrie	NDD 3150-1	FRC Barriette	40
+Spirometrie	NDD 01.08.3000	EasyOne Pro Cart, fahrbarer Trolley	1
+Druckinfusionsbeutel	VS IN800012	Druckinfusionsbeutel mit Netzrückseite, 500 ml	12
+Druckinfusionsbeutel	VS IN800048	Druckinfusionsbeutel mit Netzrückseite, 500 ml	48
+Druckinfusionsbeutel	VS IN900012	Druckinfusionsbeutel mit Netzrückseite, 1000 ml	12
+Druckinfusionsbeutel	VS IN900048	Druckinfusionsbeutel mit Netzrückseite, 1000 ml	48
+Blutdruckmonitoring	DUR-T1-2A	Oberschenkel, braun, 38-50 cm	5
+Blutdruckmonitoring	DUR-A3-2A-A	Erwachsene, gross, weinrot, 31-40 cm	5
+Blutdruckmonitoring	DUR-A3-2A-L	Erwachsene, gross, lang, weinrot, 31-40 cm	5
+Blutdruckmonitoring	DUR-A2-2A-L	Erwachsene, lang, Standard, blau, 23-33 cm	5
+Blutdruckmonitoring	DUR-A2-2A	Erwachsene, Standard, blau, 23-33 cm	5
+Blutdruckmonitoring	DUR-A1-2A	Erwachsene, klein, hellblau, 17-25 cm	5
+Blutdruckmonitoring	DUR-P2-2A	Kinder, Standard, grün, 12-19 cm	5
+Blutdruckmonitoring	DUR-P1-2A	Kinder, klein, orange, 8-13 cm	5
+Blutdruckmonitoring	GE 002279	Oberschenkel, braun, 38-50 cm	5
+Blutdruckmonitoring	GE 002130	Erwachsene, lang, Standard, blau, 23-33 cm	5
+Blutdruckmonitoring	GE 002277	Erwachsene, Standard, blau, 23-33 cm	5
+Blutdruckmonitoring	GE 002276	Erwachsene, klein, hellblau, 17-25 cm	5
+Blutdruckmonitoring	GE 002275	Kinder, Standard, grün, 12-19 cm	5
+Blutdruckmonitoring	GE 002274	Kinder, klein, orange, 8-13 cm	5
+Blutdruckmonitoring	SFT-T1-2A	Oberschenkel, braun, 38-50 cm	20
+Blutdruckmonitoring	SFT-A3-2A	Erwachsene, gross, weinrot, 31-40 cm	20
+Blutdruckmonitoring	SFT-A2-2A-L-INT	Erwachsene, lang, Standard, blau, 23-33 cm	20
+Blutdruckmonitoring	SFT-A2-2A-INT	Erwachsene, Standard, blau, 23-33 cm	20
+Blutdruckmonitoring	SFT-A1-2A	Erwachsene, klein, hellblau, 17-25 cm	20
+Blutdruckmonitoring	SFT-P2-2A-INT	Kinder, Standard, grün, 12-19 cm	20
+Blutdruckmonitoring	SFT-P1-2A	Kinder, klein, orange, 8-13 cm	20
+Blutdruckmonitoring	GE 2362	Erwachsene, klein, hellblau, 17-25 cm	20
+Blutdruckmonitoring	GE 2363	Erwachsene, Standard, blau, 23-33 cm	20
+Blutdruckmonitoring	GE 2364	Erwachsene, gross, weinrot, 31-40 cm	20
+Blutdruckmonitoring	CLA-T1-2A	Oberschenkel, braun, 38-50 cm	20
+Blutdruckmonitoring	CLA-A3-2A	Erwachsene, gross, weinrot, 31-40 cm	20
+Blutdruckmonitoring	GE 2302	Erwachsene, klein, hellblau, 17-25 cm	20
+Blutdruckmonitoring	GE 2303	Erwachsene, Standard, blau, 23-33 cm	20
+Blutdruckmonitoring	GE 2306	Erwachsene lang, Standard, blau, 23-33 cm	20
+Blutdruckmonitoring	SFT-N1-2B	Fisch, orange, 3-6 cm, Gr. 1	20
+Blutdruckmonitoring	SFT-N2-2B	Hase, hellblau, 4-8 cm, Gr. 2	20
+Blutdruckmonitoring	SFT-N3-2B	Ente, grün, 6-11 cm, Gr. 3	20
+Blutdruckmonitoring	SFT-N4-2B	Katze, blau, 7-13 cm, Gr. 4	20
+Blutdruckmonitoring	SFT-N5-2B	Dinosaurier, rosa, 8-15 cm, Gr. 5	20
+Blutdruckmonitoring	SFT-N2-1B	Hase, hellblau, 4-8 cm, Gr. 2	20
+Blutdruckmonitoring	SFT-N3-1B	Ente, grün, 6-11 cm, Gr. 3	20
+Blutdruckmonitoring	SFT-N5-1B	Dinosaurier, rosa, 8-15 cm, Gr. 5	20
