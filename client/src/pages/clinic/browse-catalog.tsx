@@ -325,19 +325,17 @@ export default function BrowseCatalog({ clinicId }: BrowseCatalogProps) {
                 <Card key={product.id} className="hover-elevate" data-testid={`card-product-${product.id}`}>
                   <CardContent className="p-4 space-y-3">
                     <div className="flex items-start justify-between gap-2">
-                      <div>
-                        <p className="font-mono text-sm font-medium">{product.articleNumber}</p>
-                        <Badge variant="secondary" className="mt-1 text-xs">
-                          {product.category?.name || "Unbekannt"}
-                        </Badge>
-                      </div>
+                      <p className="font-mono text-xs text-muted-foreground">{product.articleNumber}</p>
                       <Badge variant="outline" className="text-xs whitespace-nowrap">
                         <Building2 className="h-3 w-3 mr-1" />
                         {product.supplier?.name || "Unbekannt"}
                       </Badge>
                     </div>
-                    <p className="text-sm text-muted-foreground line-clamp-2">
+                    <p className="text-sm font-medium line-clamp-2">
                       {product.description}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {product.category?.name || "Unbekannt"}
                     </p>
                     <div className="flex items-center justify-between gap-2">
                       <div className="text-xs text-muted-foreground">
