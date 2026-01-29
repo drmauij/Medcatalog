@@ -189,9 +189,12 @@ export default function BrowseCatalog({ clinicId }: BrowseCatalogProps) {
                       <TableRow key={item.product.id}>
                         <TableCell>
                           <div>
-                            <p className="font-mono text-sm">{item.product.articleNumber}</p>
-                            <p className="text-sm text-muted-foreground truncate max-w-xs">
+                            <p className="font-mono text-xs text-muted-foreground">{item.product.articleNumber}</p>
+                            <p className="text-sm font-medium">
                               {item.product.description}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              Packung: {item.product.packQuantity}
                             </p>
                           </div>
                         </TableCell>
