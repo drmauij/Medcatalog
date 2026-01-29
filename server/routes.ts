@@ -16,29 +16,27 @@ export async function registerRoutes(
     return (req.user as any)?.claims?.sub || null;
   };
 
-  // Helper to verify supplier ownership
+  // Helper to verify supplier ownership (supports multi-role)
   const verifySupplierAccess = async (req: Request, supplierId: string): Promise<boolean> => {
     const userId = getUserId(req);
     if (!userId) return false;
-    const role = await storage.getUserRole(userId);
-    if (!role || role.role !== "supplier" || role.entityId !== supplierId) return false;
-    return true;
+    const role = await storage.getUserRoleByEntityId(userId, "supplier", supplierId);
+    return !!role;
   };
 
-  // Helper to verify clinic ownership
+  // Helper to verify clinic ownership (supports multi-role)
   const verifyClinicAccess = async (req: Request, clinicId: string): Promise<boolean> => {
     const userId = getUserId(req);
     if (!userId) return false;
-    const role = await storage.getUserRole(userId);
-    if (!role || role.role !== "clinic" || role.entityId !== clinicId) return false;
-    return true;
+    const role = await storage.getUserRoleByEntityId(userId, "clinic", clinicId);
+    return !!role;
   };
 
   // ============================================
   // User Role Routes
   // ============================================
 
-  // Get current user's role
+  // Get current user's primary role (first role)
   app.get("/api/user/role", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const userId = getUserId(req);
@@ -62,6 +60,33 @@ export async function registerRoutes(
     }
   });
 
+  // Get all user roles (for multi-role support)
+  app.get("/api/user/roles", isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const userId = getUserId(req);
+      if (!userId) return res.status(401).json({ error: "Unauthorized" });
+
+      const roles = await storage.getUserRoles(userId);
+      
+      // Enrich roles with entity details
+      const enrichedRoles = await Promise.all(roles.map(async (role) => {
+        if (role.role === "supplier") {
+          const supplier = await storage.getSupplier(role.entityId);
+          return { role, supplier, clinic: null };
+        } else if (role.role === "clinic") {
+          const clinic = await storage.getClinic(role.entityId);
+          return { role, clinic, supplier: null };
+        }
+        return { role, supplier: null, clinic: null };
+      }));
+
+      return res.json(enrichedRoles);
+    } catch (error) {
+      console.error("Error getting user roles:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
   // Create user role (register as supplier or clinic)
   app.post("/api/user/role", isAuthenticated, async (req: Request, res: Response) => {
     try {
@@ -73,10 +98,11 @@ export async function registerRoutes(
         return res.status(400).json({ error: "Role and name are required" });
       }
 
-      // Check if user already has a role
-      const existingRole = await storage.getUserRole(userId);
-      if (existingRole) {
-        return res.status(400).json({ error: "User already has a role" });
+      // Check if user already has this specific role type
+      const existingRoles = await storage.getUserRoles(userId);
+      const hasThisRoleType = existingRoles.some(r => r.role === role);
+      if (hasThisRoleType) {
+        return res.status(400).json({ error: `User already has a ${role} role` });
       }
 
       let entityId: string;

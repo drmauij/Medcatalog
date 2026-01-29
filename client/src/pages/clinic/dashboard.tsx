@@ -28,6 +28,7 @@ import {
   LogOut,
 } from "lucide-react";
 import type { Clinic } from "@shared/schema";
+import { RoleSwitcher } from "@/components/role-switcher";
 import ClinicOverview from "./overview";
 import BrowseCatalog from "./browse-catalog";
 import MyQuotations from "./my-quotations";
@@ -159,7 +160,14 @@ export default function ClinicDashboard({ clinic }: ClinicDashboardProps) {
               <SidebarTrigger data-testid="button-sidebar-toggle" />
               <h1 className="font-semibold text-lg">{getPageTitle()}</h1>
             </div>
-            <ThemeToggle />
+            <div className="flex items-center gap-2">
+              <RoleSwitcher
+                currentRole="clinic"
+                currentEntityId={clinic.id}
+                currentEntityName={clinic.name}
+              />
+              <ThemeToggle />
+            </div>
           </header>
           <main className="flex-1 overflow-auto p-6">
             {renderContent()}

@@ -26,10 +26,10 @@ import {
   ShoppingCart, 
   LayoutDashboard,
   LogOut,
-  Settings,
   Users,
 } from "lucide-react";
 import type { Supplier } from "@shared/schema";
+import { RoleSwitcher } from "@/components/role-switcher";
 import SupplierOverview from "./overview";
 import CategoriesPage from "./categories";
 import ProductsPage from "./products";
@@ -170,7 +170,14 @@ export default function SupplierDashboard({ supplier }: SupplierDashboardProps) 
               <SidebarTrigger data-testid="button-sidebar-toggle" />
               <h1 className="font-semibold text-lg">{getPageTitle()}</h1>
             </div>
-            <ThemeToggle />
+            <div className="flex items-center gap-2">
+              <RoleSwitcher
+                currentRole="supplier"
+                currentEntityId={supplier.id}
+                currentEntityName={supplier.name}
+              />
+              <ThemeToggle />
+            </div>
           </header>
           <main className="flex-1 overflow-auto p-6">
             {renderContent()}

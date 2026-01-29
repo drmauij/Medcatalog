@@ -86,6 +86,8 @@ export interface IStorage {
 
   // User Roles
   getUserRole(userId: string): Promise<UserRole | undefined>;
+  getUserRoles(userId: string): Promise<UserRole[]>;
+  getUserRoleByEntityId(userId: string, role: string, entityId: string): Promise<UserRole | undefined>;
   createUserRole(data: InsertUserRole): Promise<UserRole>;
 
   // Supplier Invitations
@@ -280,6 +282,20 @@ export class DatabaseStorage implements IStorage {
   async getUserRole(userId: string): Promise<UserRole | undefined> {
     const [role] = await db.select().from(userRoles).where(eq(userRoles.userId, userId));
     return role;
+  }
+
+  async getUserRoles(userId: string): Promise<UserRole[]> {
+    return db.select().from(userRoles).where(eq(userRoles.userId, userId));
+  }
+
+  async getUserRoleByEntityId(userId: string, role: string, entityId: string): Promise<UserRole | undefined> {
+    const [userRole] = await db.select().from(userRoles)
+      .where(and(
+        eq(userRoles.userId, userId),
+        eq(userRoles.role, role),
+        eq(userRoles.entityId, entityId)
+      ));
+    return userRole;
   }
 
   async createUserRole(data: InsertUserRole): Promise<UserRole> {
