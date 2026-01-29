@@ -4,9 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -31,7 +31,7 @@ import {
 } from "@/components/ui/accordion";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import { FileText, Clock, CheckCircle, XCircle, Building2 } from "lucide-react";
+import { FileText, Clock, CheckCircle, XCircle, Building2, Save } from "lucide-react";
 import type { QuotationRequest, QuotationItem, Product, Clinic } from "@shared/schema";
 
 interface QuotationsPageProps {
@@ -43,9 +43,16 @@ interface QuotationWithDetails extends QuotationRequest {
   items?: (QuotationItem & { product?: Product })[];
 }
 
+interface ItemPricing {
+  catalogPrice: string;
+  discount: string;
+  saveAsDefault: boolean;
+  originalDefaultPrice: string | null;
+}
+
 export default function QuotationsPage({ supplierId }: QuotationsPageProps) {
   const [selectedQuotation, setSelectedQuotation] = useState<QuotationWithDetails | null>(null);
-  const [itemPrices, setItemPrices] = useState<Record<string, string>>({});
+  const [itemPricing, setItemPricing] = useState<Record<string, ItemPricing>>({});
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -54,14 +61,30 @@ export default function QuotationsPage({ supplierId }: QuotationsPageProps) {
   });
 
   const respondMutation = useMutation({
-    mutationFn: async ({ quotationId, items }: { quotationId: string; items: { id: string; customPrice: string }[] }) => {
+    mutationFn: async ({ 
+      quotationId, 
+      items,
+      updateDefaultPrices 
+    }: { 
+      quotationId: string; 
+      items: { id: string; customPrice: string; productId: string }[];
+      updateDefaultPrices: { productId: string; defaultPrice: string }[];
+    }) => {
+      // First update default prices if any
+      for (const update of updateDefaultPrices) {
+        await apiRequest("PATCH", `/api/products/${update.productId}`, { 
+          defaultPrice: update.defaultPrice 
+        });
+      }
+      // Then respond to the quotation
       return apiRequest("POST", `/api/quotations/${quotationId}/respond`, { items });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/supplier/quotations", supplierId] });
       queryClient.invalidateQueries({ queryKey: ["/api/supplier/stats", supplierId] });
+      queryClient.invalidateQueries({ queryKey: ["/api/products", supplierId] });
       setSelectedQuotation(null);
-      setItemPrices({});
+      setItemPricing({});
       toast({ title: "Offerte erfolgreich gesendet" });
     },
     onError: (error: Error) => {
@@ -69,21 +92,65 @@ export default function QuotationsPage({ supplierId }: QuotationsPageProps) {
     },
   });
 
+  const calculateFinalPrice = (catalogPrice: string, discount: string): string => {
+    const price = parseFloat(catalogPrice) || 0;
+    const discountPercent = parseFloat(discount) || 0;
+    const finalPrice = price * (1 - discountPercent / 100);
+    return finalPrice.toFixed(2);
+  };
+
   const handleRespond = () => {
     if (!selectedQuotation) return;
-    const items = Object.entries(itemPrices)
-      .filter(([_, price]) => price)
-      .map(([id, customPrice]) => ({ id, customPrice }));
-    respondMutation.mutate({ quotationId: selectedQuotation.id, items });
+    
+    const items: { id: string; customPrice: string; productId: string }[] = [];
+    const updateDefaultPrices: { productId: string; defaultPrice: string }[] = [];
+    
+    selectedQuotation.items?.forEach((item) => {
+      const pricing = itemPricing[item.id];
+      if (pricing) {
+        const finalPrice = calculateFinalPrice(pricing.catalogPrice, pricing.discount);
+        items.push({ 
+          id: item.id, 
+          customPrice: finalPrice,
+          productId: item.productId
+        });
+        
+        // Check if we need to save as new default price
+        if (pricing.saveAsDefault && pricing.catalogPrice !== pricing.originalDefaultPrice) {
+          updateDefaultPrices.push({
+            productId: item.productId,
+            defaultPrice: pricing.catalogPrice
+          });
+        }
+      }
+    });
+    
+    respondMutation.mutate({ quotationId: selectedQuotation.id, items, updateDefaultPrices });
   };
 
   const openRespondDialog = (quotation: QuotationWithDetails) => {
     setSelectedQuotation(quotation);
-    const prices: Record<string, string> = {};
+    const pricing: Record<string, ItemPricing> = {};
     quotation.items?.forEach((item) => {
-      prices[item.id] = item.customPrice ?? item.product?.defaultPrice ?? "";
+      const defaultPrice = item.product?.defaultPrice ?? "";
+      pricing[item.id] = {
+        catalogPrice: defaultPrice,
+        discount: "0",
+        saveAsDefault: !defaultPrice, // Auto-check if no default price exists
+        originalDefaultPrice: defaultPrice || null,
+      };
     });
-    setItemPrices(prices);
+    setItemPricing(pricing);
+  };
+
+  const updateItemPricing = (itemId: string, field: keyof ItemPricing, value: string | boolean) => {
+    setItemPricing((prev) => ({
+      ...prev,
+      [itemId]: {
+        ...prev[itemId],
+        [field]: value,
+      },
+    }));
   };
 
   const getStatusBadge = (status: string) => {
@@ -113,7 +180,7 @@ export default function QuotationsPage({ supplierId }: QuotationsPageProps) {
 
       {/* Respond Dialog */}
       <Dialog open={!!selectedQuotation} onOpenChange={(open) => !open && setSelectedQuotation(null)}>
-        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto overflow-x-hidden">
+        <DialogContent className="max-w-4xl max-h-[85vh] overflow-y-auto overflow-x-hidden">
           <DialogHeader>
             <DialogTitle>Offerte beantworten</DialogTitle>
             <DialogDescription>
@@ -137,34 +204,112 @@ export default function QuotationsPage({ supplierId }: QuotationsPageProps) {
                   <p className="text-sm text-muted-foreground">{selectedQuotation.notes}</p>
                 </div>
               )}
-              <div className="space-y-3">
-                <Label>Artikel & Preise</Label>
-                {selectedQuotation.items?.map((item) => (
-                  <div key={item.id} className="flex items-start gap-3 p-3 rounded-lg border">
-                    <div className="flex-1 min-w-0 overflow-hidden">
-                      <p className="font-mono text-sm">{item.product?.articleNumber}</p>
-                      <p className="text-sm text-muted-foreground break-words">{item.product?.description}</p>
-                      <div className="flex items-center gap-4 mt-1 text-xs text-muted-foreground">
-                        <span>Menge: {item.quantity}</span>
-                        <span>Packung: {item.product?.packQuantity}</span>
-                        {item.product?.defaultPrice && (
-                          <span>Standard: {item.product.defaultPrice} CHF</span>
-                        )}
-                      </div>
-                    </div>
-                    <div className="w-24 flex-shrink-0">
-                      <Input
-                        type="number"
-                        step="0.01"
-                        min={0}
-                        value={itemPrices[item.id] || ""}
-                        onChange={(e) => setItemPrices({ ...itemPrices, [item.id]: e.target.value })}
-                        placeholder="Preis"
-                        data-testid={`input-price-${item.id}`}
-                      />
-                    </div>
-                  </div>
-                ))}
+              
+              <div className="border rounded-lg overflow-hidden">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-muted/50">
+                      <TableHead className="w-[200px]">Artikel</TableHead>
+                      <TableHead className="text-center w-[60px]">Menge</TableHead>
+                      <TableHead className="text-right w-[120px]">Katalogpreis</TableHead>
+                      <TableHead className="text-center w-[80px]">Rabatt %</TableHead>
+                      <TableHead className="text-right w-[100px]">Endpreis</TableHead>
+                      <TableHead className="text-center w-[100px]">
+                        <span className="flex items-center justify-center gap-1">
+                          <Save className="h-3 w-3" />
+                          Speichern
+                        </span>
+                      </TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {selectedQuotation.items?.map((item) => {
+                      const pricing = itemPricing[item.id];
+                      const finalPrice = pricing 
+                        ? calculateFinalPrice(pricing.catalogPrice, pricing.discount)
+                        : "0.00";
+                      const hasNoDefaultPrice = !item.product?.defaultPrice;
+                      const priceChanged = pricing?.catalogPrice !== pricing?.originalDefaultPrice;
+                      
+                      return (
+                        <TableRow key={item.id}>
+                          <TableCell>
+                            <div className="min-w-0">
+                              <p className="font-mono text-sm">{item.product?.articleNumber}</p>
+                              <p className="text-xs text-muted-foreground truncate max-w-[180px]" title={item.product?.description}>
+                                {item.product?.description}
+                              </p>
+                              <p className="text-xs text-muted-foreground">
+                                Packung: {item.product?.packQuantity}
+                              </p>
+                            </div>
+                          </TableCell>
+                          <TableCell className="text-center font-medium">
+                            {item.quantity}
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-1 justify-end">
+                              <Input
+                                type="number"
+                                step="0.01"
+                                min={0}
+                                value={pricing?.catalogPrice || ""}
+                                onChange={(e) => updateItemPricing(item.id, "catalogPrice", e.target.value)}
+                                className="w-20 text-right"
+                                placeholder="0.00"
+                                data-testid={`input-catalog-price-${item.id}`}
+                              />
+                              <span className="text-xs text-muted-foreground">CHF</span>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-1 justify-center">
+                              <Input
+                                type="number"
+                                step="0.5"
+                                min={0}
+                                max={100}
+                                value={pricing?.discount || "0"}
+                                onChange={(e) => updateItemPricing(item.id, "discount", e.target.value)}
+                                className="w-16 text-center"
+                                data-testid={`input-discount-${item.id}`}
+                              />
+                              <span className="text-xs text-muted-foreground">%</span>
+                            </div>
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <span className="font-medium text-primary">{finalPrice} CHF</span>
+                          </TableCell>
+                          <TableCell className="text-center">
+                            <div className="flex items-center justify-center">
+                              <Checkbox
+                                checked={pricing?.saveAsDefault || false}
+                                onCheckedChange={(checked) => 
+                                  updateItemPricing(item.id, "saveAsDefault", !!checked)
+                                }
+                                disabled={!pricing?.catalogPrice || (!hasNoDefaultPrice && !priceChanged)}
+                                data-testid={`checkbox-save-default-${item.id}`}
+                              />
+                            </div>
+                            {hasNoDefaultPrice && (
+                              <p className="text-xs text-chart-3 mt-1">Neu</p>
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </div>
+              
+              <div className="text-xs text-muted-foreground bg-muted/30 p-3 rounded-lg">
+                <p className="font-medium mb-1">Hinweis:</p>
+                <ul className="list-disc list-inside space-y-1">
+                  <li><strong>Katalogpreis:</strong> Der Standardpreis aus Ihrem Katalog. Bearbeiten Sie ihn bei Bedarf.</li>
+                  <li><strong>Rabatt:</strong> Prozentsatz für diesen Kunden (z.B. basierend auf Bestellmenge).</li>
+                  <li><strong>Endpreis:</strong> Automatisch berechnet (Katalogpreis - Rabatt).</li>
+                  <li><strong>Speichern:</strong> Aktivieren, um den Katalogpreis als neuen Standardpreis zu speichern.</li>
+                </ul>
               </div>
             </div>
           )}
