@@ -11,9 +11,16 @@ interface ClinicOverviewProps {
     totalOrders: number;
   };
   isLoading: boolean;
+  onNavigate?: (tab: string) => void;
 }
 
-export default function ClinicOverview({ clinic, stats, isLoading }: ClinicOverviewProps) {
+export default function ClinicOverview({ clinic, stats, isLoading, onNavigate }: ClinicOverviewProps) {
+  const handleNavigate = (tab: string) => {
+    if (onNavigate) {
+      onNavigate(tab);
+    }
+  };
+
   const statCards = [
     {
       title: "Offene Offerten",
@@ -22,6 +29,7 @@ export default function ClinicOverview({ clinic, stats, isLoading }: ClinicOverv
       color: "text-chart-3",
       bgColor: "bg-chart-3/10",
       description: "Warten auf Lieferantenantwort",
+      tab: "quotations",
     },
     {
       title: "Aktive Bestellungen",
@@ -30,6 +38,7 @@ export default function ClinicOverview({ clinic, stats, isLoading }: ClinicOverv
       color: "text-primary",
       bgColor: "bg-primary/10",
       description: "Bestellungen in Bearbeitung",
+      tab: "orders",
     },
     {
       title: "Gesamte Bestellungen",
@@ -38,6 +47,7 @@ export default function ClinicOverview({ clinic, stats, isLoading }: ClinicOverv
       color: "text-accent",
       bgColor: "bg-accent/10",
       description: "Alle bisherigen Bestellungen",
+      tab: "orders",
     },
   ];
 
@@ -54,7 +64,12 @@ export default function ClinicOverview({ clinic, stats, isLoading }: ClinicOverv
       {/* Stats Grid */}
       <div className="grid sm:grid-cols-3 gap-4">
         {statCards.map((stat) => (
-          <Card key={stat.title} className="hover-elevate">
+          <Card 
+            key={stat.title} 
+            className="hover-elevate cursor-pointer"
+            onClick={() => handleNavigate(stat.tab)}
+            data-testid={`stat-${stat.tab}`}
+          >
             <CardHeader className="flex flex-row items-center justify-between gap-4 pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 {stat.title}
@@ -90,7 +105,11 @@ export default function ClinicOverview({ clinic, stats, isLoading }: ClinicOverv
         </CardHeader>
         <CardContent>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <Card className="hover-elevate cursor-pointer">
+            <Card 
+              className="hover-elevate cursor-pointer"
+              onClick={() => handleNavigate("catalog")}
+              data-testid="action-browse-catalog"
+            >
               <CardContent className="p-4 flex items-center gap-3">
                 <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
                   <Store className="h-5 w-5 text-primary" />
@@ -101,18 +120,26 @@ export default function ClinicOverview({ clinic, stats, isLoading }: ClinicOverv
                 </div>
               </CardContent>
             </Card>
-            <Card className="hover-elevate cursor-pointer">
+            <Card 
+              className="hover-elevate cursor-pointer"
+              onClick={() => handleNavigate("quotations")}
+              data-testid="action-request-quotation"
+            >
               <CardContent className="p-4 flex items-center gap-3">
                 <div className="h-10 w-10 rounded-lg bg-chart-3/10 flex items-center justify-center">
                   <FileText className="h-5 w-5 text-chart-3" />
                 </div>
                 <div>
-                  <p className="font-medium">Offerte anfordern</p>
+                  <p className="font-medium">Offerten ansehen</p>
                   <p className="text-xs text-muted-foreground">Preise für Artikel erhalten</p>
                 </div>
               </CardContent>
             </Card>
-            <Card className="hover-elevate cursor-pointer">
+            <Card 
+              className="hover-elevate cursor-pointer"
+              onClick={() => handleNavigate("orders")}
+              data-testid="action-view-orders"
+            >
               <CardContent className="p-4 flex items-center gap-3">
                 <div className="h-10 w-10 rounded-lg bg-accent/10 flex items-center justify-center">
                   <ShoppingCart className="h-5 w-5 text-accent" />
@@ -142,36 +169,51 @@ export default function ClinicOverview({ clinic, stats, isLoading }: ClinicOverv
           ) : stats?.pendingQuotations || stats?.activeOrders ? (
             <div className="space-y-3">
               {stats.pendingQuotations > 0 && (
-                <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
+                <div 
+                  className="flex items-center gap-3 p-3 rounded-lg bg-muted/50 cursor-pointer hover-elevate"
+                  onClick={() => handleNavigate("quotations")}
+                  data-testid="activity-quotations"
+                >
                   <div className="h-8 w-8 rounded-full bg-chart-3/10 flex items-center justify-center">
                     <Clock className="h-4 w-4 text-chart-3" />
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <p className="text-sm font-medium">
                       {stats.pendingQuotations} offene Offerte{stats.pendingQuotations > 1 ? "n" : ""}
                     </p>
                     <p className="text-xs text-muted-foreground">Warten auf Lieferantenpreise</p>
                   </div>
+                  <span className="text-xs text-primary font-medium">Ansehen →</span>
                 </div>
               )}
               {stats.activeOrders > 0 && (
-                <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
+                <div 
+                  className="flex items-center gap-3 p-3 rounded-lg bg-muted/50 cursor-pointer hover-elevate"
+                  onClick={() => handleNavigate("orders")}
+                  data-testid="activity-orders"
+                >
                   <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
                     <ShoppingCart className="h-4 w-4 text-primary" />
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <p className="text-sm font-medium">
                       {stats.activeOrders} aktive Bestellung{stats.activeOrders > 1 ? "en" : ""}
                     </p>
                     <p className="text-xs text-muted-foreground">Bestellungen in Bearbeitung</p>
                   </div>
+                  <span className="text-xs text-primary font-medium">Ansehen →</span>
                 </div>
               )}
             </div>
           ) : (
-            <p className="text-muted-foreground text-sm text-center py-8">
-              Keine aktuellen Aktivitäten. Stöbern Sie im Katalog!
-            </p>
+            <div 
+              className="text-center py-8 cursor-pointer hover-elevate rounded-lg"
+              onClick={() => handleNavigate("catalog")}
+            >
+              <Store className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+              <p className="text-muted-foreground text-sm">Keine aktuellen Aktivitäten</p>
+              <p className="text-xs text-primary font-medium mt-2">Katalog durchsuchen →</p>
+            </div>
           )}
         </CardContent>
       </Card>

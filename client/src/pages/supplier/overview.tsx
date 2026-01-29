@@ -12,9 +12,16 @@ interface SupplierOverviewProps {
     pendingOrders: number;
   };
   isLoading: boolean;
+  onNavigate?: (tab: string) => void;
 }
 
-export default function SupplierOverview({ supplier, stats, isLoading }: SupplierOverviewProps) {
+export default function SupplierOverview({ supplier, stats, isLoading, onNavigate }: SupplierOverviewProps) {
+  const handleNavigate = (tab: string) => {
+    if (onNavigate) {
+      onNavigate(tab);
+    }
+  };
+
   const statCards = [
     {
       title: "Kategorien",
@@ -22,6 +29,7 @@ export default function SupplierOverview({ supplier, stats, isLoading }: Supplie
       icon: FolderTree,
       color: "text-primary",
       bgColor: "bg-primary/10",
+      tab: "categories",
     },
     {
       title: "Produkte",
@@ -29,6 +37,7 @@ export default function SupplierOverview({ supplier, stats, isLoading }: Supplie
       icon: Package,
       color: "text-accent",
       bgColor: "bg-accent/10",
+      tab: "products",
     },
     {
       title: "Offene Offerten",
@@ -36,6 +45,7 @@ export default function SupplierOverview({ supplier, stats, isLoading }: Supplie
       icon: FileText,
       color: "text-chart-3",
       bgColor: "bg-chart-3/10",
+      tab: "quotations",
     },
     {
       title: "Offene Bestellungen",
@@ -43,6 +53,7 @@ export default function SupplierOverview({ supplier, stats, isLoading }: Supplie
       icon: ShoppingCart,
       color: "text-chart-4",
       bgColor: "bg-chart-4/10",
+      tab: "orders",
     },
   ];
 
@@ -59,7 +70,12 @@ export default function SupplierOverview({ supplier, stats, isLoading }: Supplie
       {/* Stats Grid */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {statCards.map((stat) => (
-          <Card key={stat.title} className="hover-elevate">
+          <Card 
+            key={stat.title} 
+            className="hover-elevate cursor-pointer"
+            onClick={() => handleNavigate(stat.tab)}
+            data-testid={`stat-${stat.tab}`}
+          >
             <CardHeader className="flex flex-row items-center justify-between gap-4 pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 {stat.title}
@@ -92,7 +108,11 @@ export default function SupplierOverview({ supplier, stats, isLoading }: Supplie
         </CardHeader>
         <CardContent>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <Card className="hover-elevate cursor-pointer">
+            <Card 
+              className="hover-elevate cursor-pointer"
+              onClick={() => handleNavigate("products")}
+              data-testid="action-add-product"
+            >
               <CardContent className="p-4 flex items-center gap-3">
                 <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
                   <Package className="h-5 w-5 text-primary" />
@@ -103,7 +123,11 @@ export default function SupplierOverview({ supplier, stats, isLoading }: Supplie
                 </div>
               </CardContent>
             </Card>
-            <Card className="hover-elevate cursor-pointer">
+            <Card 
+              className="hover-elevate cursor-pointer"
+              onClick={() => handleNavigate("categories")}
+              data-testid="action-manage-categories"
+            >
               <CardContent className="p-4 flex items-center gap-3">
                 <div className="h-10 w-10 rounded-lg bg-accent/10 flex items-center justify-center">
                   <FolderTree className="h-5 w-5 text-accent" />
@@ -114,7 +138,11 @@ export default function SupplierOverview({ supplier, stats, isLoading }: Supplie
                 </div>
               </CardContent>
             </Card>
-            <Card className="hover-elevate cursor-pointer">
+            <Card 
+              className="hover-elevate cursor-pointer"
+              onClick={() => handleNavigate("quotations")}
+              data-testid="action-check-quotations"
+            >
               <CardContent className="p-4 flex items-center gap-3">
                 <div className="h-10 w-10 rounded-lg bg-chart-3/10 flex items-center justify-center">
                   <FileText className="h-5 w-5 text-chart-3" />
@@ -145,29 +173,39 @@ export default function SupplierOverview({ supplier, stats, isLoading }: Supplie
           ) : stats?.pendingQuotations || stats?.pendingOrders ? (
             <div className="space-y-3">
               {stats.pendingQuotations > 0 && (
-                <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
+                <div 
+                  className="flex items-center gap-3 p-3 rounded-lg bg-muted/50 cursor-pointer hover-elevate"
+                  onClick={() => handleNavigate("quotations")}
+                  data-testid="activity-quotations"
+                >
                   <div className="h-8 w-8 rounded-full bg-chart-3/10 flex items-center justify-center">
                     <FileText className="h-4 w-4 text-chart-3" />
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <p className="text-sm font-medium">
                       {stats.pendingQuotations} offene Offertanfrage{stats.pendingQuotations > 1 ? "n" : ""}
                     </p>
                     <p className="text-xs text-muted-foreground">Warten auf Ihre Antwort</p>
                   </div>
+                  <span className="text-xs text-primary font-medium">Ansehen →</span>
                 </div>
               )}
               {stats.pendingOrders > 0 && (
-                <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
+                <div 
+                  className="flex items-center gap-3 p-3 rounded-lg bg-muted/50 cursor-pointer hover-elevate"
+                  onClick={() => handleNavigate("orders")}
+                  data-testid="activity-orders"
+                >
                   <div className="h-8 w-8 rounded-full bg-chart-4/10 flex items-center justify-center">
                     <ShoppingCart className="h-4 w-4 text-chart-4" />
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <p className="text-sm font-medium">
                       {stats.pendingOrders} offene Bestellung{stats.pendingOrders > 1 ? "en" : ""}
                     </p>
                     <p className="text-xs text-muted-foreground">Warten auf Bestätigung</p>
                   </div>
+                  <span className="text-xs text-primary font-medium">Ansehen →</span>
                 </div>
               )}
             </div>

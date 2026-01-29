@@ -71,7 +71,7 @@ export default function ClinicDashboard({ clinic }: ClinicDashboardProps) {
   const renderContent = () => {
     switch (activeTab) {
       case "overview":
-        return <ClinicOverview clinic={clinic} stats={stats} isLoading={statsLoading} />;
+        return <ClinicOverview clinic={clinic} stats={stats} isLoading={statsLoading} onNavigate={setActiveTab} />;
       case "catalog":
         return <BrowseCatalog clinicId={clinic.id} />;
       case "quotations":
@@ -83,7 +83,7 @@ export default function ClinicDashboard({ clinic }: ClinicDashboardProps) {
       case "settings":
         return <ClinicSettingsPage clinic={clinic} />;
       default:
-        return <ClinicOverview clinic={clinic} stats={stats} isLoading={statsLoading} />;
+        return <ClinicOverview clinic={clinic} stats={stats} isLoading={statsLoading} onNavigate={setActiveTab} />;
     }
   };
 

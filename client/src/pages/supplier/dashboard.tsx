@@ -71,7 +71,7 @@ export default function SupplierDashboard({ supplier }: SupplierDashboardProps) 
   const renderContent = () => {
     switch (activeTab) {
       case "overview":
-        return <SupplierOverview supplier={supplier} stats={stats} isLoading={statsLoading} />;
+        return <SupplierOverview supplier={supplier} stats={stats} isLoading={statsLoading} onNavigate={setActiveTab} />;
       case "categories":
         return <CategoriesPage supplierId={supplier.id} />;
       case "products":
@@ -83,7 +83,7 @@ export default function SupplierDashboard({ supplier }: SupplierDashboardProps) 
       case "team":
         return <TeamPage supplierId={supplier.id} />;
       default:
-        return <SupplierOverview supplier={supplier} stats={stats} isLoading={statsLoading} />;
+        return <SupplierOverview supplier={supplier} stats={stats} isLoading={statsLoading} onNavigate={setActiveTab} />;
     }
   };
 
