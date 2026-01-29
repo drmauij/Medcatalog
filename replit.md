@@ -42,6 +42,8 @@ Key database tables:
 - `categories` and `products` - Product catalog
 - `quotation_requests` and `quotation_items` - Quote management
 - `orders` and `order_items` - Order management
+- `supplier_invitations` - Team member invitations for suppliers
+- `clinic_invitations` - Team member invitations for clinics
 
 ### Authentication Flow
 1. User authenticates via Replit Auth (OpenID Connect)
