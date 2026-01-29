@@ -305,7 +305,7 @@ export async function registerRoutes(
       }
       
       // Get existing categories for this supplier
-      const existingCategories = await storage.getCategoriesBySupplier(supplierId);
+      const existingCategories = await storage.getCategoriesBySupplierId(supplierId);
       const categoryMap = new Map<string, string>(); // name -> id
       for (const cat of existingCategories) {
         categoryMap.set(cat.name.toLowerCase(), cat.id);
