@@ -22,6 +22,8 @@ export type Supplier = typeof suppliers.$inferSelect;
 export const clinics = pgTable("clinics", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   name: text("name").notNull(),
+  email: text("email"),
+  phone: text("phone"),
   userId: varchar("user_id").notNull(), // Links to auth user who manages this clinic
   createdAt: timestamp("created_at").defaultNow(),
 });
@@ -29,6 +31,13 @@ export const clinics = pgTable("clinics", {
 export const insertClinicSchema = createInsertSchema(clinics).omit({ id: true, createdAt: true });
 export type InsertClinic = z.infer<typeof insertClinicSchema>;
 export type Clinic = typeof clinics.$inferSelect;
+
+export const updateClinicSchema = z.object({
+  name: z.string().min(1).optional(),
+  email: z.string().email().optional().or(z.literal("")),
+  phone: z.string().optional(),
+});
+export type UpdateClinic = z.infer<typeof updateClinicSchema>;
 
 // Categories table (product categories per supplier)
 export const categories = pgTable("categories", {

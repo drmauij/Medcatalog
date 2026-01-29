@@ -47,6 +47,7 @@ export interface IStorage {
   getClinic(id: string): Promise<Clinic | undefined>;
   getClinicByUserId(userId: string): Promise<Clinic | undefined>;
   createClinic(data: InsertClinic): Promise<Clinic>;
+  updateClinic(id: string, data: { name?: string; email?: string; phone?: string }): Promise<Clinic | undefined>;
 
   // Categories
   getCategory(id: string): Promise<Category | undefined>;
@@ -142,6 +143,11 @@ export class DatabaseStorage implements IStorage {
 
   async createClinic(data: InsertClinic): Promise<Clinic> {
     const [clinic] = await db.insert(clinics).values(data).returning();
+    return clinic;
+  }
+
+  async updateClinic(id: string, data: { name?: string; email?: string; phone?: string }): Promise<Clinic | undefined> {
+    const [clinic] = await db.update(clinics).set(data).where(eq(clinics.id, id)).returning();
     return clinic;
   }
 

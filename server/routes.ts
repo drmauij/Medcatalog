@@ -155,6 +155,64 @@ export async function registerRoutes(
   });
 
   // ============================================
+  // Clinic Management
+  // ============================================
+
+  // Get clinic by ID
+  app.get("/api/clinics/:id", isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      
+      if (!await verifyClinicAccess(req, id)) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      
+      const clinic = await storage.getClinic(id);
+      if (!clinic) {
+        return res.status(404).json({ error: "Clinic not found" });
+      }
+      
+      res.json(clinic);
+    } catch (error) {
+      console.error("Error getting clinic:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Update clinic
+  app.patch("/api/clinics/:id", isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      
+      if (!await verifyClinicAccess(req, id)) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      
+      const { name, email, phone } = req.body;
+      
+      // Validate that at least one field is provided
+      if (!name && email === undefined && phone === undefined) {
+        return res.status(400).json({ error: "No fields to update" });
+      }
+      
+      const updateData: { name?: string; email?: string; phone?: string } = {};
+      if (name) updateData.name = name;
+      if (email !== undefined) updateData.email = email || null;
+      if (phone !== undefined) updateData.phone = phone || null;
+      
+      const clinic = await storage.updateClinic(id, updateData);
+      if (!clinic) {
+        return res.status(404).json({ error: "Clinic not found" });
+      }
+      
+      res.json(clinic);
+    } catch (error) {
+      console.error("Error updating clinic:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // ============================================
   // Clinic Stats
   // ============================================
 

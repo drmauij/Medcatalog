@@ -27,6 +27,7 @@ import {
   LayoutDashboard,
   LogOut,
   Users,
+  Settings,
 } from "lucide-react";
 import type { Clinic } from "@shared/schema";
 import { RoleSwitcher } from "@/components/role-switcher";
@@ -35,6 +36,7 @@ import BrowseCatalog from "./browse-catalog";
 import MyQuotations from "./my-quotations";
 import MyOrders from "./my-orders";
 import ClinicTeamPage from "./team";
+import ClinicSettingsPage from "./settings";
 
 const menuItems = [
   { id: "overview", title: "Übersicht", icon: LayoutDashboard },
@@ -42,6 +44,7 @@ const menuItems = [
   { id: "quotations", title: "Meine Offerten", icon: FileText },
   { id: "orders", title: "Meine Bestellungen", icon: ShoppingCart },
   { id: "team", title: "Team", icon: Users },
+  { id: "settings", title: "Einstellungen", icon: Settings },
 ];
 
 interface ClinicDashboardProps {
@@ -77,6 +80,8 @@ export default function ClinicDashboard({ clinic }: ClinicDashboardProps) {
         return <MyOrders clinicId={clinic.id} />;
       case "team":
         return <ClinicTeamPage clinicId={clinic.id} />;
+      case "settings":
+        return <ClinicSettingsPage clinic={clinic} />;
       default:
         return <ClinicOverview clinic={clinic} stats={stats} isLoading={statsLoading} />;
     }
