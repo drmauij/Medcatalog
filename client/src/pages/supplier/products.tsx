@@ -48,7 +48,6 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [isImportOpen, setIsImportOpen] = useState(false);
   const [importData, setImportData] = useState("");
-  const [importCategoryId, setImportCategoryId] = useState("");
   const [editProduct, setEditProduct] = useState<Product | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterCategory, setFilterCategory] = useState<string>("all");
@@ -125,19 +124,26 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
   });
 
   const importMutation = useMutation({
-    mutationFn: async (products: { articleNumber: string; description: string; packQuantity: number; categoryId: string; defaultPrice?: string }[]) => {
+    mutationFn: async (products: { categoryName: string; articleNumber: string; description: string; packQuantity: number; defaultPrice?: string }[]) => {
       const response = await apiRequest("POST", "/api/products/import", { supplierId, products });
-      return response.json() as Promise<{ created: number; errors: number }>;
+      return response.json() as Promise<{ created: number; errors: number; categoriesCreated: number; newCategories: string[] }>;
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["/api/products", supplierId] });
+      queryClient.invalidateQueries({ queryKey: ["/api/categories", supplierId] });
       queryClient.invalidateQueries({ queryKey: ["/api/supplier/stats", supplierId] });
       setIsImportOpen(false);
       setImportData("");
-      setImportCategoryId("");
+      const parts = [`${data.created} Produkte importiert`];
+      if (data.categoriesCreated > 0) {
+        parts.push(`${data.categoriesCreated} neue Kategorien erstellt`);
+      }
+      if (data.errors > 0) {
+        parts.push(`${data.errors} Fehler`);
+      }
       toast({ 
         title: `Import abgeschlossen`, 
-        description: `${data.created} Produkte erstellt${data.errors > 0 ? `, ${data.errors} Fehler` : ""}` 
+        description: parts.join(", ")
       });
     },
     onError: (error: Error) => {
@@ -145,41 +151,53 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
     },
   });
 
-  const parseImportData = (text: string, categoryId: string) => {
+  const parseImportData = (text: string) => {
     const lines = text.trim().split("\n").filter(line => line.trim());
-    const products: { articleNumber: string; description: string; packQuantity: number; categoryId: string; defaultPrice?: string }[] = [];
+    const products: { categoryName: string; articleNumber: string; description: string; packQuantity: number; defaultPrice?: string }[] = [];
     
     for (const line of lines) {
-      // Try tab-separated first, then semicolon
+      // Skip header line
+      if (line.toLowerCase().includes("artikelnummer") && line.toLowerCase().includes("beschreibung")) {
+        continue;
+      }
+      
+      // Try tab-separated first, then semicolon, then comma
       let parts = line.split("\t");
-      if (parts.length < 2) {
+      if (parts.length < 3) {
         parts = line.split(";");
       }
-      if (parts.length < 2) {
+      if (parts.length < 3) {
         parts = line.split(",");
       }
       
-      if (parts.length >= 2) {
-        const articleNumber = parts[0]?.trim();
-        const description = parts[1]?.trim();
-        const packQuantity = parts[2] ? parseInt(parts[2].trim()) || 1 : 1;
-        const defaultPrice = parts[3]?.trim() || undefined;
+      // Format: Category | Artikelnummer | Beschreibung | VE (PackQuantity)
+      if (parts.length >= 3) {
+        const categoryName = parts[0]?.trim();
+        const articleNumber = parts[1]?.trim();
+        const description = parts[2]?.trim();
+        const packQuantity = parts[3] ? parseInt(parts[3].trim()) || 1 : 1;
         
-        if (articleNumber && description) {
-          products.push({ articleNumber, description, packQuantity, categoryId, defaultPrice });
+        if (categoryName && articleNumber && description) {
+          products.push({ categoryName, articleNumber, description, packQuantity });
         }
       }
     }
     
     return products;
   };
+  
+  const getUniqueCategoriesFromImport = (text: string) => {
+    const products = parseImportData(text);
+    const categories = new Set(products.map(p => p.categoryName));
+    return Array.from(categories);
+  };
 
   const handleImport = () => {
-    if (!importData.trim() || !importCategoryId) {
-      toast({ title: "Bitte Daten und Kategorie angeben", variant: "destructive" });
+    if (!importData.trim()) {
+      toast({ title: "Bitte Katalogdaten einfügen", variant: "destructive" });
       return;
     }
-    const products = parseImportData(importData, importCategoryId);
+    const products = parseImportData(importData);
     if (products.length === 0) {
       toast({ title: "Keine gültigen Produkte gefunden", variant: "destructive" });
       return;
@@ -350,56 +368,45 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
         setIsImportOpen(open);
         if (!open) {
           setImportData("");
-          setImportCategoryId("");
         }
       }}>
         <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Produkte importieren</DialogTitle>
             <DialogDescription>
-              Fügen Sie Ihre Katalogdaten ein (Tab, Semikolon oder Komma getrennt)
+              Fügen Sie Ihre Katalogdaten ein. Fehlende Kategorien werden automatisch erstellt.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="importCategory">Kategorie für alle Produkte *</Label>
-              <Select
-                value={importCategoryId}
-                onValueChange={setImportCategoryId}
-              >
-                <SelectTrigger data-testid="select-import-category">
-                  <SelectValue placeholder="Kategorie auswählen" />
-                </SelectTrigger>
-                <SelectContent>
-                  {categories?.map((category) => (
-                    <SelectItem key={category.id} value={category.id}>
-                      {category.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
               <Label htmlFor="importData">Katalogdaten</Label>
               <div className="text-xs text-muted-foreground mb-2">
-                Format: Artikelnummer | Beschreibung | Packungsmenge (optional) | Preis (optional)
+                Format: Kategorie | Artikelnummer | Beschreibung | VE (Packungsmenge)
               </div>
               <Textarea
                 id="importData"
                 value={importData}
                 onChange={(e) => setImportData(e.target.value)}
-                placeholder={`Q112218N-IGS\tQuickseal II Einführungsset\t10\t125.00\nABC123\tAnderes Produkt\t1`}
+                placeholder={`Airwaymanagement\tQ112218N-IGS\tQ-Tube Beatmungsschlauch-Set\t30\nMonitoring\tABC123\tAnderes Produkt\t1`}
                 rows={12}
                 className="font-mono text-sm"
                 data-testid="textarea-import-data"
               />
             </div>
-            {importData && importCategoryId && (
-              <div className="p-3 rounded-lg bg-muted/50">
+            {importData && (
+              <div className="p-3 rounded-lg bg-muted/50 space-y-2">
                 <p className="text-sm font-medium">Vorschau</p>
                 <p className="text-xs text-muted-foreground">
-                  {parseImportData(importData, importCategoryId).length} Produkte erkannt
+                  {parseImportData(importData).length} Produkte erkannt
                 </p>
+                {getUniqueCategoriesFromImport(importData).length > 0 && (
+                  <div className="text-xs">
+                    <span className="font-medium">Kategorien: </span>
+                    <span className="text-muted-foreground">
+                      {getUniqueCategoriesFromImport(importData).join(", ")}
+                    </span>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -407,13 +414,12 @@ export default function ProductsPage({ supplierId }: ProductsPageProps) {
             <Button variant="outline" onClick={() => {
               setIsImportOpen(false);
               setImportData("");
-              setImportCategoryId("");
             }}>
               Abbrechen
             </Button>
             <Button
               onClick={handleImport}
-              disabled={!importData.trim() || !importCategoryId || importMutation.isPending}
+              disabled={!importData.trim() || importMutation.isPending}
               data-testid="button-execute-import"
             >
               {importMutation.isPending ? "Wird importiert..." : "Importieren"}

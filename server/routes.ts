@@ -292,7 +292,7 @@ export async function registerRoutes(
     }
   });
 
-  // Bulk import products
+  // Bulk import products with auto-category creation
   app.post("/api/products/import", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const { supplierId, products: productsData } = req.body;
@@ -304,15 +304,36 @@ export async function registerRoutes(
         return res.status(403).json({ error: "Forbidden" });
       }
       
+      // Get existing categories for this supplier
+      const existingCategories = await storage.getCategoriesBySupplier(supplierId);
+      const categoryMap = new Map<string, string>(); // name -> id
+      for (const cat of existingCategories) {
+        categoryMap.set(cat.name.toLowerCase(), cat.id);
+      }
+      
       const created = [];
       const errors = [];
+      const createdCategories: string[] = [];
       
       for (const item of productsData) {
         try {
-          const { articleNumber, description, packQuantity, categoryId, defaultPrice } = item;
-          if (!articleNumber || !description || !categoryId) {
+          const { articleNumber, description, packQuantity, categoryName, defaultPrice } = item;
+          if (!articleNumber || !description || !categoryName) {
             errors.push({ articleNumber: articleNumber || "unknown", error: "Missing required fields" });
             continue;
+          }
+          
+          // Find or create category
+          let categoryId = categoryMap.get(categoryName.toLowerCase());
+          if (!categoryId) {
+            // Create new category
+            const newCategory = await storage.createCategory({
+              name: categoryName,
+              supplierId,
+            });
+            categoryId = newCategory.id;
+            categoryMap.set(categoryName.toLowerCase(), categoryId);
+            createdCategories.push(categoryName);
           }
           
           const product = await storage.createProduct({
@@ -330,7 +351,13 @@ export async function registerRoutes(
         }
       }
       
-      res.json({ created: created.length, errors: errors.length, errorDetails: errors });
+      res.json({ 
+        created: created.length, 
+        errors: errors.length, 
+        categoriesCreated: createdCategories.length,
+        newCategories: createdCategories,
+        errorDetails: errors 
+      });
     } catch (error) {
       console.error("Error importing products:", error);
       res.status(500).json({ error: "Internal server error" });
