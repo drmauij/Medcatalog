@@ -292,6 +292,51 @@ export async function registerRoutes(
     }
   });
 
+  // Bulk import products
+  app.post("/api/products/import", isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const { supplierId, products: productsData } = req.body;
+      if (!supplierId || !productsData || !Array.isArray(productsData)) {
+        return res.status(400).json({ error: "Missing required fields" });
+      }
+      
+      if (!await verifySupplierAccess(req, supplierId)) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      
+      const created = [];
+      const errors = [];
+      
+      for (const item of productsData) {
+        try {
+          const { articleNumber, description, packQuantity, categoryId, defaultPrice } = item;
+          if (!articleNumber || !description || !categoryId) {
+            errors.push({ articleNumber: articleNumber || "unknown", error: "Missing required fields" });
+            continue;
+          }
+          
+          const product = await storage.createProduct({
+            articleNumber,
+            description,
+            packQuantity: packQuantity || 1,
+            categoryId,
+            supplierId,
+            defaultPrice: defaultPrice || null,
+            isActive: true,
+          });
+          created.push(product);
+        } catch (itemError: any) {
+          errors.push({ articleNumber: item.articleNumber || "unknown", error: itemError.message });
+        }
+      }
+      
+      res.json({ created: created.length, errors: errors.length, errorDetails: errors });
+    } catch (error) {
+      console.error("Error importing products:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
   // Update product
   app.patch("/api/products/:id", isAuthenticated, async (req: Request, res: Response) => {
     try {
