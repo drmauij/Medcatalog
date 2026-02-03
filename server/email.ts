@@ -41,6 +41,20 @@ export async function getResendClient() {
   };
 }
 
+function getAppUrl(): string {
+  // Priority: Custom APP_URL > Production domains > Dev domain > localhost
+  if (process.env.APP_URL) {
+    return process.env.APP_URL;
+  }
+  if (process.env.REPLIT_DOMAINS) {
+    return `https://${process.env.REPLIT_DOMAINS.split(',')[0]}`;
+  }
+  if (process.env.REPLIT_DEV_DOMAIN) {
+    return `https://${process.env.REPLIT_DEV_DOMAIN}`;
+  }
+  return 'http://localhost:5000';
+}
+
 export async function sendInvitationEmail(
   toEmail: string,
   supplierName: string,
@@ -49,11 +63,7 @@ export async function sendInvitationEmail(
 ) {
   const { client, fromEmail } = await getResendClient();
   
-  const appUrl = process.env.REPLIT_DEV_DOMAIN 
-    ? `https://${process.env.REPLIT_DEV_DOMAIN}`
-    : process.env.REPLIT_DOMAINS 
-    ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}`
-    : 'http://localhost:5000';
+  const appUrl = getAppUrl();
   
   const inviteLink = `${appUrl}/invite/${inviteToken}`;
   
@@ -94,11 +104,7 @@ export async function sendClinicInvitationEmail(
 ) {
   const { client, fromEmail } = await getResendClient();
   
-  const appUrl = process.env.REPLIT_DEV_DOMAIN 
-    ? `https://${process.env.REPLIT_DEV_DOMAIN}`
-    : process.env.REPLIT_DOMAINS 
-    ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}`
-    : 'http://localhost:5000';
+  const appUrl = getAppUrl();
   
   const inviteLink = `${appUrl}/clinic-invite/${inviteToken}`;
   
